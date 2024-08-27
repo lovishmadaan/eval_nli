@@ -41,7 +41,7 @@
 %
 % and set <dim> to something 5cm or larger.
 
-\title{Natural Language Inference in the Era of Large Language Models}
+\title{Formatting instructions for COLING}
 
 % Author information can be set in various styles:
 % For several authors from the same institution:
@@ -110,55 +110,9 @@
 
 \begin{document}
 \maketitle
+
 \begin{abstract}
-Before SOTA was constituted almost exclusively by LLMs, a popular way of evaluating natural language understanding (or NLU), was to consider models' ability to do natural language inference (NLI). In this task, also known as recognising textual entailment, a model is asked to judge the relationship between the meanings of sentences, typically choosing between entailment, neutral and contradiction. With the arrival of LLMs, several datasets originally used to evaluate MLMs or other models in the “pretrain-finetune” paradigm were repurposed for LLM evaluation. NLI tasks, however, seem to have fallen out of favour, and it is unclear whether that is because they provide a poor signal, because scores are low \citep{weber-etal-2023-mind,ohmer2024formsmeaningprobingsemantic} or because they were simply forgotten. As the ability to do inference on natural language sentences remains fundamental for natural language understanding and there are several carefully constructed NLI corpora available, here we study the question: what do low NLI scores tell us about the performance of LLMs?
-
-Starting from the (formerly) popular datasets MNLI and SNLI, we compute scores across popular LLMs, explore how they change over templates and labels, and dig deeper into what signal they give us.
 \end{abstract}
-
-\section{Outline}
-
-\subsection{Introduction}
-
-\begin{itemize}
-  \item What is Natural Language Inference? How does it relate to commonsense reasoning?
-  \item List some popular benchmarks like MNLI, SNLI, ANLI, AbductiveNLI ($\alpha$NLI), and ChaosNLI.
-  \item Quite popular in the BERT era as one of the most reliable benchmarks but dropped out of fashion once \citet{brown2020languagemodelsfewshotlearners} claimed that large language models are very bad at NLI and have almost chance performance.
-  \item We investigate and analyse if that's still the case with LLMs.
-\end{itemize}
-
-\subsection{Related Work}
-
-\begin{itemize}
-  \item Benchmarks
-  \item Fine-tuned performance (BERT/T5/etc etc)
-  \item LLM performance (GPT-3 / Dieukwe's papers)
-\end{itemize}
-
-\subsection{Models and Experiments}
-
-\begin{itemize}
-  \item Models: Llama 3 series (pre-trained / intermediate / post-trained), Llama 2, and open source models like Mistral, Gemma, Qwen, Deepseek, etc.
-  \item Evaluation setup - NLL (choice) vs generative.
-  \item Tasks, prompts, and shots
-\end{itemize}
-
-\subsection{Results}
-
-\begin{itemize}
-  \item Final pre-trained model result analysis. How model size, prompts, and shots affect things across various tasks.
-  \item Development of model performance for a given task across model sizes.
-  \item Correlation of model performance development with other commonsense/normal reasoning tasks (race, obqa, mmlu, math, etc.)
-  \item Results on ChaosNLI and how model scores relate to the distribution of human judgements. Model size/prompt analysis for this too.
-  \item Large models are good, but is it because of better models/training or just contamination? Contamination Analysis on various benchmarks.
-  \item Can NLI tasks help in pre-training ablations? Results on seed models and models trained on different datamixes. How does the effectiveness of a given dataset/datamix is affected under different datasets (both commonsense reasoning and standard datasets).
-\end{itemize}
-
-\subsection{Conclusion}
-
-\begin{itemize}
-  \item Summarize and conclude with concrete takeaways.
-\end{itemize}
 
 \section{Introduction}
 
