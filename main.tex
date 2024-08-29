@@ -26,6 +26,12 @@
 % and will typically save some space.
 \usepackage{microtype}
 
+% Our packages
+\usepackage{subcaption}
+
+% Our commands
+\newcommand{\dieuwke}[1]{\textcolor{blue!70!black}{DH #1}}
+
 % This is also not strictly necessary, and may be commented out.
 % However, it will improve the aesthetics of text in
 % the typewriter font.
@@ -110,11 +116,8 @@
 
 \begin{document}
 \maketitle
-\begin{abstract}
-Before SOTA was constituted almost exclusively by LLMs, a popular way of evaluating natural language understanding (or NLU), was to consider models' ability to do natural language inference (NLI). In this task, also known as recognising textual entailment, a model is asked to judge the relationship between the meanings of sentences, typically choosing between entailment, neutral and contradiction. With the arrival of LLMs, several datasets originally used to evaluate MLMs or other models in the “pretrain-finetune” paradigm were repurposed for LLM evaluation. NLI tasks, however, seem to have fallen out of favour, and it is unclear whether that is because they provide a poor signal, because scores are low \citep{weber-etal-2023-mind,ohmer2024formsmeaningprobingsemantic} or because they were simply forgotten. As the ability to do inference on natural language sentences remains fundamental for natural language understanding and there are several carefully constructed NLI corpora available, here we study the question: what do low NLI scores tell us about the performance of LLMs?
 
-Starting from the (formerly) popular datasets MNLI and SNLI, we compute scores across popular LLMs, explore how they change over templates and labels, and dig deeper into what signal they give us.
-\end{abstract}
+\input{abstract}
 
 \input{introduction}
 
