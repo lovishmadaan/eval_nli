@@ -1,5 +1,14 @@
 \section{Results}
 
+We present results for three major settings:
+\begin{itemize}
+    \item Performance of fully pre-trained large language models across different number of shots.
+    \item Development of performance over the course of training on our pre-training datamix.
+    \item Scaling laws ablations across different compute flops and seeds.
+\end{itemize}
+
+\subsection{Performance on fully trained models}
+
 We first show performance of various fully pre-trained models across 5 tasks (ANLI, HANS NLI, MNLI, SNLI, and AbductiveNLI). From figures \ref{fig:anli} - \ref{fig:abductivenli}, we can observe that model performance is above random accuracy for all tasks. 0-shot performance is quite bad but the models quickly improve with 1-shot and then saturate after 3 or 4 shots. Additionally, there's a clear gap between model sizes (405B > 70B > 8B) except for AbductiveNLI, where the 70B and 405B models saturate around the same accuracy of 85\%.
 
 \begin{figure}[t]
