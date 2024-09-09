@@ -9,7 +9,9 @@ We present results for three major settings:
 
 \subsection{Performance on fully trained models}
 
-We first show performance of various fully pre-trained models across 5 tasks (ANLI, HANS NLI, MNLI, SNLI, and AbductiveNLI). From figures \ref{fig:anli} - \ref{fig:abductivenli}, we can observe that model performance is above random accuracy for all tasks. 0-shot performance is quite bad but the models quickly improve with 1-shot and then saturate after 3 or 4 shots. Additionally, there's a clear gap between model sizes (405B > 70B > 8B) except for AbductiveNLI, where the 70B and 405B models saturate around the same accuracy of 85\%.
+We first consider the performance of fully pre-trained models from the Llama, Gemma, and Mistral series on 5 tasks - ANLI, HansNLI, MNLI, SNLI, and AbductiveNLI. The results are pictured in Figures \ref{fig:anli} - \ref{fig:abductivenli}. For all models, we observe the zero shot performance to be bad on all tasks except AbductiveNLI, but it improves with adding few shots in the prompt. Even with just one shot, the performance is significantly better than the zero shot accuracy. Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. As for comparison between different models, there's clear gap between the smaller and larger models. For example for the Llama series, 405B performs the best followed by 70B and then the 8B. Even though all three of them are trained on the same amount of text tokens, model performance clearly improves with scale. One exception is AbductiveNLI, where the 70B and 405B have similar performance around 85\%.
+
+Another important thing to observe is the performance comparison with fine-tuned BERT. \citet{brown2020languagemodelsfewshotlearners} observed chance accuracies for GPT-3 models on the ANLI task. Even with scale and few shot examples, the performance only improved marginally. This might have been a factor in the community dropping NLI tasks as benchmarks for decoder-only models like GPT, Llama, Mistral, Gemma, etc. In our study, we observe performance of more capable models like Llama 405B to be on-par or better than the fine-tuned BERT performance, even though no training data from the NLI tasks is used during the pre-training of LLMs. The difference is clearly visible for ANLI and AbductiveNLI, where Llama-3.1 405B performances significantly better than fine-tuned BERT.
 
 \begin{figure}[t]
     \centering
@@ -45,6 +47,8 @@ We first show performance of various fully pre-trained models across 5 tasks (AN
     \caption{AbductiveNLI}
     \label{fig:abductivenli}
 \end{figure}
+
+\subsection{Performance development over training}
 
 We also analyse the pre-training curves as shown in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}.
 
