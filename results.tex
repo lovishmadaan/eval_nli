@@ -50,9 +50,7 @@ Another important thing to observe is the performance comparison with fine-tuned
 
 \subsection{Performance development over training}
 
-We pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. The details of the pre-training mix are provided in Appendix \ref{sec:appendix}.
-
-We also analyse the pre-training curves as shown in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}.
+We pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. The details of the pre-training mix are provided in Appendix \ref{sec:appendix}. Plots for both the 8B and 70B models pre-trained from scratch are depicted in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}. We observe that the 70B model starts improving quickly after around training on around 250B tokens. For the ANLI and AbductiveNLI tasks, it crosses fine-tuned BERT performance around 500B tokens. On the other hand, the development of performance for the 8B model is very slow, and stays around chance accuracy for HansNLI, MNLI, and SNLI. From the final model performance of 8B depicted in Figures \ref{fig:anli} - \ref{fig:abductivenli}, we can conclude that the 8B model improves fairly late during the training stage. We did not have the budget to do the full pre-training run, but longer training seems to definitely help on NLI tasks.
 
 \begin{figure}[t]
     \centering
