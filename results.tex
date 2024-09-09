@@ -50,7 +50,32 @@ Another important thing to observe is the performance comparison with fine-tuned
 
 \subsection{Performance development over training}
 
-We pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. The details of the pre-training mix are provided in Appendix \ref{sec:appendix}. Plots for both the 8B and 70B models pre-trained from scratch are depicted in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}. We observe that the 70B model starts improving quickly after around training on around 250B tokens. For the ANLI and AbductiveNLI tasks, it crosses fine-tuned BERT performance around 500B tokens. On the other hand, the development of performance for the 8B model is very slow, and stays around chance accuracy for HansNLI, MNLI, and SNLI. From the final model performance of 8B depicted in Figures \ref{fig:anli} - \ref{fig:abductivenli}, we can conclude that the 8B model improves fairly late during the training stage. We did not have the budget to do the full pre-training run, but longer training seems to definitely help on NLI tasks.
+We pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. The details of the pre-training mix are provided in Appendix \ref{sec:appendix}. Plots for both the 8B and 70B models pre-trained from scratch are depicted in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}. We depict the 4-shot performance for all tasks as most models saturate around four shots on each of the tasks. We observe that the 70B model starts improving quickly after around training on around 250B tokens. For the ANLI and AbductiveNLI tasks, it crosses fine-tuned BERT performance around 500B tokens. On the other hand, the development of performance for the 8B model is very slow, and stays around chance accuracy for HansNLI, MNLI, and SNLI. From the final model performance of 8B depicted in Figures \ref{fig:anli} - \ref{fig:abductivenli}, we can conclude that the 8B model improves fairly late during the training stage. We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks.
+
+Additionally, following \citet{variancepaper}, we compute monotonicity on both discrete and continuous metrics for the model pre-training in Table \ref{tab:monotonicity}. Tracking continuous metrics like negative log likelihood (NLL) over the course of the training is in general better compared to discrete metrics like accuracy. We use the NLL of the target answer and accuracy as the continuous and discrete metric respectively.
+
+\begin{table*}
+\centering
+\begin{tabular}{|l|cc|cc|}
+    \hline
+    Model $\rightarrow$ & \multicolumn{2}{c|}{8B} & \multicolumn{2}{c|}{70B} \\
+    \hline
+    Benchmark $\downarrow$ & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
+    \hline
+    AbductiveNLI & 0.623 & 0.618 & 0.79 & 0.793 \\
+    \hline
+    ANLI & - & - & 0.67 & 0.474 \\
+    \hline
+    HansNLI & 0.316 & 0.457 & 0.57 & 0.629 \\
+    \hline
+    MNLI & 0.335 & 0.507 & 0.772 & 0.798 \\
+    \hline
+    SNLI & 0.051 & 0.382 & 0.637 & 0.651 \\
+    \hline
+    \end{tabular}
+\caption{Monotonicity values for the 8B and 70B models during the course of the training. We report both the discrete ($mon_{disc}$) and continuous ($mon_{cont}$) monotonicity values.}
+\label{tab:monotonicity}
+\end{table*}
 
 \begin{figure}[t]
     \centering
