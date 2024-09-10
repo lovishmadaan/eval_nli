@@ -128,6 +128,16 @@ We show \begin{enumerate}
 
 \section{Analysis with ChaosNLI}
 
+\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and AbductiveNLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in AbductiveNLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+
+We look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
+
+\begin{equation}
+    \scriptstyle JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)}
+\end{equation}
+
+where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
+
 \begin{figure*}
     \centering
     \includegraphics[width=0.98\linewidth]{nli_plots/mnli_matched_entropy_acc.png}
