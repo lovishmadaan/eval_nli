@@ -19,13 +19,14 @@ For all models, we observe rather poor zero-shot performance for all tasks, exce
 When more shots are added performance starkly improves.
 Even with just one shot, the performance is significantly better than the zero shot accuracy; Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. 
 Among the five benchmarks, the most challenging benchmark is ANLI.
-Although the 70 and 405B models far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
+Although the larger models in the Llama, Gemma, and Mistral series far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
 
 In terms of discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models.
-For example, for the Llama series, 405B performs the best followed by 70B and then the 8B. 
-Though these three models are trained on the same amount of text tokens, performance clearly improves with scale. 
+For example, for the Llama series, 405B performs the best followed by 70B and then the 8B.
+Though these three models are trained on the same amount of text tokens, performance clearly improves with scale.
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
 We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:}).
+Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
 
 % Another important thing to observe is the performance comparison with fine-tuned BERT. 
 % \citet{brown2020languagemodelsfewshotlearners} observed chance accuracies for GPT-3 models on the ANLI task. 
@@ -84,8 +85,8 @@ The details of the pre-training mix are provided in \cref{sec:appendix}.
 \paragraph{Development during training} In \cref{fig:performance_training}, we show how (four-shot) performance develops during training.
 We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
 The 70B model starts improving after around 250B tokens, for ANLI and $\alpha$NLI, it crosses fine-tuned BERT performance after around 500B tokens.
-On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HansNLI, MNLI, and SNLI. 
-From the final model performance of 8B depicted in Figure \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage. 
+On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HansNLI, MNLI, and SNLI.
+From the final model performance of 8B depicted in Figure \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage.
 We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
 
 \begin{figure*}[t]
@@ -129,10 +130,10 @@ We did not have the budget to do the full pre-training run, but longer training 
 
 \paragraph{Utility for ablations}
 A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
-The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks.
+The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
 Following \citet{variancepaper}, we quantify the benchmarks' monotonicity on both discrete (accuracy) and continuous metrics (NLL).%
 \footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
-In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints.
+In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints for smaller models. Monotonicity for the 70B is relatively high, but the compute involved for doing ablations increases 10x for stable signals.
 
 \begin{table}
 \centering
@@ -162,40 +163,46 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
 \end{table}
 
 
-\begin{figure*}[ht]
-    \centering
-    \includegraphics[width=0.95\textwidth]{nli_plots/sl_fits_mnli_snli.png}
-    \caption{Scaling law curve fits across different compute FLOPs}
-    \label{fig:sl_mnli_snli}
-\end{figure*}
+% \begin{figure*}[ht]
+%     \centering
+%     \includegraphics[width=0.95\textwidth]{nli_plots/sl_fits_mnli_snli.png}
+%     \caption{Scaling law curve fits across different compute FLOPs}
+%     \label{fig:sl_mnli_snli}
+% \end{figure*}
 
-\paragraph{Q1: Does NLI provide signal for LLMs?}
-We show \begin{enumerate}
-    \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
-    \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of $\alpha$NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
-    \item Ablations: conclusion??
-\end{enumerate}
+% \paragraph{Q1: Does NLI provide signal for LLMs?}
+% We show \begin{enumerate}
+%     \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
+%     \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of $\alpha$NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
+%     \item Ablations: conclusion??
+% \end{enumerate}
 
 \section{Analysis with ChaosNLI}
 
 \citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
 
-We first look at the change in accuracy when we change the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance by changing the ground truth based on the human majority. The only exception is the 70B model for ChaosNLI-S. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
+We first look at the change in accuracy when we modify the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance most of the times by changing the ground truth based on the human majority. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
 
 \begin{table*}
     \centering
-    \begin{tabular}{c|cc|cc|cc}
-    \textbf{Benchmark} & \textbf{8B (Old)} & \textbf{8B (New)} & \textbf{70B (Old)} & \textbf{70B (New)} & \textbf{405B (Old)} & \textbf{405B (New)} \\
-    \hline
-    ChaosNLI-M & 49.468 & 50.969 & 57.661 & 67.542 & 64.04 & 69.669 \\
-    ChaosNLI-A & 77.546 & 78.003 & 86.358 & 87.206 & 85.509 & 86.097 \\
-    ChoasNLI-S & 55.284 & 55.482 & 60.436 & 58.52 & 64.597 & 67.305 \\
+    \begin{tabular}{c|c|c|c}
+        \textbf{Model} & \textbf{ChaosNLI-$\alpha$} & \textbf{ChaosNLI-M} & \textbf{ChaosNLI-S} \\
+        \midrule
+        Llama-3.1 405B & 85.509 / 86.097 & 64.04 / 69.669 & 64.597 / 67.305 \\
+        Llama-3.1 70B & 86.358 / 87.206 & 57.661 / 67.542 & 60.436 / 58.52 \\
+        Llama-3.1 8B & 77.546 / 78.003 & 49.468 / 50.969 & 55.284 / 55.482 \\
+        Gemma-2 27B & 81.984 / 84.008 & 54.722 / 52.783 & 64.729 / 65.192 \\
+        Gemma-2 2B & 55.548 / 54.308 & 33.271 / 42.589 & 34.941 / 30.779 \\
+        Gemma-2 9B & 56.136 / 55.222 & 34.334 / 48.03 & 36.592 / 31.704 \\
+        Mistral 7B & 74.413 / 75.783 & 49.969 / 53.221 & 49.472 / 48.151 \\
+        Mistral 8x22B & 84.138 / 83.681 & 60.225 / 67.042 & 64.861 / 67.834 \\
+        Mistral 8x7B & 82.441 / 81.593 & 54.034 / 51.532 & 63.144 / 64.267 \\
     \end{tabular}
 \caption{Change in Accuracy for ChaosNLI when changing the ground truth to the majority label according to human annotators.}
 \label{tab:chaos_acc}
 \end{table*}
 
-We look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
+Next, we look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
 
 \[
     JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)}
@@ -205,9 +212,16 @@ where $p$ is the human annotator distribution, $q$ is the softmax probability di
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/mnli_matched_entropy_acc.png}
-    \caption{Accuracy vs entropy plots for MNLI}
-    \label{fig:entropy_accuracy_mnli}
+    \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
+    \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
+    \label{fig:entropy_accuracy}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/entropy_jsd.png}
+    \caption{JSD vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
+    \label{fig:entropy_jsd}
 \end{figure*}
 
 NB: put contamination results somewhere.
