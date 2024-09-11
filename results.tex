@@ -62,9 +62,9 @@ Additionally, following \citet{variancepaper}, we compute monotonicity on both d
 \centering
 \begin{tabular}{|l|cc|cc|}
     \hline
-    Model $\rightarrow$ & \multicolumn{2}{c|}{8B} & \multicolumn{2}{c|}{70B} \\
+    \textbf{Model} $\rightarrow$ & \multicolumn{2}{c|}{\textbf{8B}} & \multicolumn{2}{c|}{\textbf{70B}} \\
     \hline
-    Benchmark $\downarrow$ & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
+    \textbf{Benchmark} $\downarrow$ & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
     \hline
     AbductiveNLI & 0.623 & 0.618 & 0.79 & 0.793 \\
     \hline
@@ -133,6 +133,21 @@ We show \begin{enumerate}
 \section{Analysis with ChaosNLI}
 
 \citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and AbductiveNLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in AbductiveNLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+
+We first look at the change in accuracy when we change the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and AbductiveNLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance by changing the ground truth based on the human majority. The only exception is the 70B model for ChaosNLI-S. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
+
+\begin{table*}
+    \centering
+    \begin{tabular}{c|cc|cc|cc}
+    \textbf{Benchmark} & \textbf{8B (Old)} & \textbf{8B (New)} & \textbf{70B (Old)} & \textbf{70B (New)} & \textbf{405B (Old)} & \textbf{405B (New)} \\
+    \hline
+    ChaosNLI-M & 49.468 & 50.969 & 57.661 & 67.542 & 64.04 & 69.669 \\
+    ChaosNLI-A & 77.546 & 78.003 & 86.358 & 87.206 & 85.509 & 86.097 \\
+    ChoasNLI-S & 55.284 & 55.482 & 60.436 & 58.52 & 64.597 & 67.305 \\
+    \end{tabular}
+\caption{Change in Accuracy for ChaosNLI when changing the ground truth to the majority label according to human annotators.}
+\label{tab:chaos_acc}
+\end{table*}
 
 We look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
 
