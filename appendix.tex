@@ -1,0 +1,64 @@
+\section{Example Appendix}
+\label{sec:appendix}
+
+\begin{table*}
+    \centering
+    \small
+    \begin{tabular}{lp{8cm}}
+        \toprule
+        \textbf{Benchmark} & \textbf{Prompt Template} \\
+        \midrule
+        MNLI, SNLI, ANLI & \begin{verbatim}
+{% for x in few_shot -%}
+Premise: {{ x["premise"] }}
+Hypothesis: {{ x["hypothesis"] }}
+A. Entailment
+B. Neutral
+C. Contradiction
+Answer: {{ x["answer"] }}
+
+{% endfor -%}
+Premise: {{ premise }}
+Hypothesis: {{ hypothesis }}
+A. Entailment
+B. Neutral
+C. Contradiction
+Answer: {{ choice_text }}
+\end{verbatim} \\
+\midrule
+AbductiveNLI & \begin{verbatim}
+{% for x in few_shot -%}
+Observation 1: {{ x["obs1"] }}
+Observation 2: {{ x["obs2"] }}
+A. {{ x["choices"]["A"] }}
+B. {{ x["choices"]["B"] }}
+Answer: {{ x["answer"] }}
+
+{% endfor -%}
+Observation 1: {{ obs1 }}
+Observation 2: {{ obs2 }}
+A. {{ choices["A"] }}
+B. {{ choices["B"] }}
+Answer: {{ choice_text }}
+\end{verbatim} \\
+\midrule
+HansNLI & \begin{verbatim}
+{% for x in few_shot -%}
+Premise: {{ x["premise"] }}.
+Hypothesis: {{ x["hypothesis"] }}.
+A. Entailment
+B. Non-Entailment
+Answer: {{ x["answer"] }}
+
+{% endfor -%}
+Premise: {{ premise }}.
+Hypothesis: {{ hypothesis }}.
+A. Entailment
+B. Non-Entailment
+Answer: {{ choice_text }}
+\end{verbatim} \\
+\bottomrule
+    \end{tabular}
+\caption{Prompt Templates for each task}
+\label{tab:prompt_template}
+\end{table*}
