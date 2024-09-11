@@ -1,6 +1,6 @@
 \section{Setup}
 
-\paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HansNLI \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and AbductiveNLI \citep{bhagavatula2020abductive}. 
+\paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HansNLI \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}. 
 The number of examples and labels for each dataset are present in Table \ref{tab:dataset}. 
 For MNLI and SNLI, we filter out the noisy test samples for which there is no ground truth available for the evaluation. % Dieuwke: not entirely clear to me what this means
 
@@ -25,7 +25,7 @@ We limit our analysis to pre-trained base models and leave the analysis on post-
     HansNLI & 30000 & 2 \\
     MNLI & 9815 & 3 \\
     SNLI & 9842 & 3 \\
-    AbductiveNLI & 1532 & 2 \\
+    $\alpha$NLI & 1532 & 2 \\
   \end{tabular}
 \caption{Dataset details}
 \label{tab:dataset}

@@ -15,7 +15,7 @@ We present results for three major settings:
 With the goal to get an overall estimate of the difficulty of the task and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
 For each of the models, we compute results with variable number of shots.
 We report the results in \cref{fig:shot_performance}, along with a chance baseline and the results of a fine-tuned BERT model.
-For all models, we observe rather poor zero-shot performance for all tasks, except AbductiveNLI, confirming previously reported results by \citet{ohmer2024form} and \citet{weber-etal-2023-mind}, among others.
+For all models, we observe rather poor zero-shot performance for all tasks, except $\alpha$NLI, confirming previously reported results by \citet{ohmer2024form} and \citet{weber-etal-2023-mind}, among others.
 When more shots are added performance starkly improves.
 Even with just one shot, the performance is significantly better than the zero shot accuracy; Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. 
 Among the five benchmarks, the most challenging benchmark is ANLI.
@@ -24,7 +24,7 @@ Although the 70 and 405B models far outperform the finetuned BERT baseline, they
 In terms of discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models.
 For example, for the Llama series, 405B performs the best followed by 70B and then the 8B. 
 Though these three models are trained on the same amount of text tokens, performance clearly improves with scale. 
-The exception to this pattern is AbductiveNLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
+The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
 We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:}).
 
 % Another important thing to observe is the performance comparison with fine-tuned BERT. 
@@ -38,39 +38,40 @@ We conclude, from these results, that the benchmarks under consideration provide
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=0.8\textwidth]{figures/legend}
-        \vspace{-2mm}
+        % \vspace{-2mm}
     \end{subfigure}\\
-    \begin{subfigure}[b]{0.217\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
     \centering
-    \includegraphics[height=3.2cm]{figures/anli}
+    \includegraphics[height=4.8cm]{figures/anli}
     \caption{ANLI}
     \end{subfigure}
     \label{fig:anli}
-    \begin{subfigure}[b]{0.19\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
     \centering
-    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/hansnli}
+    \includegraphics[height=4.8cm]{figures/hansnli}
     \caption{HansNLI}
     \label{fig:hansnli}
     \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
     \centering
-    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/mnli_matched}
+    \includegraphics[height=4.8cm]{figures/mnli_matched}
     \caption{MNLI}
     \label{fig:mnli}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
+    \end{subfigure}\\
     \centering
-    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/snli}
+    \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[height=4.8cm]{figures/snli}
     \caption{SNLI}
     \label{fig:snli}
     \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
+    \begin{subfigure}[b]{0.32\textwidth}
     \centering
-    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/abductivenli}
-    \caption{AbductiveNLI}
+    \includegraphics[height=4.8cm]{figures/abductivenli}
+    \caption{$\alpha$NLI}
     \label{fig:abductivenli}
     \end{subfigure}
-    \caption{\textbf{Performance across shots.} We show performance across shots for 6 trained-out models, for ANLI, HANS, MNLI, SNLI and AbductiveNLI.}\label{fig:shot_performance}
+    \caption{\textbf{Performance across shots.} We show performance across shots for 6 trained-out models, for ANLI, HANS, MNLI, SNLI and $\alpha$NLI.}\label{fig:shot_performance}
 \end{figure*}
 
 % \subsection{Performance development over training}
@@ -82,7 +83,7 @@ The details of the pre-training mix are provided in \cref{sec:appendix}.
 
 \paragraph{Development during training} In \cref{fig:performance_training}, we show how (four-shot) performance develops during training.
 We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
-The 70B model starts improving after around 250B tokens, for ANLI and Abductive NLI, it crosses fine-tuned BERT performance after around 500B tokens.
+The 70B model starts improving after around 250B tokens, for ANLI and $\alpha$NLI, it crosses fine-tuned BERT performance after around 500B tokens.
 On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HansNLI, MNLI, and SNLI. 
 From the final model performance of 8B depicted in Figure \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage. 
 We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
@@ -171,15 +172,15 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
 \paragraph{Q1: Does NLI provide signal for LLMs?}
 We show \begin{enumerate}
     \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
-    \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of abductive NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
+    \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of $\alpha$NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
     \item Ablations: conclusion??
 \end{enumerate}
 
 \section{Analysis with ChaosNLI}
 
-\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and AbductiveNLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in AbductiveNLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
 
-We first look at the change in accuracy when we change the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and AbductiveNLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance by changing the ground truth based on the human majority. The only exception is the 70B model for ChaosNLI-S. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
+We first look at the change in accuracy when we change the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance by changing the ground truth based on the human majority. The only exception is the 70B model for ChaosNLI-S. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
 
 \begin{table*}
     \centering
