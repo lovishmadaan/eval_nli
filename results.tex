@@ -1,5 +1,7 @@
 \section{Results}
 
+
+
 We present results for three major settings:
 \begin{itemize}
     \item Performance of fully pre-trained large language models across different number of shots.
@@ -7,11 +9,30 @@ We present results for three major settings:
     \item Scaling laws ablations across different compute flops and seeds.
 \end{itemize}
 
-\subsection{Performance on fully trained models}
+% \subsection{Performance on fully trained models}
+\subsection{Informativeness for fully trained models}
 
-We first consider the performance of fully pre-trained models from the Llama, Gemma, and Mistral series on 5 tasks - ANLI, HansNLI, MNLI, SNLI, and AbductiveNLI. The results are pictured in Figure \ref{fig:shot_performance}. For all models, we observe the zero shot performance to be bad on all tasks except AbductiveNLI, but it improves with adding few shots in the prompt. Even with just one shot, the performance is significantly better than the zero shot accuracy. Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. As for comparison between different models, there's clear gap between the smaller and larger models. For example for the Llama series, 405B performs the best followed by 70B and then the 8B. Even though all three of them are trained on the same amount of text tokens, model performance clearly improves with scale. One exception is AbductiveNLI, where the 70B and 405B have similar performance around 85\%.
+With the goal to get an overall estimate of the difficulty of the task and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
+For each of the models, we compute results with variable number of shots.
+We report the results in \cref{fig:shot_performance}, along with a chance baseline and the results of a fine-tuned BERT model.
+For all models, we observe rather poor zero-shot performance for all tasks, except AbductiveNLI, confirming previously reported results by \citet{ohmer2024form} and \citet{weber-etal-2023-mind}, among others.
+When more shots are added performance starkly improves.
+Even with just one shot, the performance is significantly better than the zero shot accuracy; Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. 
+Among the five benchmarks, the most challenging benchmark is ANLI.
+Although the 70 and 405B models far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
 
-Another important thing to observe is the performance comparison with fine-tuned BERT. \citet{brown2020languagemodelsfewshotlearners} observed chance accuracies for GPT-3 models on the ANLI task. Even with scale and few shot examples, the performance only improved marginally. This might have been a factor in the community dropping NLI tasks as benchmarks for decoder-only models like GPT, Llama, Mistral, Gemma, etc. In our study, we observe performance of more capable models like Llama 405B to be on-par or better than the fine-tuned BERT performance, even though no training data from the NLI tasks is used during the pre-training of LLMs. The difference is clearly visible for ANLI and AbductiveNLI, where Llama-3.1 405B performances significantly better than fine-tuned BERT.
+In terms of discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models.
+For example, for the Llama series, 405B performs the best followed by 70B and then the 8B. 
+Though these three models are trained on the same amount of text tokens, performance clearly improves with scale. 
+The exception to this pattern is AbductiveNLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
+We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:}).
+
+% Another important thing to observe is the performance comparison with fine-tuned BERT. 
+% \citet{brown2020languagemodelsfewshotlearners} observed chance accuracies for GPT-3 models on the ANLI task. 
+% Even with scale and few shot examples, the performance only improved marginally. 
+% This might have been a factor in the community dropping NLI tasks as benchmarks for decoder-only models like GPT, Llama, Mistral, Gemma, etc. 
+% In our study, we observe performance of more capable models like Llama 405B to be on-par or better than the fine-tuned BERT performance, even though no training data from the NLI tasks is used during the pre-training of LLMs. 
+% The difference is clearly visible for ANLI and AbductiveNLI, where Llama-3.1 405B performances significantly better than fine-tuned BERT.
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{\textwidth}
@@ -52,69 +73,93 @@ Another important thing to observe is the performance comparison with fine-tuned
     \caption{\textbf{Performance across shots.} We show performance across shots for 6 trained-out models, for ANLI, HANS, MNLI, SNLI and AbductiveNLI.}\label{fig:shot_performance}
 \end{figure*}
 
-\subsection{Performance development over training}
+% \subsection{Performance development over training}
+\subsection{Informativeness during training}\label{subsec:during_training}
 
-We pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. The details of the pre-training mix are provided in Appendix \ref{sec:appendix}. Plots for both the 8B and 70B models pre-trained from scratch are depicted in Figures \ref{fig:anli_int} - \ref{fig:abductivenli_int}. We depict the 4-shot performance for all tasks as most models saturate around four shots on each of the tasks. We observe that the 70B model starts improving quickly after around training on around 250B tokens. For the ANLI and AbductiveNLI tasks, it crosses fine-tuned BERT performance around 500B tokens. On the other hand, the development of performance for the 8B model is very slow, and stays around chance accuracy for HansNLI, MNLI, and SNLI. From the final model performance of 8B depicted in Figure \ref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage. We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks.
+Next, we investigate whether NLI datasets may provide a good signal during training.
+To this end, we pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens.
+The details of the pre-training mix are provided in \cref{sec:appendix}. 
 
-Additionally, following \citet{variancepaper}, we compute monotonicity on both discrete and continuous metrics for the model pre-training in Table \ref{tab:monotonicity}. Tracking continuous metrics like negative log likelihood (NLL) over the course of the training is in general better compared to discrete metrics like accuracy. We use the NLL of the target answer and accuracy as the continuous and discrete metric respectively.
+\paragraph{Development during training} In \cref{fig:performance_training}, we show how (four-shot) performance develops during training.
+We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
+The 70B model starts improving after around 250B tokens, for ANLI and Abductive NLI, it crosses fine-tuned BERT performance after around 500B tokens.
+On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HansNLI, MNLI, and SNLI. 
+From the final model performance of 8B depicted in Figure \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage. 
+We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
 
-\begin{table*}
+\begin{figure*}[t]
+    \begin{subfigure}[b]{\textwidth}
+        %\centering
+        \includegraphics[width=0.3\textwidth]{figures/training_legend}
+        \vspace{-2mm}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[height=3.2cm]{figures/anli_intermediate}
+    \caption{ANLI}
+    \end{subfigure}
+    \label{fig:anli}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/hansnli_intermediate}
+    \caption{HansNLI}
+    \label{fig:hansnli}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate}
+    \caption{MNLI}
+    \label{fig:mnli}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate}
+    \caption{SNLI}
+    \label{fig:hansnli}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/abductivenli_intermediate}
+    \caption{AbductiveNLI}
+    \label{fig:mnli}
+    \end{subfigure}
+    \caption{\textbf{Performance during training.} We show how performance for the five benchmarks develops during training, for two Llama-3 style models.}\label{fig:performance_training}
+\end{figure*}
+
+\paragraph{Utility for ablations}
+A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
+The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks.
+Following \citet{variancepaper}, we quantify the benchmarks' monotonicity on both discrete (accuracy) and continuous metrics (NLL).%
+\footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
+In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints.
+
+\begin{table}
 \centering
-\begin{tabular}{|l|cc|cc|}
-    \hline
-    \textbf{Model} $\rightarrow$ & \multicolumn{2}{c|}{\textbf{8B}} & \multicolumn{2}{c|}{\textbf{70B}} \\
-    \hline
-    \textbf{Benchmark} $\downarrow$ & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
-    \hline
-    AbductiveNLI & 0.623 & 0.618 & 0.79 & 0.793 \\
-    \hline
-    ANLI & - & - & 0.67 & 0.474 \\
-    \hline
-    HansNLI & 0.316 & 0.457 & 0.57 & 0.629 \\
-    \hline
-    MNLI & 0.335 & 0.507 & 0.772 & 0.798 \\
-    \hline
-    SNLI & 0.051 & 0.382 & 0.637 & 0.651 \\
-    \hline
+\resizebox{0.45\textwidth}{!}{
+\begin{tabular}{lcccc}
+    %\toprule
+    %Model $\rightarrow$ 
+    & \multicolumn{2}{c}{8B} & \multicolumn{2}{c}{70B} \\
+    % \toprule
+    %Benchmark $\downarrow$
+    & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
+    \toprule
+    $\alpha$NLI & 0.62 & 0.62 & 0.79 & 0.79 \\
+    \midrule
+    ANLI & - & - & 0.67 & 0.47 \\
+    \midrule
+    HANS & 0.32 & 0.46 & 0.57 & 0.63 \\
+    \midrule
+    MNLI & 0.34 & 0.51 & 0.77 & 0.80 \\
+    \midrule
+    SNLI & 0.05 & 0.38 & 0.64 & 0.65 \\
+    \bottomrule
     \end{tabular}
+}
 \caption{Monotonicity values for the 8B and 70B models during the course of the training. We report both the discrete ($mon_{disc}$) and continuous ($mon_{cont}$) monotonicity values.}
 \label{tab:monotonicity}
-\end{table*}
+\end{table}
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.45\textwidth]{nli_plots/anli_intermediate.png}
-    \caption{ANLI}
-    \label{fig:anli_int}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.45\textwidth]{nli_plots/hansnli_intermediate.png}
-    \caption{HansNLI}
-    \label{fig:hansnli_int}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.45\textwidth]{nli_plots/mnli_matched_intermediate.png}
-    \caption{MNLI}
-    \label{fig:mnli_int}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.45\textwidth]{nli_plots/snli_intermediate.png}
-    \caption{SNLI}
-    \label{fig:snli_int}
-\end{figure}
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=0.45\textwidth]{nli_plots/abductivenli_intermediate.png}
-    \caption{AbductiveNLI}
-    \label{fig:abductivenli_int}
-\end{figure}
 
 \begin{figure*}[ht]
     \centering
