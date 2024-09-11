@@ -62,13 +62,13 @@ We conclude, from these results, that the benchmarks under consideration provide
     \centering
     \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/snli}
     \caption{SNLI}
-    \label{fig:hansnli}
+    \label{fig:snli}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
     \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/abductivenli}
     \caption{AbductiveNLI}
-    \label{fig:mnli}
+    \label{fig:abductivenli}
     \end{subfigure}
     \caption{\textbf{Performance across shots.} We show performance across shots for 6 trained-out models, for ANLI, HANS, MNLI, SNLI and AbductiveNLI.}\label{fig:shot_performance}
 \end{figure*}
@@ -98,30 +98,30 @@ We did not have the budget to do the full pre-training run, but longer training 
     \includegraphics[height=3.2cm]{figures/anli_intermediate}
     \caption{ANLI}
     \end{subfigure}
-    \label{fig:anli}
+    \label{fig:anli_int}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
     \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/hansnli_intermediate}
     \caption{HansNLI}
-    \label{fig:hansnli}
+    \label{fig:hansnli_int}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
     \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate}
     \caption{MNLI}
-    \label{fig:mnli}
+    \label{fig:mnli_int}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
     \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate}
     \caption{SNLI}
-    \label{fig:hansnli}
+    \label{fig:snli_int}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
     \includegraphics[height=3.2cm, trim=11mm 0 0 0, clip]{figures/abductivenli_intermediate}
     \caption{AbductiveNLI}
-    \label{fig:mnli}
+    \label{fig:abductivenli_int}
     \end{subfigure}
     \caption{\textbf{Performance during training.} We show how performance for the five benchmarks develops during training, for two Llama-3 style models.}\label{fig:performance_training}
 \end{figure*}
@@ -204,7 +204,7 @@ where $p$ is the human annotator distribution, $q$ is the softmax probability di
 
 \begin{figure*}
     \centering
-    \includegraphics[width=0.98\linewidth]{nli_plots/mnli_matched_entropy_acc.png}
+    \includegraphics[width=0.9\linewidth]{figures/mnli_matched_entropy_acc.png}
     \caption{Accuracy vs entropy plots for MNLI}
     \label{fig:entropy_accuracy_mnli}
 \end{figure*}
