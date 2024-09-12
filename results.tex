@@ -11,20 +11,31 @@ We present results for three major settings:
 % \subsection{Performance on fully trained models}
 \subsection{Informativeness for fully trained models}
 
+% \paragraph{Q1: Does NLI provide signal for LLMs?}
+% We show \begin{enumerate}
+%     \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
+%     \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of abductive NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
+%     \item Ablations: conclusion??
+% \end{enumerate}
+
 With the goal to get an overall estimate of the difficulty of the task and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
+
+\paragraph{Accuracy across shots}
 For each of the models, we compute results with variable number of shots.
 We report the results in \cref{fig:shot_performance}, along with a chance baseline and the results of a fine-tuned BERT model.
 For all models, we observe rather poor zero-shot performance for all tasks, except $\alpha$NLI, confirming previously reported results by \citet{ohmer2024form} and \citet{weber-etal-2023-mind}, among others.
 When more shots are added performance starkly improves.
-Even with just one shot, the performance is significantly better than the zero shot accuracy; Adding more than three or four examples in the few shots does not improve performance much and saturates till 10 shots. 
+Even with just one shot, the performance is significantly better than the zero shot accuracy.
+Adding more than three or four examples in the few shots does not improve performance much and saturates around 10 shots. 
 Among the five benchmarks, the most challenging benchmark is ANLI.
 Although the larger models in the Llama, Gemma, and Mistral series far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
 
+\paragraph{Model discriminability}
 In terms of discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models.
 For example, for the Llama series, 405B performs the best followed by 70B and then the 8B.
 Though these three models are trained on the same amount of text tokens, performance clearly improves with scale.
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
-We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:}).
+We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:saturation}).
 Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
 
 % Another important thing to observe is the performance comparison with fine-tuned BERT. 
@@ -161,45 +172,76 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
 \label{tab:monotonicity}
 \end{table}
 
+\subsection{Dataset saturation}\label{subsec:saturation}
+Having confirmed that the NLI benchmarks under scrutiny provide discrimination between LLMs of different sizes, we now turn to the question of saturation: the results show that the benchmarks would have been useful so far, but how about the future?
+As already pointed out before, the benchmark that still has the clearest room for improvement is adversarial benchmark ANLI, with performances not exceeding 70\% even for the largest models.
+For the other benchmarks performances are substantially higher, and it is unclear to what extent the benchmarks may suffer saturation.
+To address this question, we first conduct a manual error analysis on the examples that the largest models assign an incorrect label.
 
-% \begin{figure*}[ht]
-%     \centering
-%     \includegraphics[width=0.95\textwidth]{nli_plots/sl_fits_mnli_snli.png}
-%     \caption{Scaling law curve fits across different compute FLOPs}
-%     \label{fig:sl_mnli_snli}
-% \end{figure*}
+\dieuwke{Insert some manual analysis + possible conclusion: there seems to be some room for improvement, but oftentimes incorrect predictions are on samples where humans may disagree too.}
+In the next section, we dive further into this phenomenon, investigating the relationship between human disagreements and model judgements.
 
-% \paragraph{Q1: Does NLI provide signal for LLMs?}
-% We show \begin{enumerate}
-%     \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
-%     \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of abductive NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
-%     \item Ablations: conclusion??
-% \end{enumerate}
+% To substantiate this claim, we consider chaosNLI.
+% We show 1) entropy plots for various models, these show that the larger models have pretty much perfect perfrmance on samples where humans agree across the board, but drop off on other examples. Smaller models don't get perfect performance also on the former. Results also show that a small amount of errors is due to annotation errors (or not matching majority labels), because the `corrected' accuracy is slightly higher than the non-corrected accuracy.
+% 2) We show KL-divergence with human distributions. Conclusion: this gets better with scale (contradicts earlier findings!), but still far away from human alignment. Still room for improvement. We check how stable this signal is across training (so we show curves of KL/JSD and see whether this provides a astable signal.
 
-\section{Analysis with ChaosNLI}
+\section{Model judgements in case of disagreement}
 
-\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+% Benchmark: mnli_matched
+% Number of examples: 1599
+% Number of flipped labels: 508
+% Number of same labels: 1091
+% Percentage of flipped labels: 31.77
+% 
+% Benchmark: snli
+% Number of examples: 1514
+% Number of flipped labels: 378
+% Number of same labels: 1136
+% Percentage of flipped labels: 24.97
+% 
+% Benchmark: abductivenli
+% Number of examples: 1532
+% Number of flipped labels: 163
+% Number of same labels: 1369
+% Percentage of flipped labels: 10.64
 
-We first look at the change in accuracy when we modify the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance most of the times by changing the ground truth based on the human majority. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
+To support our analysis, we utilise the dataset ChaosNLI \citet{nie-etal-2020-learn}, which contains 100 human annotations for over 1500 samples of the datasets MNLI, SNLI and $\alpha$NLI, each.
+Using this data, we can i) estimate the extent to which suboptimal performances are due to cases where the dataset label does not match the majority label, and ii) investigate how model judgements change as human uncertainty on the task increases.
+
+\paragraph{Majority accuracy vs original label}
+First, we consider how models' accuracies changes when we replace the original labels with the majority label of the ChaosNLI dataset.
+This changes 32, 25 and 11\% of the labels of MNLI, SNLI and $\alpha$NLI, respectively.
 
 \begin{table*}
     \centering
-    \begin{tabular}{c|c|c|c}
-        \textbf{Model} & \textbf{ChaosNLI-$\alpha$} & \textbf{ChaosNLI-M} & \textbf{ChaosNLI-S} \\
+    \begin{tabular}{llcccccc}
+        & & \multicolumn{2}{c}{\textbf{$\alpha$NLI}} & \multicolumn{2}{c}{\textbf{MNLI}} & \multicolumn{2}{c}{\textbf{SNLI}} \\
+        & & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.}\\
+        \toprule
+        Gemma-2 & 27B & 81.98 & \textbf{84.01} & \textbf{54.72} & 52.78 & 64.73 & \textbf{65.19} \\
+        Gemma-2 & 2B & \textbf{55.55} & 54.31 & 33.27 & \textbf{42.59} & \textbf{34.94} & 30.78 \\
+        Gemma-2 & 9B & \textbf{56.14} & 55.22 & 34.33 & \textbf{48.03} & \textbf{36.59} & 31.70 \\
         \midrule
-        Llama-3.1 405B & 85.509 / 86.097 & 64.04 / 69.669 & 64.597 / 67.305 \\
-        Llama-3.1 70B & 86.358 / 87.206 & 57.661 / 67.542 & 60.436 / 58.52 \\
-        Llama-3.1 8B & 77.546 / 78.003 & 49.468 / 50.969 & 55.284 / 55.482 \\
-        Gemma-2 27B & 81.984 / 84.008 & 54.722 / 52.783 & 64.729 / 65.192 \\
-        Gemma-2 2B & 55.548 / 54.308 & 33.271 / 42.589 & 34.941 / 30.779 \\
-        Gemma-2 9B & 56.136 / 55.222 & 34.334 / 48.03 & 36.592 / 31.704 \\
-        Mistral 7B & 74.413 / 75.783 & 49.969 / 53.221 & 49.472 / 48.151 \\
-        Mistral 8x22B & 84.138 / 83.681 & 60.225 / 67.042 & 64.861 / 67.834 \\
-        Mistral 8x7B & 82.441 / 81.593 & 54.034 / 51.532 & 63.144 / 64.267 \\
+        Llama-3.1 & 405B & 85.51 & \textbf{86.10} & 64.04 & \textbf{69.67} & 64.60 & \textbf{67.31} \\
+        Llama-3.1 & 70B & 86.36 & \textbf{87.21} & 57.66 & \textbf{67.54} & \textbf{60.44} & 58.52 \\
+        Llama-3.1 & 8B & 77.55 & \textbf{78.00} & 49.47 & \textbf{50.97} & \textbf{55.28} & 55.48 \\
+        \midrule
+        Mistral & 7B & 74.41 & \textbf{75.78} & 49.97 & \textbf{53.22} & \textbf{49.47} & 48.15 \\
+        Mixtral & 8x22B & \textbf{84.14} & 83.68 & 60.23 & \textbf{67.04} & 64.86 & \textbf{67.83} \\
+        Mixtral & 8x7B & \textbf{82.44} & 81.59 & \textbf{54.03} & 51.53 & 63.14 & \textbf{64.27} \\
+    \bottomrule
     \end{tabular}
 \caption{Change in Accuracy for ChaosNLI when changing the ground truth to the majority label according to human annotators.}
 \label{tab:chaos_acc}
 \end{table*}
+
+
+
+\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. 
+In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+
+We first look at the change in accuracy when we modify the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance most of the times by changing the ground truth based on the human majority. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
+
 
 Next, we look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
 
@@ -226,14 +268,6 @@ where $p$ is the human annotator distribution, $q$ is the softmax probability di
 NB: put contamination results somewhere.
 
 Overall conclusion: seems to be useful both for training and trained-out models, an open question however is, is there still room to improve?
-
-\paragraph{Q2: Is there still room for improvement?}
-We do an light-weight manual analysis (e.g. check 20 examples).
-Probable conclusion: there may be some errors, but oftentimes models make incorrect predictions on samples on which humans may disagree too.
-
-To substantiate this claim, we consider chaosNLI.
-We show 1) entropy plots for various models, these show that the larger models have pretty much perfect perfrmance on samples where humans agree across the board, but drop off on other examples. Smaller models don't get perfect performance also on the former. Results also show that a small amount of errors is due to annotation errors (or not matching majority labels), because the `corrected' accuracy is slightly higher than the non-corrected accuracy.
-2) We show KL-divergence with human distributions. Conclusion: this gets better with scale (contradicts earlier findings!), but still far away from human alignment. Still room for improvement. We check how stable this signal is across training (so we show curves of KL/JSD and see whether this provides a astable signal.
 
 
 % \begin{itemize}
