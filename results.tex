@@ -208,7 +208,7 @@ In the next section, we dive further into this phenomenon, investigating the rel
 To support our analysis, we utilise the dataset ChaosNLI \citet{nie-etal-2020-learn}, which contains 100 human annotations for over 1500 samples of the datasets MNLI, SNLI and $\alpha$NLI, each.
 Using this data, we can i) estimate the extent to which suboptimal performances are due to cases where the dataset label does not match the majority label, and ii) investigate how model judgements change as human uncertainty on the task increases.
 
-\paragraph{Majority accuracy vs original label}
+\paragraph{Majority accuracy}
 First, we consider how models' accuracies changes when we replace the original labels with the majority label of the ChaosNLI dataset.
 This changes 32, 25 and 11\% of the labels of MNLI, SNLI and $\alpha$NLI, respectively.
 In \cref{tab:chaos_acc}, we can see that, in some cases, the results differ per model and benchmark.
@@ -243,20 +243,22 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
 \label{tab:chaos_acc}
 \end{table*}
 
+In \cref{fig:entropy_accuracy}, we can furthermore see that, with the exception of the two smallest Gemma models, all models perform `better' on samples where the entropy of the labels is low.
+For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements disperse.
+ 
+\dieuwke{TODO: Add just two representative examples here and refer to appendix for all models.}
 
-\citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. 
-In this section, we analyse the performance of models with respect to the majority labels and entropy of the label distribution according to the human annotators.
+\paragraph{Human vs model label distributions}
+The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, it also allows us to study how models behave in scenarios where there is not a single, correct, ground-truth answer.
+In a time where LLMs are employed simultaneously to many users with potentially different preferences, this question has become very practically relevant.
+To do so, we consider how the probability distribution of the models over the three possible labels -- \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) -- compares with the label distributions observed in the human annotations.
+Following \citet{nie-etal-2020-learn}, we consider both the Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen}, and the Kullback-Leibner (KL) distance \citep{}.
 
-We first look at the change in accuracy when we modify the ground truth labels to majority labels according to the human annotators in ChaosNLI. We only consider the 4 shot setting for this. These results are presented in Table \ref{tab:chaos_acc}. The MNLI, SNLI, and $\alpha$NLI subsets in ChaosNLI are represented as ChaosNLI-M, ChaosNLI-S, and ChaosNLI-A respectively. For all three subsets, we observe an increase in model performance most of the times by changing the ground truth based on the human majority. This represents some level of agreement between the model prediction and human preference. And the updated ground truth according to the human preferences increases the model performance.
-
-
-Next, we look at the probability distribution according to the models over the three labels (\textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) and compute the Jensen-Shannon Divergence (JSD) \citep{menendez1997jensen} over the softmax probability distribution and human annotator distribution of the labels. Mathematically, JSD is defined as:
-
-\[
-    JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)}
-\]
-
-where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
+% \[
+%     JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)}
+% \]
+% 
+% where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
 
 \begin{figure*}
     \centering
