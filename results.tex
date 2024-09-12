@@ -211,30 +211,37 @@ Using this data, we can i) estimate the extent to which suboptimal performances 
 \paragraph{Majority accuracy vs original label}
 First, we consider how models' accuracies changes when we replace the original labels with the majority label of the ChaosNLI dataset.
 This changes 32, 25 and 11\% of the labels of MNLI, SNLI and $\alpha$NLI, respectively.
+In \cref{tab:chaos_acc}, we can see that, in some cases, the results differ per model and benchmark.
+The largest effects are observed for MNLI, where for some models an increase of more than 10\%point is observed and the average accuracy across models is more than five points higher on the `corrected' datasets.
+For the other two benchmarks, the results are more mixed, with little to no difference on average.
+Only for the largest Llama3.1 model, the majority accuracy is systematically higher than the original accuracy, suggesting it may have honed in more on the majority label.
+Interestingly, the MNLI and SNLI subsets of ChaosNLI appear substantially more difficult than the average dataset;
+Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting that there is room for improvement on both these datasets.
 
-\begin{table*}
+\begin{table*}[h]
     \centering
     \begin{tabular}{llcccccc}
         & & \multicolumn{2}{c}{\textbf{$\alpha$NLI}} & \multicolumn{2}{c}{\textbf{MNLI}} & \multicolumn{2}{c}{\textbf{SNLI}} \\
-        & & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.}\\
+        \multicolumn{2}{c}{\textbf{Model}} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.}\\
         \toprule
-        Gemma-2 & 27B & 81.98 & \textbf{84.01} & \textbf{54.72} & 52.78 & 64.73 & \textbf{65.19} \\
         Gemma-2 & 2B & \textbf{55.55} & 54.31 & 33.27 & \textbf{42.59} & \textbf{34.94} & 30.78 \\
         Gemma-2 & 9B & \textbf{56.14} & 55.22 & 34.33 & \textbf{48.03} & \textbf{36.59} & 31.70 \\
+        Gemma-2 & 27B & 81.98 & \textbf{84.01} & \textbf{54.72} & 52.78 & 64.73 & \textbf{65.19} \\
         \midrule
-        Llama-3.1 & 405B & 85.51 & \textbf{86.10} & 64.04 & \textbf{69.67} & 64.60 & \textbf{67.31} \\
-        Llama-3.1 & 70B & 86.36 & \textbf{87.21} & 57.66 & \textbf{67.54} & \textbf{60.44} & 58.52 \\
         Llama-3.1 & 8B & 77.55 & \textbf{78.00} & 49.47 & \textbf{50.97} & \textbf{55.28} & 55.48 \\
+        Llama-3.1 & 70B & 86.36 & \textbf{87.21} & 57.66 & \textbf{67.54} & \textbf{60.44} & 58.52 \\
+        Llama-3.1 & 405B & 85.51 & \textbf{86.10} & 64.04 & \textbf{69.67} & 64.60 & \textbf{67.31} \\
         \midrule
         Mistral & 7B & 74.41 & \textbf{75.78} & 49.97 & \textbf{53.22} & \textbf{49.47} & 48.15 \\
-        Mixtral & 8x22B & \textbf{84.14} & 83.68 & 60.23 & \textbf{67.04} & 64.86 & \textbf{67.83} \\
         Mixtral & 8x7B & \textbf{82.44} & 81.59 & \textbf{54.03} & 51.53 & 63.14 & \textbf{64.27} \\
+        Mixtral & 8x22B & \textbf{84.14} & 83.68 & 60.23 & \textbf{67.04} & 64.86 & \textbf{67.83} \\
+        \midrule
+        \multicolumn{2}{c}{\emph{Average}} & 76.01 & 76.21 & 50.86 & 55.93 & 54.90 & 54.35 \\
     \bottomrule
     \end{tabular}
 \caption{Change in Accuracy for ChaosNLI when changing the ground truth to the majority label according to human annotators.}
 \label{tab:chaos_acc}
 \end{table*}
-
 
 
 \citet{nie-etal-2020-learn} release the ChaosNLI dataset, which is comprised of human annotations for a subset of MNLI, SNLI, and $\alpha$NLI. They collect 100 human annotations for 3113 samples for MNLI and SNLI, and 1532 samples in $\alpha$NLI. 
