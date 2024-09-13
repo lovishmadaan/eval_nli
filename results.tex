@@ -261,47 +261,46 @@ For the larger models, this effect is larger: on samples where humans have high 
 The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, it also allows us to study how models behave in scenarios where there is not a single, correct, ground-truth answer.
 In a time where LLMs are employed simultaneously to many users with potentially different preferences, this question has become very practically relevant.
 To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
-Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions.\footnote{Contrary to Kullback Leibner divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.}
+Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions.
+Contrary to Kullback Leibner divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
+
 In \cref{fig:jsd_per_model}, we can see that, for MMLU, all considered models have probability distributions more similar to the human distributions than chance, but substantially more different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human annotations on the same data.}
 This pattern is constant across datasets. \dieuwke{Maybe just make a row with three barplots of the three datasets?}
 Interestingly, larger models appear to have lower distributions, contradicting the finding of \citet{nie-etal-2020-learn} that better or larger models do not have more similar distributions.
+Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}: though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions goes down steadily during training.
+This is an exciting finding, because it suggests that measuring similarity with human distributions could be an interesting venue to explore during training.
 
-\paragraph{}
-To further explore the role of scale in aligning with human distributions, we next study how alignment with human judgements develops during training.
-In \cref{fig:jsd_training}, we show how the JSD of the three Llama architectures develops during training.
-\dieuwke{TODO: include plots and discuss.}
-
-
+\begin{figure*}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[height=5cm]{figures/intermediate_jsd_mnli}
+        \caption{}
+    \end{subfigure}
+    % \begin{subfigure}[b]{0.32\textwidth}
+    %     \includegraphics[height=5cm]{figures/intermediate_jsd_snli}
+    %     \caption{}
+    % \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[height=5cm]{figures/intermediate_jsd_abductivenli}
+        \caption{}
+    \end{subfigure}
+    \caption{\textbf{Development of JSD during training.}}\label{fig:jsd_training}
+\end{figure*}
 % \[
 %     JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)}
 % \]
 % 
 % where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
 
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
-    \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
-    \label{fig:entropy_accuracy}
-\end{figure*}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=0.7\linewidth]{figures/entropy_jsd.png}
-    \caption{JSD vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
-    \label{fig:entropy_jsd}
-\end{figure*}
-
-NB: put contamination results somewhere.
-
-Overall conclusion: seems to be useful both for training and trained-out models, an open question however is, is there still room to improve?
-
-
-% \begin{itemize}
-%   \item Final pre-trained model result analysis. How model size, prompts, and shots affect things across various tasks.
-%   \item Development of model performance for a given task across model sizes.
-%   \item Correlation of model performance development with other commonsense/normal reasoning tasks (race, obqa, mmlu, math, etc.)
-%   \item Results on ChaosNLI and how model scores relate to the distribution of human judgements. Model size/prompt analysis for this too.
-%   \item Large models are good, but is it because of better models/training or just contamination? Contamination Analysis on various benchmarks.
-%   \item Can NLI tasks help in pre-training ablations? Results on seed models and models trained on different datamixes. How does the effectiveness of a given dataset/datamix is affected under different datasets (both commonsense reasoning and standard datasets).
-% \end{itemize}
+% \begin{figure*}
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
+%     \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
+%     \label{fig:entropy_accuracy}
+% \end{figure*}
+% 
+% \begin{figure*}
+%     \centering
+%     \includegraphics[width=0.7\linewidth]{figures/entropy_jsd.png}
+%     \caption{JSD vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
+%     \label{fig:entropy_jsd}
+% \end{figure*}
