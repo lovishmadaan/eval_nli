@@ -9,7 +9,7 @@ We present results for three major settings:
 \end{itemize}
 
 % \subsection{Performance on fully trained models}
-\subsection{Informativeness for fully trained models}
+\subsection{Informativeness for fully trained models}\label{subsec:fully_trained}
 
 % \paragraph{Q1: Does NLI provide signal for LLMs?}
 % We show \begin{enumerate}
@@ -184,7 +184,7 @@ In the next section, we dive further into this phenomenon, investigating the rel
 % We show 1) entropy plots for various models, these show that the larger models have pretty much perfect perfrmance on samples where humans agree across the board, but drop off on other examples. Smaller models don't get perfect performance also on the former. Results also show that a small amount of errors is due to annotation errors (or not matching majority labels), because the `corrected' accuracy is slightly higher than the non-corrected accuracy.
 % 2) We show KL-divergence with human distributions. Conclusion: this gets better with scale (contradicts earlier findings!), but still far away from human alignment. Still room for improvement. We check how stable this signal is across training (so we show curves of KL/JSD and see whether this provides a astable signal.
 
-\subsection{Model judgements in case of disagreement}
+\subsection{Model judgements in case of disagreement}\label{subsec:chaosnli}
 
 % Benchmark: mnli_matched
 % Number of examples: 1599
@@ -290,12 +290,12 @@ This is an exciting finding, because it suggests that measuring similarity with 
 % 
 % where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
 
-% \begin{figure*}
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
-%     \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
-%     \label{fig:entropy_accuracy}
-% \end{figure*}
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
+    \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
+    \label{fig:entropy_accuracy}
+\end{figure*}
 % 
 % \begin{figure*}
 %     \centering
