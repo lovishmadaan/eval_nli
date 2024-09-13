@@ -49,40 +49,39 @@ Gemma-2 9B model has chance accuracy and has similar performance to the 2B model
     \begin{subfigure}[b]{\textwidth}
         \centering
         \includegraphics[width=0.8\textwidth]{figures/legend}
-        % \vspace{-2mm}
+        \vspace{-2mm}
     \end{subfigure}\\
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.217\textwidth}
     \centering
-    \includegraphics[height=4.8cm]{figures/anli}
+    \includegraphics[height=3.2cm]{figures/anli}
     \caption{ANLI}
     \end{subfigure}
     \label{fig:anli}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=4.8cm]{figures/hansnli}
+    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/hansnli}
     \caption{HansNLI}
     \label{fig:hansnli}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=4.8cm]{figures/mnli_matched}
+    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/mnli_matched}
     \caption{MNLI}
     \label{fig:mnli}
-    \end{subfigure}\\
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-    \centering
-    \includegraphics[height=4.8cm]{figures/snli}
+    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/snli}
     \caption{SNLI}
-    \label{fig:snli}
+    \label{fig:hansnli}
     \end{subfigure}
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=4.8cm]{figures/abductivenli}
-    \caption{$\alpha$NLI}
-    \label{fig:abductivenli}
+    \includegraphics[height=3.2cm, trim=25mm 0 0 0, clip]{figures/abductivenli}
+    \caption{AbductiveNLI}
+    \label{fig:mnli}
     \end{subfigure}
-    \caption{\textbf{Performance across shots.} We show performance across shots for 6 trained-out models, for ANLI, HANS, MNLI, SNLI and $\alpha$NLI.}\label{fig:shot_performance}
+    \caption{\textbf{Performance across shots.} We show performance across shots for nine trained-out models, for ANLI, HANS, MNLI, SNLI and AbductiveNLI. Dashed lines indicate Random, and Finetuned-BERT baselines.}\label{fig:shot_performance}
 \end{figure*}
 
 % \subsection{Performance development over training}
