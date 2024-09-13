@@ -1,12 +1,6 @@
 \section{Results}
 
-\dieuwke{Fix this after finishing the rest}
-We present results for three major settings:
-\begin{itemize}
-    \item Performance of fully pre-trained large language models across different number of shots.
-    \item Development of performance over the course of training on our pre-training datamix.
-    \item Scaling laws ablations across different compute flops and seeds.
-\end{itemize}
+Now we present our results, focussing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}), how their performance develops during training (\cref{subsec:during_training}), whether there is still room for improvement (\cref{subsec:saturation}), and how model judgements compare to human judgements in case of ambiguous or vague questions (\cref{subsec:chaosnli}).
 
 % \subsection{Performance on fully trained models}
 \subsection{Informativeness for fully trained models}\label{subsec:fully_trained}
@@ -37,13 +31,6 @@ Though these three models are trained on the same amount of text tokens, perform
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
 We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{sec:saturation}).
 Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
-
-% Another important thing to observe is the performance comparison with fine-tuned BERT. 
-% \citet{brown2020languagemodelsfewshotlearners} observed chance accuracies for GPT-3 models on the ANLI task. 
-% Even with scale and few shot examples, the performance only improved marginally. 
-% This might have been a factor in the community dropping NLI tasks as benchmarks for decoder-only models like GPT, Llama, Mistral, Gemma, etc. 
-% In our study, we observe performance of more capable models like Llama 405B to be on-par or better than the fine-tuned BERT performance, even though no training data from the NLI tasks is used during the pre-training of LLMs. 
-% The difference is clearly visible for ANLI and AbductiveNLI, where Llama-3.1 405B performances significantly better than fine-tuned BERT.
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{\textwidth}
@@ -256,7 +243,7 @@ For the larger models, this effect is larger: on samples where humans have high 
  
 \dieuwke{TODO: Add just two representative examples here and refer to appendix for all models.}
 
-\subsection{Model versus human distributions}
+\subsection{Model versus human distributions}\label{subsec:chaosnli}
 The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, it also allows us to study how models behave in scenarios where there is not a single, correct, ground-truth answer.
 In a time where LLMs are employed simultaneously to many users with potentially different preferences, this question has become very practically relevant.
 To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
@@ -276,15 +263,15 @@ This is an exciting finding, because it suggests that measuring similarity with 
         \vspace{-2mm}
     \end{subfigure}\\
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=4.5cm]{figures/abductivenli_intermediate_jsd}
+        \includegraphics[height=5cm]{figures/abductivenli_intermediate_jsd}
         \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=4.5cm]{figures/mnli_matched_intermediate_jsd}
+        \includegraphics[height=5cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate_jsd}
         \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=4.5cm]{figures/snli_intermediate_jsd}
+        \includegraphics[height=5cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate_jsd}
         \caption{}
     \end{subfigure}
     \caption{\textbf{Development of JSD during training.}}\label{fig:jsd_training}
