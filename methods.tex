@@ -1,6 +1,6 @@
 \section{Setup}
 
-\paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HansNLI \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}. 
+\paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HANS \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}. 
 The number of examples and labels for each dataset are present in Table \ref{tab:dataset}. 
 For MNLI and SNLI, we filter out the noisy test samples for which there is no ground truth available for the evaluation. % Dieuwke: not entirely clear to me what this means
 
@@ -12,9 +12,9 @@ We limit our analysis to pre-trained base models and leave the analysis on post-
 \paragraph{Evaluation Details} Since pre-trained models are not good at instruction following, we consider the choice-based evaluation setup for all the tasks rather than generative. The model is presented with the few shot examples (if present) along with the question and the available choices like \textit{A: Entailment}, \textit{B: Neutral}, and \textit{C: Contradiction}, and then asked to predict the correct letter choice. Since there are only a limited number of choices depending on the task (two or three), we append the these choices to the prompt and compute the negative log likelihood (NLL) over the letter choice. We then choose the option which has the lowest NLL as the model's prediction. The prompt templates for all tasks are detailed in Table \ref{tab:prompt_template}.
 
 
-\dieuwke{Temperature setting?}
-\dieuwke{I think it may be nice to add something already about what we compute and to what end.}
-\dieuwke{SHould perhaps mention our baselines as well?}
+% \dieuwke{Temperature setting?}
+% \dieuwke{I think it may be nice to add something already about what we compute and to what end.}
+% \dieuwke{SHould perhaps mention our baselines as well?}
 
 \begin{table}
   \centering

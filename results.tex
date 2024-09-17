@@ -256,7 +256,7 @@ Interestingly, larger models appear to have lower distributions, contradicting t
 Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}: though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions goes down steadily during training.
 This is an exciting finding, because it suggests that measuring similarity with human distributions could be an interesting venue to explore during training.
 
-\begin{figure*}
+\begin{figure*}[t]
     \begin{subfigure}[b]{\textwidth}
         %\centering
         \includegraphics[width=0.2\textwidth]{figures/chaos_jsd_training_legend}
@@ -282,7 +282,7 @@ This is an exciting finding, because it suggests that measuring similarity with 
 % 
 % where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. The benefit of using JSD over KL divergence is that it is symmetric and bounded between 0 and 1.
 
-\begin{figure*}
+\begin{figure*}[t]
     \centering
     \includegraphics[width=0.7\linewidth]{figures/entropy_acc.png}
     \caption{Accuracy vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
