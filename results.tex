@@ -164,7 +164,14 @@ As already pointed out before, the benchmark that still has the clearest room fo
 For the other benchmarks performances are substantially higher, and it is unclear to what extent the benchmarks may suffer saturation.
 To address this question, we first conduct a manual error analysis on the examples that the largest models assign an incorrect label.
 
-We analyse the predictions of Llama 3.1 405B model on the MNLI subset of ChaosNLI under a 4-shot setup. We consider those samples where the model prediction deviates from the human annotator majority. We can broadly divide the errors made by the model into two categories i) where the model is actually wrong and ii) where the humans themselves disagree on the actual ground truth label. We show some representative examples in Table \ref{tab:sample_analysis}. In the first example, the majority label deviates from the original ground truth and the model prediction. In fact, the interpretation of this example is a bit ambiguous and the hypothesis can either entail or is neutral to the premise depending on the interpretation. Second example is similar as we don't know the tone of the speaker, if they are sympathetic, then the hypothesis contradicts the premise otherwise it entails the premise. The model predictions for the third and fourth examples are clearly wrong where the majority label also matches the original ground truth.
+We analyse the predictions of Llama 3.1 405B model on MNLI.
+% We consider those samples where the model prediction deviates from the human annotator majority. 
+We can broadly divide the errors made by the model into two categories i) where the model appears wrong and ii) where correct answer appears open to interpretation, for instance because of ambiguities or because humans may disagree on the correct answer.
+We show some representative examples in Table \ref{tab:sample_analysis}. 
+In the first example, the majority label deviates from the original ground truth and the model prediction. 
+In fact, the interpretation of this example is a bit ambiguous and the hypothesis can either entail or is neutral to the premise depending on the interpretation. 
+Second example is similar as we don't know the tone of the speaker, if they are sympathetic, then the hypothesis contradicts the premise otherwise it entails the premise. 
+The model predictions for the third and fourth examples are clearly wrong where the majority label also matches the original ground truth.
 
 
 
