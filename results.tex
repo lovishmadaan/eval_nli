@@ -41,7 +41,7 @@ Now we present our results, focussing in particular on whether NLI benchmarks pr
     \caption{$\alpha$NLI}
     \label{fig:alphanli}
     \end{subfigure}
-    \caption{\textbf{Performance across shots.} We show performance across shots for nine trained-out models, for ANLI, HANS, MNLI, SNLI and AbductiveNLI. Dashed lines indicate Random, and Finetuned-BERT baselines.}\label{fig:shot_performance}
+    \caption{\textbf{Performance across shots.} We show performance across shots for nine trained-out models, for ANLI, HANS, MNLI, SNLI and $\alpha$NLI. Dashed lines indicate Random, and Finetuned-BERT baselines.}\label{fig:shot_performance}
 \end{figure*}
 
 % \paragraph{Q1: Does NLI provide signal for LLMs?}
@@ -81,7 +81,7 @@ The details of the pre-training mix are provided in \cref{sec:appendix}.
 \paragraph{Development during training} In \cref{fig:performance_training}, we show how (four-shot) performance develops during training.
 We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
 The 70B model starts improving after around 250B tokens, for ANLI and $\alpha$NLI, it crosses fine-tuned BERT performance after around 500B tokens.
-On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HansNLI, MNLI, and SNLI.
+On the other hand, the development of performance for the 8B model is slow, at this scale not exceeding chance accuracy for HANS, MNLI, and SNLI.
 From the final model performance of 8B depicted in Figure \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during the training stage.
 We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
 
@@ -140,7 +140,7 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
     & \multicolumn{2}{c}{8B} & \multicolumn{2}{c}{70B} \\
     % \toprule
     %Benchmark $\downarrow$
-    & $mon_{disc}$  & $mon_{cont}$ & $mon_{disc}$ & $mon_{cont}$ \\
+    & $mon_{ACC}$  & $mon_{NLL}$ & $mon_{ACC}$ & $mon_{NLL}$ \\
     \toprule
     $\alpha$NLI & 0.62 & 0.62 & 0.79 & 0.79 \\
     \midrule
@@ -154,7 +154,7 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
     \bottomrule
     \end{tabular}
 }
-\caption{Monotonicity values for the 8B and 70B models during the course of the training. We report both the discrete ($mon_{disc}$) and continuous ($mon_{cont}$) monotonicity values.}
+\caption{Monotonicity values for the 8B and 70B models during the course of the training. We report both the discrete ($mon_{ACC}$) and continuous ($mon_{NLL}$) monotonicity values. ACC and NLL represent Accuracy and Negative Log Likelihood respectively.}
 \label{tab:monotonicity}
 \end{table}
 
