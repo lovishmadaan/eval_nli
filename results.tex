@@ -75,8 +75,7 @@ We conclude, from these results, that the benchmarks under consideration provide
 \subsection{Informativeness during training}\label{subsec:during_training}
 
 Next, we investigate whether NLI datasets may provide a good signal during training.
-To this end, we pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens.
-The details of the pre-training mix are provided in \cref{sec:appendix}. 
+To this end, we pre-train Llama-3 architecture based 8B and 70B models from scratch for 2T tokens. For the pre-training datamix, we use a mix of data available from publicly available sources including web data, code, and reasoning datasets.
 
 \paragraph{Development during training} In \cref{fig:performance_training}, we show how (four-shot) performance develops during training.
 We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
@@ -200,7 +199,7 @@ The model predictions for the third and fourth examples are clearly wrong where 
 \end{table*}
 
 % \dieuwke{Insert some manual analysis + possible conclusion: there seems to be some room for improvement, but oftentimes incorrect predictions are on samples where humans may disagree too.}
-In the next section, we dive further into this phenomenon, investigating the relationship between human disagreements and model judgements.
+In the next subsection, we dive further into this phenomenon, investigating the relationship between human disagreements and model judgements.
 
 % To substantiate this claim, we consider chaosNLI.
 % We show 1) entropy plots for various models, these show that the larger models have pretty much perfect perfrmance on samples where humans agree across the board, but drop off on other examples. Smaller models don't get perfect performance also on the former. Results also show that a small amount of errors is due to annotation errors (or not matching majority labels), because the `corrected' accuracy is slightly higher than the non-corrected accuracy.
@@ -232,10 +231,10 @@ Using this data, we can i) estimate the extent to which suboptimal performances 
 \paragraph{Majority accuracy}
 First, we consider how models' accuracies changes when we replace the original labels with the majority label of the ChaosNLI dataset.
 This changes 32\%, 25\% and 11\% of the labels of MNLI, SNLI and $\alpha$NLI, respectively.
-In \cref{tab:chaos_acc}, we can see that, in some cases, the results differ per model and benchmark.
-The largest effects are observed for MNLI, where for some models an increase of more than 10\%point is observed and the average accuracy across models is more than five points higher on the `corrected' datasets.
+In Table \ref{tab:chaos_acc}, we can see that, in some cases, the results differ per model and benchmark.
+The largest effects are observed for MNLI, where for some models an increase of more than 10\% point is observed and the average accuracy across models is more than five points higher on the `corrected' datasets.
 For the other two benchmarks, the results are more mixed, with little to no difference on average.
-Only for the largest Llama3.1 model, the majority accuracy is systematically higher than the original accuracy, suggesting it may have honed in more on the majority label.
+Only for the largest Llama-3.1 model (405B), the majority accuracy is systematically higher than the original accuracy, suggesting it may have honed in more on the majority label.
 Interestingly, the MNLI and SNLI subsets of ChaosNLI appear substantially more difficult than the average dataset;
 Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting that there is room for improvement on both these datasets.
 
@@ -260,8 +259,8 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
         \multicolumn{2}{c}{\emph{Average}} & 76.01 & 76.21 & 50.86 & 55.93 & 54.90 & 54.35 \\
     \bottomrule
     \end{tabular}
-    \label{tab:chaos_acc}
 \caption{\textbf{Majority accuracy and JSD per model.} \dieuwke{update caption}}
+\label{tab:chaos_acc}
 \end{table*}
 
 \begin{figure*}
@@ -309,7 +308,7 @@ where $p$ is the human annotator distribution, $q$ is the softmax probability di
     \caption{\textbf{Development of JSD during training.}}\label{fig:jsd_training}
 \end{figure*}
 
-In \cref{fig:jsd_per_model}, we can see that, for MNLI, all considered models have probability distributions more similar to the human distributions than chance, but substantially more different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human annotations on the same data.}
+In \cref{fig:jsd_all_benchmarks}, we can see that, for MNLI, all considered models have probability distributions more similar to the human distributions than chance, but substantially more different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human annotations on the same data.}
 This pattern is constant across datasets. \dieuwke{Maybe just make a row with three barplots of the three datasets?}
 Interestingly, larger models appear to have lower distributions, contradicting the finding of \citet{nie-etal-2020-learn} that better or larger models do not have more similar distributions.
 Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}: though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions goes down steadily during training.
