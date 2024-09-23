@@ -2,7 +2,7 @@
 
 \paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HANS \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}. 
 The number of examples and labels for each dataset are present in Table \ref{tab:dataset}. 
-For MNLI and SNLI, we filter out the noisy samples for which there is no ground truth available for the evaluation. Additionally, we evaluate on the validation set of these two tasks because the human annotations in ChaosNLI are available for the subsets of the validation set. % Dieuwke: not entirely clear to me what this means
+For MNLI and SNLI, we filter out the noisy samples for which there is no ground truth available for the evaluation. Additionally, we evaluate on the validation set of these two tasks because the human annotations in ChaosNLI \citep{nie-etal-2020-learn} are available for the subsets of the validation set. % Dieuwke: not entirely clear to me what this means
 
 \paragraph{Models} For each of these benchmarks, we compute and analyse scores for three different model families: Llama \citep{dubey2024llama}, Gemma \citep{team2024gemma}, and Mistral \citep{jiang2023mistral, jiang2024mixtral}. 
 Specifically, we use Meta-Llama 3.1 \{8, 70, 405\}B from the Llama series, Gemma 2 \{2, 9, 27\}B from the Gemma series, and Mistral 7B / Mixtral 8x\{7, 22\}B from the Mistral series.
