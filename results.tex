@@ -6,11 +6,11 @@ Now we present our results, focussing in particular on whether NLI benchmarks pr
 \subsection{Informativeness for fully trained models}\label{subsec:fully_trained}
 
 \begin{figure*}[t]
-    % \begin{subfigure}[b]{\textwidth}
-    %     \hspace{5mm}
-    %     \includegraphics[width=0.95\textwidth]{figures/legend}
-    %     \vspace{-3mm}
-    % \end{subfigure}\\
+    \begin{subfigure}[b]{\textwidth}
+        \hspace{5mm}
+        \includegraphics[width=0.95\textwidth]{figures/legend}
+        \vspace{-3mm}
+    \end{subfigure}\\
     \begin{subfigure}[b]{0.217\textwidth}
     \centering
     \includegraphics[height=3.45cm]{figures/anli}
@@ -85,11 +85,11 @@ From the final model performance of 8B depicted in Figure \cref{fig:shot_perform
 We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
 
 \begin{figure*}[t]
-    \begin{subfigure}[b]{\textwidth}
-        %\centering
-        \includegraphics[width=0.3\textwidth]{figures/training_legend}
-        \vspace{-2mm}
-    \end{subfigure}\\
+    % \begin{subfigure}[b]{\textwidth}
+    %     %\centering
+    %     \includegraphics[width=0.3\textwidth]{figures/training_legend}
+    %     \vspace{-2mm}
+    % \end{subfigure}\\
     \begin{subfigure}[b]{0.20\textwidth}
     \centering
     \includegraphics[height=3.2cm]{figures/anli_intermediate}
@@ -177,9 +177,10 @@ The model predictions for the third and fourth examples are clearly wrong where 
 \begin{table*}[t]
 \centering
 \small
-\begin{tabular}{p{8cm}|c|c|c}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{p{9.5cm}|c|c|c}
 \toprule
-\textbf{Example} & \textbf{Label Distribution} & \textbf{Og.} & \textbf{Prediction} \\
+\textbf{Example} & \textbf{Label distribution} & \textbf{Og.} & \textbf{Prediction} \\
 \midrule
 \textbf{Premise}: you want to punch the button and go\\
 \textbf{Hypothesis}: You don't want to push the button lightly, but rather punch it hard. & \textbf{e: 48}, n: 45, c: 7 & n & n \\
@@ -194,7 +195,8 @@ The model predictions for the third and fourth examples are clearly wrong where 
 \textbf{Hypothesis}: Florence became Savonarola's new home. & e: 3, n: 40, \textbf{c: 57} & c & n \\
 \bottomrule
 \end{tabular}
-\caption{Sample Analysis}
+    }
+    \caption{\textbf{Examples from ChaosNLI with different label distributions.} We show different samples from ChaosNLI with different annotator distributions. The first column shows the example; the second the distribution of human labels across the 100 collected annotations (the majority label is marked bold), the third column indicates the label that the example had in the original dataset and the fourth column the Llama 3.1 405B prediction.}
 \label{tab:sample_analysis}
 \end{table*}
 
@@ -272,8 +274,6 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
 
 In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `better' on samples where the entropy of the labels is low.
 For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements become more dispersed.
- 
-\dieuwke{TODO: Add just two representative examples here and refer to appendix for all models.}
 
 \subsection{Model versus human distributions}\label{subsec:chaosnli_dist}
 The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, it also allows us to study how models behave in scenarios where there is not a single, correct, ground-truth answer.
