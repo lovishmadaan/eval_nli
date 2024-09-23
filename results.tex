@@ -239,9 +239,8 @@ Only for the largest Llama3.1 model, the majority accuracy is systematically hig
 Interestingly, the MNLI and SNLI subsets of ChaosNLI appear substantially more difficult than the average dataset;
 Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting that there is room for improvement on both these datasets.
 
-\begin{figure*}
-    \begin{subfigure}[b]{0.65\textwidth}
-    \resizebox{\textwidth}{!}{
+\begin{table*}
+    \centering
     \begin{tabular}{llcccccc}
         & & \multicolumn{2}{c}{\textbf{$\alpha$NLI}} & \multicolumn{2}{c}{\textbf{MNLI}} & \multicolumn{2}{c}{\textbf{SNLI}} \\
         \multicolumn{2}{c}{\textbf{Model}} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.} & \textit{Og.} & \textit{Maj.}\\
@@ -260,17 +259,16 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
         \midrule
         \multicolumn{2}{c}{\emph{Average}} & 76.01 & 76.21 & 50.86 & 55.93 & 54.90 & 54.35 \\
     \bottomrule
-    \end{tabular}}
-    \caption{}
+    \end{tabular}
     \label{tab:chaos_acc}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.33\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{figures/jsd_per_model}
-        \caption{}
-        \label{fig:jsd_per_model}
-    \end{subfigure}
 \caption{\textbf{Majority accuracy and JSD per model.} \dieuwke{update caption}}
+\end{table*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/jsd_all_benchmarks}
+    \caption{Final model JSDs for each of the benchmarks in ChaosNLI.}
+    \label{fig:jsd_all_benchmarks}
 \end{figure*}
 
 In \cref{fig:entropy_accuracy}, we can furthermore see that, with the exception of the two smallest Gemma models, all models perform `better' on samples where the entropy of the labels is low.
