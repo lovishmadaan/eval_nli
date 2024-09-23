@@ -61,7 +61,7 @@ When more shots are added performance starkly improves.
 Even with just one shot, the performance is significantly better than the zero shot accuracy.
 Adding more than three or four examples in the few shots does not improve performance much and saturates around 10 shots. 
 Among the five benchmarks, the most challenging benchmark is ANLI.
-Although the larger models in the Llama, Gemma, and Mistral series far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
+Although the larger models in the Llama and Mistral series far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
 
 \paragraph{Model discriminability}
 In terms of discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models.
@@ -69,7 +69,7 @@ For example, for the Llama series, 405B performs the best followed by 70B and th
 Though these three models are trained on the same amount of text tokens, performance clearly improves with scale.
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at a performance of around 85\%.
 We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{subsec:saturation}).
-Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
+% Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
 
 % \subsection{Performance development over training}
 \subsection{Informativeness during training}\label{subsec:during_training}
@@ -271,7 +271,7 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
     \label{fig:jsd_all_benchmarks}
 \end{figure*}
 
-In \cref{fig:entropy_accuracy}, we can furthermore see that, with the exception of the two smallest Gemma models, all models perform `better' on samples where the entropy of the labels is low.
+In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `better' on samples where the entropy of the labels is low.
 For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements become more dispersed.
  
 \dieuwke{TODO: Add just two representative examples here and refer to appendix for all models.}
