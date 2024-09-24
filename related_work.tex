@@ -1,8 +1,13 @@
-\section{Related Work}
+\section{Related work}
 
-One of the aspects of commonsense reasoning is determining the relationship between two sentences. Understanding whether a given sentence entails or contradicts another sentence is vital to understanding natural language and semantic representations. A lot of work in natural language processing (NLP) in the previous years has revolved around natural language understanding (NLU) and have used NLI tasks to determine a model's ability to do this commonsense reasoning. We break down the related work into broadly three categories.
+As mentioned before, NLI tasks used to be a popular way to evaluate NLP models.
+In this section, we discuss common NLI benchmarks (\cref{related:benchmarks}) and their scores for masked language models and MLMs (\cref{related:mlms} and \cref{related:llms}, respectively).
+Further relevant to our work, we also discuss work related to research into the behaviour of NLP models on subjective tasks (\cref{related:subjective}).
 
-\paragraph{Benchmarks} For a long time, Recognizing Textual Entailment (RTE) tasks \footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool}  were used as testbeds for NLI. These are hand-labeled and usually the sample size is very small.
+\subsection{NLI benchmarks}
+\label{related:benchmarks}
+
+For a long time, Recognizing Textual Entailment (RTE) tasks\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool}  were used as testbeds for NLI. These are hand-labeled and usually the sample size is very small.
 \citet{bowman-etal-2015-large} introduced the Stanford Natural Language Inference (SNLI) dataset comprising of 570,512 sentence pairs annotated for NLI using Amazon Mechanical Turk. SNLI's domain is limited to image captions, and does not incorporate other important phenomena like temporal reasoning and belief.
 The Multi-Genre NLI (MNLI) \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures wide varieties of written text and spoken speech.
 MNLI along with RTE also became part of the widely used GLUE Benchmark \citep{wang2019glue}.
@@ -10,9 +15,16 @@ MNLI along with RTE also became part of the widely used GLUE Benchmark \citep{wa
 ANLI \citep{nie-etal-2020-adversarial} used an iterative, adversarial human-and-model-in-the-loop method to come up with an adversarial version of NLI that is challenging for the models existing then.
 Similarly, HANS \citep{mccoy-etal-2019-right} is another adversarial dataset where models that perform MNLI did not necessary perform better on HANS, because these models have adopted certain fallible heuristics during their training.
 
-\paragraph{BERT and friends} The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time. Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere. A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. The pre-training and fine-tuning regime quickly started saturating these benchmarks.
+\subsection{BERT and friends}
+\label{related:mlms}
+The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time. Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere. A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. The pre-training and fine-tuning regime quickly started saturating these benchmarks.
 
-\paragraph{The Era of LLMs} \citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. The idea is when training general purpose language models, you do not need task specific fine-tuning. GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks. \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations.
+\subsection{The era of LLMs}
+\label{related:llms}
+\citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. The idea is when training general purpose language models, you do not need task specific fine-tuning. GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks. \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations.
+
+\subsection{Subjective NLP tasks}
+\label{related:subjective}
 
 % \begin{itemize}
 %   \item Benchmarks
