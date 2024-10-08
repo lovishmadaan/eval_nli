@@ -374,4 +374,4 @@ We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained f
 
 From \cref{fig:contamination}, we can observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
 
-Thus, we believe that contamination does not play a participatory role in models being good at NLI benchmarks, and ANLI is the most challenging benchmark out of the five benchmarks we consider.
+Thus, we believe that contamination does not play a participatory role in models being good at NLI benchmarks, and ANLI is the most challenging out of the five benchmarks we consider.
