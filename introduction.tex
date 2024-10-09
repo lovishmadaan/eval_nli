@@ -20,7 +20,7 @@ For some of the benchmarks, accuracies of the best models are touching 80 or eve
 % Furthermore, we find next to no contamination of the benchmarks in common pretraining corpora.
 Next, we investigate the extent to which improvement on the higher-scored benchmarks is still possible (\cref{subsec:saturation}).
 In a manual analysis, we find that, for the best performing models, some examples with incorrect predictions are in fact incorrect, but most concern questions on which humans may disagree too.
-Motivated by this result, we further explore this topic by considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 4500 samples of three of the benchmarks we consider (\cref{subsec:chaosnli}).
+Motivated by this result, we further explore this topic by considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 4500 samples of three of the benchmarks we consider (\cref{subsec:chaosnli_dist}).
 We find that accuracies (as computed on the majority label) are higher if the entropy of the human labels is low; when humans disagree, models are more likely to select one of the less preferred labels.
 
 Finally, we consider the distributional differences between model outputs and human labels, as measured by the Jensen Shannon Divergence (JSD) between the human label distributions and the models' softmax distributions over the possible answers.
