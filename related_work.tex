@@ -4,16 +4,14 @@ As mentioned before, NLI tasks used to be a popular way to evaluate NLP models.
 In this section, we discuss common NLI benchmarks (\cref{related:benchmarks}) and their scores for masked language models and MLMs (\cref{related:mlms} and \cref{related:llms}, respectively).
 Further relevant to our work, we also discuss work related to research into the behaviour of NLP models on subjective tasks (\cref{related:subjective}).
 
-\subsection{NLI benchmarks}
+\subsection{Natural Language Inference as a means of evaluation}
 \label{related:benchmarks}
 
-For a long time, Recognizing Textual Entailment (RTE) tasks\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool}  were used as testbeds for NLI. These are hand-labeled and usually the sample size is very small.
-\citet{bowman-etal-2015-large} introduced the Stanford Natural Language Inference (SNLI) dataset comprising of 570,512 sentence pairs annotated for NLI using Amazon Mechanical Turk. SNLI's domain is limited to image captions, and does not incorporate other important phenomena like temporal reasoning and belief.
-The Multi-Genre NLI (MNLI) \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures wide varieties of written text and spoken speech.
-MNLI along with RTE also became part of the widely used GLUE Benchmark \citep{wang2019glue}.
-\citet{bhagavatula2020abductive} released $\alpha$NLI to test abductive reasoning in models. Instead of a single hypothesis as in standard NLI tasks, $\alpha$NLI presents an observation and a pair of hypotheses to the model, and the task is to choose the most plausible hypothesis.
-ANLI \citep{nie-etal-2020-adversarial} used an iterative, adversarial human-and-model-in-the-loop method to come up with an adversarial version of NLI that is challenging for the models existing then.
-Similarly, HANS \citep{mccoy-etal-2019-right} is another adversarial dataset where models that perform MNLI did not necessary perform better on HANS, because these models have adopted certain fallible heuristics during their training.
+% For a long time, Recognizing Textual Entailment (RTE) tasks\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool}  were used as testbeds for NLI. These are hand-labeled and usually the sample size is very small.
+% 
+% % \citet{bhagavatula2020abductive} released $\alpha$NLI to test abductive reasoning in models. Instead of a single hypothesis as in standard NLI tasks, $\alpha$NLI presents an observation and a pair of hypotheses to the model, and the task is to choose the most plausible hypothesis.
+% ANLI \citep{nie-etal-2020-adversarial} used an iterative, adversarial human-and-model-in-the-loop method to come up with an adversarial version of NLI that is challenging for the models existing then.
+% Similarly, HANS \citep{mccoy-etal-2019-right} is another adversarial dataset where models that perform MNLI did not necessary perform better on HANS, because these models have adopted certain fallible heuristics during their training.
 
 \subsection{BERT and friends}
 \label{related:mlms}
