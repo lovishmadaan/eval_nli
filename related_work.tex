@@ -1,31 +1,38 @@
 \section{Related work}
 
-As mentioned before, NLI tasks used to be a popular way to evaluate NLP models.
-In this section, we discuss common NLI benchmarks (\cref{related:benchmarks}) and their scores for masked language models and MLMs (\cref{related:mlms} and \cref{related:llms}, respectively).
-Further relevant to our work, we also discuss work related to research into the behaviour of NLP models on subjective tasks (\cref{related:subjective}).
+\dieuwke{Redo introduction of this section}
+% As mentioned before, NLI tasks used to be a popular way to evaluate NLP models.
+% In this section, we discuss common NLI benchmarks (\cref{related:benchmarks}) and their scores for masked language models and MLMs (\cref{related:mlms} and \cref{related:llms}, respectively).
+% Further relevant to our work, we also discuss work related to research into the behaviour of NLP models on subjective tasks (\cref{related:subjective}).
 
 \subsection{Natural Language Inference as a means of evaluation}
 \label{related:benchmarks}
 
-% For a long time, Recognizing Textual Entailment (RTE) tasks\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool}  were used as testbeds for NLI. These are hand-labeled and usually the sample size is very small.
+% For a long time, Recognizing Textual Entailment (RTE) tasks .\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool} were used as testbeds for NLI. 
+\dieuwke{Explain what a textual entailment task and natural language inference is is and why it was considered a good way to evaluate NLP models.}
+
 % 
 % % \citet{bhagavatula2020abductive} released $\alpha$NLI to test abductive reasoning in models. Instead of a single hypothesis as in standard NLI tasks, $\alpha$NLI presents an observation and a pair of hypotheses to the model, and the task is to choose the most plausible hypothesis.
 % ANLI \citep{nie-etal-2020-adversarial} used an iterative, adversarial human-and-model-in-the-loop method to come up with an adversarial version of NLI that is challenging for the models existing then.
 % Similarly, HANS \citep{mccoy-etal-2019-right} is another adversarial dataset where models that perform MNLI did not necessary perform better on HANS, because these models have adopted certain fallible heuristics during their training.
 
-\subsection{BERT and friends}
+\subsection{NLI scores across time}
 \label{related:mlms}
-The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time. Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere. A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. The pre-training and fine-tuning regime quickly started saturating these benchmarks.
+\textcolor{red}{Dieuwke: I left some notes in this subsection, but my overall suggestion would be to focus a bit more on how well models were doing and make it less opinionated. E.g. one could say that models were initally not performing very well but the scores quickly saturated, upon which new datasets were brought out that were more challenging.
+Also give the current state of difficulty, which would include the results with LLMs from the section below (I would put it here and remove it from the next section.}
 
-\subsection{The era of LLMs}
-\label{related:llms}
-\citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. The idea is when training general purpose language models, you do not need task specific fine-tuning. GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks. \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations.
+The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time.  \dieuwke{Why do you think that this is the reason that it was popular? Is there a citation to support this?}
+Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere. \dieuwke{Do you have a citation that supports this statement?}
+A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. 
+The pre-training and fine-tuning regime quickly started saturating these benchmarks. \dieuwke{Missing a reference for this.}
+\citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. 
+The idea is when training general purpose language models, you do not need task specific fine-tuning. 
+GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. 
+Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks. 
 
-\subsection{Subjective NLP tasks}
-\label{related:subjective}
 
-% \begin{itemize}
-%   \item Benchmarks
-%   \item Fine-tuned performance (BERT/T5/etc etc)
-%   \item LLM performance (GPT-3 / Dieukwe's papers)
-% \end{itemize}
+\subsection{Subjectivity in NLP tasks}
+\label{related:subjectivity}
+As we will see later, another line of work relevant to ours considers behaviour of models in cases where humans disagree on what is the correct label for a particular sample.
+\dieuwke{I want a bit more detail here regarding what the actual question is and what these papers do. Also, you should introduce ChaosNLI before introducing the other papers, because it will not be clear for readers what you are talking about.}
+Most important to our study, \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations.
