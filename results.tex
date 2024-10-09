@@ -288,33 +288,35 @@ In the next section, we approach this question by considering the distribution o
 The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, it also allows us to study how models behave in scenarios where there is not a single, correct, ground-truth answer.
 In a time where LLMs are employed simultaneously to many users with potentially different preferences, this question has become very practically relevant.
 To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
-Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions. Mathematically,
-
-\[
-    JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)},
-\]
-
-where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. Contrary to Kullback Leibner (KL) divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
+Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions. 
+%Mathematically,
+%
+%\[
+%    JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)},
+%\]
+%
+%where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. 
+Contrary to Kullback Leibner (KL) divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
 
 \begin{figure*}[t]
-    \begin{subfigure}[b]{\textwidth}
-        %\centering
-        \includegraphics[width=0.2\textwidth]{figures/chaos_jsd_training_legend}
-        % \vspace{-2mm}
-    \end{subfigure}\\
+    % \begin{subfigure}[b]{\textwidth}
+    %     %\centering
+    %     \includegraphics[width=0.2\textwidth]{figures/chaos_jsd_training_legend}
+    %     % \vspace{-2mm}
+    % \end{subfigure}\\
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=5cm]{figures/abductivenli_intermediate_jsd}
+        \includegraphics[height=4.5cm]{figures/abductivenli_intermediate_jsd}
         \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=5cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate_jsd}
+        \includegraphics[height=4.5cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate_jsd}
         \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[height=5cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate_jsd}
+        \includegraphics[height=4.5cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate_jsd}
         \caption{}
     \end{subfigure}
-    \caption{\textbf{Development of JSD during training.}}\label{fig:jsd_training}
+    \caption{\textbf{Development of JSD during training.} We show how the JSD of our trained-from-scratch 8B and 70B model develops during training.}\label{fig:jsd_training}
 \end{figure*}
 
 In \cref{fig:jsd_all_benchmarks}, we can see that, for MNLI, all considered models have probability distributions more similar to the human distributions than chance, but substantially more different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human annotations on the same data.}
@@ -339,46 +341,58 @@ This is an exciting finding, because it suggests that measuring similarity with 
 
 \subsection{Contamination Analysis}\label{subsec:contamination}
 
-Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we perform a contamination analysis for all the benchmarks considered, to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
-
-Following \citep{brown2020language}, we analyse the contamination of all five NLI benchmarks with the datamix we use for the pre-training from scratch. Specifically, we use token match to compute contamination scores, where we consider how many tokens in the evaluation sample are part of an $n$-gram existing in the pre-training datamix. We use $n = 8$ and $\texttt{mincount} = 1$ for our analysis.
+Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we perform a contamination analysis for all the benchmarks considered.
+ % , to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
+Using the methodology used by \citep{dubey2024llama}, we analyse contamination assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pretraining dataset.
+We select contamination thresholds considering the estimated performance gain (EPG) for each threshold.
+A threshold of 0 leads to all examples having non-zero contamination scores to be marked as contaminated and as we increase the threshold, examples are moved to the `uncontaminated' subset.
+In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the data that is marked contaminated according to a given contamination threshold.
 
 \begin{figure*}[t]
-    \begin{subfigure}[b]{0.217\textwidth}
+    \begin{subfigure}[b]{0.20\textwidth}
     \centering
-    \includegraphics[height=3cm]{figures/contamination_anli}
+    \includegraphics[height=2.7cm]{figures/contamination_anli}
     \caption{ANLI}
     \end{subfigure}
     \label{fig:cont_anli}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=3cm]{figures/contamination_hansnli}
+    \includegraphics[height=2.7cm]{figures/contamination_hansnli}
     \caption{HANS}
     \label{fig:cont_hans}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=3cm]{figures/contamination_mnli_matched}
+    \includegraphics[height=2.7cm]{figures/contamination_mnli_matched}
     \caption{MNLI}
     \label{fig:cont_mnli}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=3cm]{figures/contamination_snli}
+    \includegraphics[height=2.7cm]{figures/contamination_snli}
     \caption{SNLI}
     \label{fig:cont_snli}
     \end{subfigure}
     \begin{subfigure}[b]{0.19\textwidth}
     \centering
-    \includegraphics[height=3cm]{figures/contamination_abductivenli}
+    \includegraphics[height=2.7cm]{figures/contamination_abductivenli}
     \caption{$\alpha$NLI}
     \label{fig:cont_alphanli}
     \end{subfigure}
     \caption{\textbf{Contamination Scores.} TODO}\label{fig:contamination}
 \end{figure*}
 
-We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained from scratch. EPG is defined as the difference in performance on the entire subset and the `uncontaminated' subset. We plot it versus the percent contamination determined according to a given contamination threshold. A threshold of 0 leads to all examples having non-zero contamination scores to be marked as contaminated and as we increase the threshold, examples are moved to the `uncontaminated' subset.
+% We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained from scratch. EPG is defined as the difference in performance on the entire subset and the `uncontaminated' subset. 
+% We plot it versus the percent contamination determined according to a given contamination threshold. 
 
-From \cref{fig:contamination}, we can observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
-
+In \cref{fig:contamination}, we can see that there is virtually no score inflation as a consequence of contamination for the 8 and 780B model that we considered.
+For HANS, this is because virtually no contamination is detected by 8-gram overlap.
+For MNLI, SNLI and $\alpha$NLI, instead, large parts of the dataset are marked contaminated at low thresholds, but there is no performance impact.
+We suspect that this is because the premises of the samples are sourced from publicly available datasets, and their presence per se is thus not indicitive of contamination.
+Likely for similar reasons, almost all of the ANLI samples contain at least one overlapping 8-gram, resulting in very high percentages of detected contamination at low thresholds.
+As the `clean' partition of the dataset at these thresholds is low, it is not possible to determine whether these samples may constitute only false positives, as illustrated also by the erratic behaviour of the EPG in \cref{fig:contamination}. 
+% observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. 
+% But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. 
+% For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
+% 
 Thus, we believe that contamination does not play a participatory role in models being good at NLI benchmarks, and ANLI is the most challenging out of the five benchmarks we consider.
