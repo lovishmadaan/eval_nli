@@ -374,10 +374,10 @@ This is an exciting finding, because it suggests that measuring similarity with 
 
 Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we perform a contamination analysis for all the benchmarks considered.
  % , to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
-Using the methodology used by \citep{dubey2024llama}, we analyse contamination assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pretraining dataset.
+Using the methodology used by \citep{dubey2024llama}, we analyse contamination assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training dataset.
 We select contamination thresholds considering the estimated performance gain (EPG) for each threshold.
-A threshold of 0 leads to all examples having non-zero contamination scores to be marked as contaminated and as we increase the threshold, examples are moved to the `uncontaminated' subset.
-In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the data that is marked contaminated according to a given contamination threshold.
+A threshold of 0 leads to all examples having non-zero contamination scores to be marked as contaminated and as we increase the threshold, examples are moved to the `uncontaminated' subset. Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination with our custom pre-training datamix.
+In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the evaluation data that is marked contaminated according to a given contamination threshold.
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.20\textwidth}
