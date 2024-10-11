@@ -247,9 +247,40 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
 \paragraph{Accuracy versus entropy}
 Next, we consider the distribution of accuracy with entropy for the three benchmarks in Figure \ref{fig:entropy_accuracy}. We only show the smallest (8B) and the largest (405B) model in the Llama series across the three benchmarks. We observe that for the largest model, there's a clear decreasing trend of accuracy with increasing entropy for all three benchmarks, whereas for the 8B model, the trend is not that prominent and some entropy bins have similar accuracies. For the entropy vs accuracy distributions on other models, we refer the reader to Appendix \ref{sec:appendix}.
 
+% \begin{figure*}[t]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{figures/entropy_acc_8_405}
+%     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama 8B and Llama 405B changes as the entropy of the human label distributions increases. Accuracy-vs-entropy plots for all other models can be found in \cref{fig:acc_vs_entropy_all}.}
+%     \label{fig:entropy_accuracy}
+% \end{figure*}
+
+
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/entropy_acc_8_405}
+    \begin{subfigure}[b]{0.16\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_abductivenli_8B}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_abductivenli_405B}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_mnli_matched_8B}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_mnli_matched_405B}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_snli_8B}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.15\textwidth}
+        \includegraphics[height=2.6cm]{figures/entropy_acc_snli_405B}
+        \caption{}
+    \end{subfigure}
     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama 8B and Llama 405B changes as the entropy of the human label distributions increases. Accuracy-vs-entropy plots for all other models can be found in \cref{fig:acc_vs_entropy_all}.}
     \label{fig:entropy_accuracy}
 \end{figure*}
