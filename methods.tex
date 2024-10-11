@@ -22,7 +22,7 @@ Different from SNLI, the MNLI premise sentences are derived from nine different 
 As for SNLI, we consider the validation corpus of the dataset and exclude samples that have no gold label.
 
 \paragraph{HANS}
-Contrary to the previous datasets, the adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is not crowd-sourced, by synthetically generated with templates.
+Contrary to the previous datasets, the adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is not crowd-sourced, but synthetically generated with templates.
 In doing so, the dataset contains samples that cannot be solved through heuristics such as lexical, subsequence or constituent overlap.
 At the time of proposal, none of the SOTA models was able to solve such examples.
 
@@ -64,18 +64,3 @@ The prompt templates for all tasks are detailed in Table \ref{tab:prompt_templat
 % \dieuwke{Temperature setting?}
 % \dieuwke{I think it may be nice to add something already about what we compute and to what end.}
 % \dieuwke{SHould perhaps mention our baselines as well?}
-
-\begin{table}
-  \centering
-  \begin{tabular}{c|c|c}
-    Benchmark & \# Samples & \# labels \\
-    \hline
-    ANLI & 1200 & 3 \\
-    HANS & 30000 & 2 \\
-    MNLI & 9815 & 3 \\
-    SNLI & 9842 & 3 \\
-    $\alpha$NLI & 1532 & 2 \\
-  \end{tabular}
-\caption{Dataset details}
-\label{tab:dataset}
-\end{table}
