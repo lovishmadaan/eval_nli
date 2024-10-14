@@ -1,7 +1,8 @@
 \section{Results}
 
-Now we present our results, focussing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}), how their performance develops during training (\cref{subsec:during_training}), whether there is still room for improvement (\cref{subsec:saturation}), and how model judgements compare to human judgements in case of ambiguous or vague questions (\cref{subsec:chaosnli_dist}).
-We also investigate the extent to which the benchmarks are susceptible to evaluation data contamination (\cref{subsec:contamination}).
+Now we present our results, focussing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}), how their performance develops during training (\cref{subsec:during_training}), and what is the impact of evaluation data contamination (\cref{subsec:contamination}. 
+Next, we investigate whether there is still room for improvement (\cref{subsec:saturation}), and how model judgements compare to human judgements in case of ambiguous or vague questions (\cref{subsec:chaosnli_dist}).
+% We also investigate the extent to which the benchmarks are susceptible to evaluation data contamination (\cref{subsec:contamination}).
 
 
 % \subsection{Performance on fully trained models}
@@ -125,14 +126,6 @@ We did not have the budget to do the full pre-training run, but longer training 
     \caption{\textbf{Performance during training.} We show how performance for the five benchmarks develops during training, for two Llama-3 style models.}\label{fig:performance_training}
 \end{figure*}
 
-\paragraph{Utility for ablations}
-A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
-The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
-Following \citet{variancepaper}, we quantify the benchmarks' monotonicity on both a discrete (accuracy) and continuous metric (NLL).%
-\footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
-In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. %for smaller models. 
-% Monotonicity for the 70B is substantially higher for some benchmarks, but the compute involved for doing ablations increases 10x for stable signals.
-
 \begin{table}
 \centering
 \resizebox{0.45\textwidth}{!}{
@@ -142,7 +135,7 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
     & \multicolumn{2}{c}{8B} & \multicolumn{2}{c}{70B} \\
     % \toprule
     %Benchmark $\downarrow$
-    & $mon_{ACC}$  & $mon_{NLL}$ & $mon_{ACC}$ & $mon_{NLL}$ \\
+    & $mon_{Acc}$  & $mon_{NLL}$ & $mon_{Acc}$ & $mon_{NLL}$ \\
     \toprule
     $\alpha$NLI & 0.62 & 0.62 & 0.79 & 0.79 \\
     \midrule
@@ -156,12 +149,82 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
     \bottomrule
     \end{tabular}
 }
-\caption{\textbf{Monotonicity values.} Monotonicity values for the 8B and 70B models during the course of the training. We report monotonicity both for accuracy ($mon_{ACC}$) and nll of the correct answer ($mon_{NLL}$).}
+\caption{\textbf{Monotonicity values.} Monotonicity values for the 8B and 70B models during the course of training. We report monotonicity both for accuracy ($mon_{Acc}$) and negative log likelihood of the correct answer ($mon_{NLL}$).}
 \label{tab:monotonicity}
 \end{table}
 
+\paragraph{Utility for ablations}
+A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
+The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
+Following \citet{variancepaper}, we quantify the benchmarks' monotonicity on both a discrete (accuracy) and continuous metric (NLL).%
+% \footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
+In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. %for smaller models. 
+% Monotonicity for the 70B is substantially higher for some benchmarks, but the compute involved for doing ablations increases 10x for stable signals.
+
+
+\subsection{Contamination analysis}\label{subsec:contamination}
+
+Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we analyse the extent to which scores may be driven by evaluation data contamination.
+ % , to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
+Using the methodology used by \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training dataset.
+We select contamination thresholds considering the estimated performance gain (EPG) for each threshold.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
+Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination with our custom pre-training datamix.
+
+\begin{figure*}[t]
+    \begin{subfigure}[b]{0.20\textwidth}
+    \centering
+    \includegraphics[height=2.7cm]{figures/contamination_anli}
+    \caption{ANLI}
+    \end{subfigure}
+    \label{fig:cont_anli}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=2.7cm]{figures/contamination_hansnli}
+    \caption{HANS}
+    \label{fig:cont_hans}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=2.7cm]{figures/contamination_mnli_matched}
+    \caption{MNLI}
+    \label{fig:cont_mnli}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=2.7cm]{figures/contamination_snli}
+    \caption{SNLI}
+    \label{fig:cont_snli}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.19\textwidth}
+    \centering
+    \includegraphics[height=2.7cm]{figures/contamination_abductivenli}
+    \caption{$\alpha$NLI}
+    \label{fig:cont_alphanli}
+    \end{subfigure}
+    \caption{\textbf{Contamination Scores.} We plot the Estimated Performance Gain (EPG) vs the percent of eval dataset marked as contaminated according to different thresholds.}\label{fig:contamination}
+\end{figure*}
+
+% We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained from scratch. EPG is defined as the difference in performance on the entire subset and the `uncontaminated' subset. 
+% We plot it versus the percent contamination determined according to a given contamination threshold. 
+
+In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the evaluation data that is marked contaminated according to a given contamination threshold.
+We can see that there is virtually no score inflation as a consequence of contamination for the 8 and 780B model that we considered.
+For HANS, this is because little to no contaminated samples are found through 8-gram overlap.
+For MNLI, SNLI and $\alpha$NLI, instead, large parts of the dataset are marked contaminated at low thresholds, but there is no performance impact.
+We suspect that this is because the premises of the samples are sourced from publicly available datasets, and their presence per se is thus not indicitive of contamination.
+Likely for similar reasons, almost all of the ANLI samples contain at least one overlapping 8-gram, resulting in very high percentages of detected contamination at low thresholds.
+At the lowest threshold, also the EPG shoots up.
+% However, as the `clean' partition of the dataset at these thresholds is low, it is not possible to do proper significance testing.
+However, the erratic behaviour as examples are gradually added to the clean set suggests that the EPG observed at those threshold is likely an artefact of the small size of the clean partition, and this result is likely not indicative of true performance gain.
+% As the `clean' partition of the dataset at these thresholds is low, it is not possible to determine whether these samples may constitute only false positives, as illustrated also by the erratic behaviour of the EPG in \cref{fig:contamination}. 
+% observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. 
+% But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. 
+% For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
+% 
+Thus, we believe that contamination does not play a participatory role in high performances for NLI benchmarks. %, and ANLI is the most challenging out of the five benchmarks we consider.
+
 \subsection{Dataset saturation}\label{subsec:saturation}
-Having confirmed that the NLI benchmarks under scrutiny provide discrimination between LLMs of different sizes, we now turn to the question of saturation: the results show that the benchmarks would have been useful so far, but how about the future?
+Having confirmed that the NLI benchmarks under scrutiny provide discrimination between LLMs of different sizes and are not affected much by contamination, we now turn to the question of saturation: the results show that the benchmarks would have been useful so far, but how about the future?
 As already pointed out before, the benchmark that still has the clearest room for improvement is adversarial benchmark ANLI, with performances not exceeding 70\% even for the largest models.
 For the other benchmarks, performances are substantially higher, and it is unclear to what extent the benchmarks may suffer saturation.
 
@@ -370,60 +433,3 @@ This is an exciting finding, because it suggests that measuring similarity with 
 %     \label{fig:entropy_jsd}
 % \end{figure*}
 
-\subsection{Contamination Analysis}\label{subsec:contamination}
-
-Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we perform a contamination analysis for all the benchmarks considered.
- % , to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
-Using the methodology used by \citep{dubey2024llama}, we analyse contamination assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training dataset.
-We select contamination thresholds considering the estimated performance gain (EPG) for each threshold.
-A threshold of 0 leads to all examples having non-zero contamination scores to be marked as contaminated and as we increase the threshold, examples are moved to the `uncontaminated' subset. Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination with our custom pre-training datamix.
-In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the evaluation data that is marked contaminated according to a given contamination threshold.
-
-\begin{figure*}[t]
-    \begin{subfigure}[b]{0.20\textwidth}
-    \centering
-    \includegraphics[height=2.7cm]{figures/contamination_anli}
-    \caption{ANLI}
-    \end{subfigure}
-    \label{fig:cont_anli}
-    \begin{subfigure}[b]{0.19\textwidth}
-    \centering
-    \includegraphics[height=2.7cm]{figures/contamination_hansnli}
-    \caption{HANS}
-    \label{fig:cont_hans}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
-    \centering
-    \includegraphics[height=2.7cm]{figures/contamination_mnli_matched}
-    \caption{MNLI}
-    \label{fig:cont_mnli}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
-    \centering
-    \includegraphics[height=2.7cm]{figures/contamination_snli}
-    \caption{SNLI}
-    \label{fig:cont_snli}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.19\textwidth}
-    \centering
-    \includegraphics[height=2.7cm]{figures/contamination_abductivenli}
-    \caption{$\alpha$NLI}
-    \label{fig:cont_alphanli}
-    \end{subfigure}
-    \caption{\textbf{Contamination Scores.} We plot the Estimated Performance Gain (EPG) vs the percent of eval dataset marked as contaminated according to different thresholds.}\label{fig:contamination}
-\end{figure*}
-
-% We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained from scratch. EPG is defined as the difference in performance on the entire subset and the `uncontaminated' subset. 
-% We plot it versus the percent contamination determined according to a given contamination threshold. 
-
-In \cref{fig:contamination}, we can see that there is virtually no score inflation as a consequence of contamination for the 8 and 780B model that we considered.
-For HANS, this is because virtually no contamination is detected by 8-gram overlap.
-For MNLI, SNLI and $\alpha$NLI, instead, large parts of the dataset are marked contaminated at low thresholds, but there is no performance impact.
-We suspect that this is because the premises of the samples are sourced from publicly available datasets, and their presence per se is thus not indicitive of contamination.
-Likely for similar reasons, almost all of the ANLI samples contain at least one overlapping 8-gram, resulting in very high percentages of detected contamination at low thresholds.
-As the `clean' partition of the dataset at these thresholds is low, it is not possible to determine whether these samples may constitute only false positives, as illustrated also by the erratic behaviour of the EPG in \cref{fig:contamination}. 
-% observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. 
-% But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. 
-% For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
-% 
-Thus, we believe that contamination does not play a participatory role in models being good at NLI benchmarks, and ANLI is the most challenging out of the five benchmarks we consider.
