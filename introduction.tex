@@ -19,14 +19,14 @@ For some of the benchmarks, accuracies of the best models are touching 80 or eve
 % \paragraph{Benchmarks} In our experiments, we consider five NLI benchmarks: ANLI \citep{nie-etal-2020-adversarial}, HansNLI \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}. 
 % Furthermore, we find next to no contamination of the benchmarks in common pretraining corpora.
 Next, we investigate the extent to which improvement on the higher-scored benchmarks is still possible (\cref{subsec:saturation}).
-In a manual analysis, we find that, for the best performing models, some examples with incorrect predictions are in fact incorrect, but most concern questions on which humans may disagree too.
+In a manual analysis, we find that, for the best performing model, examples with `incorrect' predictions are rarely in fact incorrect; most concern questions on which humans may disagree too.
 Motivated by this result, we further explore this topic by considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 4500 samples of three of the benchmarks we consider (\cref{subsec:chaosnli_dist}).
 We find that accuracies (as computed on the majority label) are higher if the entropy of the human labels is low; when humans disagree, models are more likely to select one of the less preferred labels.
 
 Finally, we consider the distributional differences between model outputs and human labels, as measured by the Jensen Shannon Divergence (JSD) between the human label distributions and the models' softmax distributions over the possible answers.
-We find that the JSDs are lower (thus: better) than the ones reported by \citet{nie-etal-2020-learn} for the previous generation of models, and they are also better than chance distributions. 
+We find that the JSDs are lower than the ones reported by \citet{nie-etal-2020-learn} for the previous generation of models, and they are also better than chance distributions. 
 However, they are still substantially higher than the JSD between two populations of humans, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury' \citep[e.g.][]{verga2024replacing}.
-Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we do observe an effect of scale and model quality: JSD shows a clear and steady decrease during training, and larger models have lower JSD than smaller models.
+Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we do observe an effect of scale and model quality: JSD shows a clear decrease during training, and larger models have lower JSD than smaller models.
 
 In sum, we find that NLI benchmarks are still relevant for model development and improvement.
 Specifically, they are able to discriminate between models of different scale and quality, develop steadily during training, and are not completely saturated.
