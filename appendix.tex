@@ -1,26 +1,62 @@
-\section{Appendix}
-\label{sec:appendix}
+\input{benchmarks}
 
-\subsection{Benchmark details}
+\section{Entropy vs accuracy plots}
 
-We present the evaluation benchmark sizes and the number of labels for each of the five benchmarks in \cref{tab:dataset}.
+\begin{figure*}[t]
+    \centering
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_70B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_8x7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_8x22B}
+        % \caption{}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_70B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_8x7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_8x22B}
+        % \caption{}
+    \end{subfigure}\\
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_70B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_8x7B}
+        % \caption{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.23\textwidth}
+        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_8x22B}
+        % \caption{}
+    \end{subfigure}
+    \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of all other models changes as the entropy of the human label distributions increases.}
+    \label{fig:entropy_accuracy_all}
+\end{figure*}
 
-\begin{table}
-\centering
-\begin{tabular}{c|c|c}
-    Benchmark & \# Samples & \# labels \\
-    \hline
-    ANLI & 1200 & 3 \\
-    HANS & 30000 & 2 \\
-    MNLI & 9815 & 3 \\
-    SNLI & 9842 & 3 \\
-    $\alpha$NLI & 1532 & 2 \\
-\end{tabular}
-\caption{Dataset details}
-\label{tab:dataset}
-\end{table}
-
-\subsection{Prompt Templates}
+\section{Prompt templates}
 
 The prompt templates used for each task are presented in \cref{tab:prompt_template}.
 
@@ -86,58 +122,3 @@ Answer: {{ choice_text }}
 \label{tab:prompt_template}
 \end{table*}
 
-\subsection{Entropy vs Accuracy Plots}
-
-\begin{figure*}[t]
-    \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_abductivenli_70B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_abductivenli_7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_abductivenli_8x7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_abductivenli_8x22B}
-        \caption{}
-    \end{subfigure}\\
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_mnli_matched_70B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_mnli_matched_7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_mnli_matched_8x7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_mnli_matched_8x22B}
-        \caption{}
-    \end{subfigure}\\
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_snli_70B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_snli_7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_snli_8x7B}
-        \caption{}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[height=2.6cm]{figures/appendix/entropy_acc_snli_8x22B}
-        \caption{}
-    \end{subfigure}
-    \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of all other models changes as the entropy of the human label distributions increases}
-    \label{fig:entropy_accuracy_all}
-\end{figure*}

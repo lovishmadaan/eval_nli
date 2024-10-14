@@ -1,32 +1,44 @@
-\section{Setup}
+\section{Benchmarks}
+\label{app:benchmarks}
 
-Before reporting our results, we first describe the benchmarks and models we consider in our experiments and describe our evaluation procedure.
+Below, we provide a more elaborate description of (construction of) the benchmarks we consider in our work.
+A summary of their statistics can be found in \cref{tab:dataset}.
 
-\subsection{Benchmarks}
-In our experiments, we consider five NLI benchmarks, we describe them briefly below, a more elaborate description can be found in \cref{app:benchmarks}. 
-% : ANLI \citep{nie-etal-2020-adversarial}, HANS \citep{mccoy-etal-2019-right}, MNLI \citep{williams-etal-2018-broad}, SNLI \citep{bowman-etal-2015-large}, and $\alpha$NLI \citep{bhagavatula2020abductive}, also known as abductiveNLI.
-% We briefly discuss each of these benchmarks below.
+\begin{table}
+\centering
+\begin{tabular}{c|c|c}
+    Benchmark & \# Samples & \# labels \\
+    \hline
+    ANLI & 1200 & 3 \\
+    HANS & 30000 & 2 \\
+    MNLI & 9815 & 3 \\
+    SNLI & 9842 & 3 \\
+    $\alpha$NLI & 1532 & 2 \\
+\end{tabular}
+\caption{Dataset details}
+\label{tab:dataset}
+\end{table}
 
-\paragraph{SNLI}
+\subsection{SNLI}
 Introduced by \citet{bowman-etal-2015-large}, the Stanford Natural Language Inference (SNLI) dataset was one of the first large-scale NLI dataset for NLP evaluation.
 The dataset comprises of 570K human-authored English sentence pairs, sourced by asking Amazon Mechanical Turk workers to supply hypotheses for the three labels available in the dataset -- entailment, neutral and contradiction -- given a premise comprised by an image caption drawn from a pre-existing corpus.
 For 57K of the resulting samples were then labeled by four additional annotators.
 In this work, we consider the 10K development set of the corpus.
 Like the original paper, we exclude samples for which no gold label exists because there was no label that three or more annotators agreed on.
 
-\paragraph{MNLI}
+\subsection{MNLI}
 The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and more challenging examples, representing both written and spoken speech in a range of different styles, degrees, formalities and topics.
 The data collection procedure of the corpus is similar to the SNLI procedure both in terms of sourcing and validation.
 % : human annotators are asked to create hypotheses with given labels given a pre-sourced hypothesis.
 Different from SNLI, the MNLI premise sentences are derived from nine different sources, aiming to represent the full range of American English, rather than a single image captioning corpus.
 As for SNLI, we consider the validation corpus of the dataset and exclude samples that have no gold label.
 
-\paragraph{HANS}
+\subsection{HANS}
 Contrary to the previous datasets, the adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is not crowd-sourced, but synthetically generated with templates.
 In doing so, the dataset contains samples that cannot be solved through heuristics such as lexical, subsequence or constituent overlap.
 At the time of proposal, none of the SOTA models was able to solve such examples.
 
-\paragraph{ANLI}
+\subsection{ANLI}
 The second adversarial dataset we consider is Adversarial NLI, or ANLI \citep{nie-etal-2020-adversarial}.
 The dataset, created with the primary aim to make SOTA models fail, is sourced iteratively in a human-in-the-loop setup.
 Given a premise and a target label, annotators are asked to propose hypotheses that may fool models.
@@ -35,7 +47,7 @@ The dataset consists of three sets of increasingly challenging examples, where i
 The third round furthermore contains a set of more diverse premises.
 For our experiments, we are using the dev set of round 3, the most challenging set of the benchmark.
 
-\paragraph{$\alpha$NLI}
+\subsection{$\alpha$NLI}
 Differing in setup from the previously described benchmarks, $\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} focusses on \emph{abductive reasoning} -- which they describe as inference to the most plausible explanation for an incomplete observation.
 The samples in $\alpha$NLI consist of a pair of observations at two consecutive times, and a plausible hypothesis that explains tho two observations, and an implausible hypothesis that does not (or to a lesser extent).
 The task is to select the most plausible hypothesis.
@@ -47,20 +59,3 @@ We use the development set of the corpus for our experiments.
 
 % \paragraph{ChaosNLI}
 % \dieuwke{Include a brief description of ChaosNLI.}
-
-\subsection{Models} For each of these benchmarks, we compute and analyse scores for two different model families: Llama \citep{dubey2024llama} and Mistral \citep{jiang2023mistral, jiang2024mixtral}. 
-Specifically, we use Meta-Llama 3.1 \{8, 70, 405\}B from the Llama series, and Mistral 7B / Mixtral 8x\{7, 22\}B from the Mistral series.
-We limit our analysis to pre-trained base models and leave the analysis on post-trained / instruct models to future work.
-% The model sizes range from 2B to 405B in our analysis.
-
-\subsection{Evaluation details}
-As nowadays common for pre-trained models, we consider the choice-based evaluation setup for all the tasks rather than generative. 
-In this setup, the model is presented with the few shot examples (if present) along with the question and the available choices like \textit{A: Entailment}, \textit{B: Neutral}, and \textit{C: Contradiction}, and then asked to predict the correct letter choice. 
-Since there are only a limited number of choices depending on the task (two or three), we append the these choices to the prompt and compute the negative log likelihood (NLL) over the letter choice. 
-We then choose the option which has the lowest NLL as the model's prediction. 
-The prompt templates for all tasks are detailed in Table \ref{tab:prompt_template}.
-
-
-% \dieuwke{Temperature setting?}
-% \dieuwke{I think it may be nice to add something already about what we compute and to what end.}
-% \dieuwke{SHould perhaps mention our baselines as well?}
