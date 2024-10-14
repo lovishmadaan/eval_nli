@@ -21,10 +21,10 @@
 \textcolor{red}{Dieuwke: I left some notes in this subsection, but my overall suggestion would be to focus a bit more on how well models were doing and make it less opinionated. E.g. one could say that models were initally not performing very well but the scores quickly saturated, upon which new datasets were brought out that were more challenging.
 Also give the current state of difficulty, which would include the results with LLMs from the section below (I would put it here and remove it from the next section.}
 
-The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time.  \dieuwke{Why do you think that this is the reason that it was popular? Is there a citation to support this?}
-Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere. \dieuwke{Do you have a citation that supports this statement?}
+The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time \citep{raffel2023t5}.
+Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere \citep{raffel2023t5,zaheer2020big}.
 A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. 
-The pre-training and fine-tuning regime quickly started saturating these benchmarks. \dieuwke{Missing a reference for this.}
+The pre-training and fine-tuning regime quickly started saturating these benchmarks \citep{raffel2023t5}.
 \citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. 
 The idea is when training general purpose language models, you do not need task specific fine-tuning. 
 GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. 
