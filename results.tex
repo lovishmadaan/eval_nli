@@ -308,7 +308,12 @@ Even the Llama3.1 405B model stays below 70\% on both these subsets, suggesting 
 \end{table*}
 
 \paragraph{Accuracy versus entropy}
-Next, we consider the distribution of accuracy with entropy for the three benchmarks in Figure \ref{fig:entropy_accuracy}. We only show the smallest (8B) and the largest (405B) model in the Llama series across the three benchmarks. We observe that for the largest model, there's a clear decreasing trend of accuracy with increasing entropy for all three benchmarks, whereas for the 8B model, the trend is not that prominent and some entropy bins have similar accuracies. For the entropy vs accuracy distributions on other models, we refer the reader to Appendix \ref{sec:appendix}.
+Next, we consider the distribution of accuracy with entropy for the three benchmarks in Figure \ref{fig:entropy_accuracy}. 
+We only show the smallest (8B) and the largest (405B) model in the Llama series across the three benchmarks. 
+We observe that for the largest model, there's a clear decreasing trend of accuracy with increasing entropy for all three benchmarks, whereas for the 8B model, the trend is not that prominent, and some entropy bins have similar accuracies. 
+In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `better' on samples where the entropy of the labels is low.
+For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements become more dispersed.
+For the entropy vs accuracy distributions for other models, we refer the reader to Appendix \ref{app:entropy_vs_accuracy}.
 
 % \begin{figure*}[t]
 %     \centering
@@ -320,36 +325,33 @@ Next, we consider the distribution of accuracy with entropy for the three benchm
 
 \begin{figure*}[t]
     \centering
-    \begin{subfigure}[b]{0.16\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_abductivenli_8B}
-        \caption{}
+    \begin{subfigure}[b]{0.18\textwidth}
+        \includegraphics[height=3.0cm]{figures/entropy_acc_abductivenli_8B}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_abductivenli_405B}
-        \caption{}
+        \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_abductivenli_405B}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_mnli_matched_8B}
-        \caption{}
+        \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_mnli_matched_8B}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_mnli_matched_405B}
-        \caption{}
+        \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_mnli_matched_405B}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_snli_8B}
-        \caption{}
+        \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_8B}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.15\textwidth}
-        \includegraphics[height=2.6cm]{figures/entropy_acc_snli_405B}
-        \caption{}
+        \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_405B}
+        % \caption{}
     \end{subfigure}
     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama 8B and Llama 405B changes as the entropy of the human label distributions increases. Accuracy-vs-entropy plots for all other models can be found in \cref{fig:entropy_accuracy_all}.}
     \label{fig:entropy_accuracy}
 \end{figure*}
-
-In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `better' on samples where the entropy of the labels is low.
-For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements become more dispersed.
 
 \paragraph{Implications for saturation}
 What the implication of these results is for the question of saturation of these benchmarks is, like the samples of the benchmark themselves, open to interpretation.
@@ -400,15 +402,15 @@ Contrary to Kullback Leibner (KL) divergence, JSD is symmetric and bound between
     % \end{subfigure}\\
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[height=4.5cm]{figures/abductivenli_intermediate_jsd}
-        \caption{}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[height=4.5cm, trim=11mm 0 0 0, clip]{figures/mnli_matched_intermediate_jsd}
-        \caption{}
+        % \caption{}
     \end{subfigure}
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[height=4.5cm, trim=11mm 0 0 0, clip]{figures/snli_intermediate_jsd}
-        \caption{}
+        % \caption{}
     \end{subfigure}
     \caption{\textbf{Development of JSD during training.} We show how the JSD of our trained-from-scratch 8B and 70B model develops during training.}\label{fig:jsd_training}
 \end{figure*}
