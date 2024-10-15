@@ -9,7 +9,9 @@
 \label{related:benchmarks}
 
 % For a long time, Recognizing Textual Entailment (RTE) tasks .\footnote{https://aclweb.org/aclwiki/index.php?\\title=Textual\_Entailment\_Resource\_Pool} were used as testbeds for NLI. 
-\dieuwke{Explain what a textual entailment task and natural language inference is is and why it was considered a good way to evaluate NLP models.}
+% \dieuwke{Explain what a textual entailment task and natural language inference is is and why it was considered a good way to evaluate NLP models.}
+
+Understanding textual entailment is fundamental to language and semantic understanding. Presenting two sentences and the ability to infer entailment or contradiction highlights a model's ability to do commonsense reasoning. To this end, various benchmarks were introduced to quantify this commonsense reasoning ability like RTE \citep{dagan2005pascal}, MNLI \citep{williams-etal-2018-broad}, and SNLI \citep{bowman-etal-2015-large}.
 
 % 
 % % \citet{bhagavatula2020abductive} released $\alpha$NLI to test abductive reasoning in models. Instead of a single hypothesis as in standard NLI tasks, $\alpha$NLI presents an observation and a pair of hypotheses to the model, and the task is to choose the most plausible hypothesis.
@@ -21,9 +23,9 @@
 % \textcolor{red}{Dieuwke: I left some notes in this subsection, but my overall suggestion would be to focus a bit more on how well models were doing and make it less opinionated. E.g. one could say that models were initally not performing very well but the scores quickly saturated, upon which new datasets were brought out that were more challenging.
 % Also give the current state of difficulty, which would include the results with LLMs from the section below (I would put it here and remove it from the next section.}
 
-The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time \citep{raffel2023t5}.
-Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere \citep{raffel2023t5,zaheer2020big}.
-A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. 
+Popular benchmarks like GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} also contain entailment benchmarks like MNLI \citep{williams-etal-2018-broad} and RTE \citep{dagan2005pascal}.
+Specifically, the MNLI task in GLUE was a reliable benchmark because models that were better at MNLI were more often than not better elsewhere \citep{raffel2023t5,zaheer2020big}.
+A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE, SuperGLUE, and NLI tasks, and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. 
 The pre-training and fine-tuning regime quickly started saturating these benchmarks \citep{raffel2023t5}. Specifically for NLI, adversarial and harder datasets like ANLI \citep{nie-etal-2020-adversarial} and HANS \citep{mccoy-etal-2019-right} were introduced where BERT-like models did not perform as well compared to tasks like MNLI and SNLI.
 \citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. 
 The idea is when training general purpose language models, you do not need task specific fine-tuning. 
