@@ -18,21 +18,20 @@
 
 \subsection{NLI scores across time}
 \label{related:mlms}
-\textcolor{red}{Dieuwke: I left some notes in this subsection, but my overall suggestion would be to focus a bit more on how well models were doing and make it less opinionated. E.g. one could say that models were initally not performing very well but the scores quickly saturated, upon which new datasets were brought out that were more challenging.
-Also give the current state of difficulty, which would include the results with LLMs from the section below (I would put it here and remove it from the next section.}
+% \textcolor{red}{Dieuwke: I left some notes in this subsection, but my overall suggestion would be to focus a bit more on how well models were doing and make it less opinionated. E.g. one could say that models were initally not performing very well but the scores quickly saturated, upon which new datasets were brought out that were more challenging.
+% Also give the current state of difficulty, which would include the results with LLMs from the section below (I would put it here and remove it from the next section.}
 
 The popularity of GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue} arose from the fact that there was significant visible gap between human and model performance at that time \citep{raffel2023t5}.
 Specifically, the MNLI task in GLUE was a reliable benchmark because of the monotonicity during fine-tuning of models and models that were better at MNLI were more often than not better elsewhere \citep{raffel2023t5,zaheer2020big}.
 A lot of the models and systems based on BERT \citep{devlin2019bert} were proposed that tried to reach SoTA on GLUE/SuperGLUE and match human performance on these benchmarks \citep{he2021deberta,he2021debertav3,patra2022englishcentric}. 
-The pre-training and fine-tuning regime quickly started saturating these benchmarks \citep{raffel2023t5}.
+The pre-training and fine-tuning regime quickly started saturating these benchmarks \citep{raffel2023t5}. Specifically for NLI, adversarial and harder datasets like ANLI \citep{nie-etal-2020-adversarial} and HANS \citep{mccoy-etal-2019-right} were introduced where BERT-like models did not perform as well compared to tasks like MNLI and SNLI.
 \citet{brown2020language} introduced GPT-3 and the era of benchmarking with zero shot or few shot examples. 
 The idea is when training general purpose language models, you do not need task specific fine-tuning. 
-GPT-3's performance on RTE and ANLI was near chance accuracy, thus concluding that NLI is a very difficult task for general purpose large language models. 
+GPT-3's performance on RTE and ANLI was near chance accuracy and lower than fine-tuned BERT and RoBERTa models \citep{liu2019roberta}, thus concluding that NLI is a very difficult task for general purpose large language models.
 Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks. 
 
 
 \subsection{Subjectivity in NLP tasks}
 \label{related:subjectivity}
-As we will see later, another line of work relevant to ours considers behaviour of models in cases where humans disagree on what is the correct label for a particular sample.
-\dieuwke{I want a bit more detail here regarding what the actual question is and what these papers do. Also, you should introduce ChaosNLI before introducing the other papers, because it will not be clear for readers what you are talking about.}
+As we will see later, another line of work relevant to ours considers behaviour of models in cases where humans disagree on what is the correct label for a particular sample. The ground truth labels for benchmarks like MNLI and SNLI are decided according to the majority label by human annotators. This simplifies the data annotation process while also making the evaluation easier by framing it as a classification task. However, \citet{nie-etal-2020-learn} showed that significant disagreement exists in a large amount of these datasets because the meaning of a sentence can differ based on the context and background knowledge, and the ground truth label according to a human annotator depends on their understanding of this context. They release ChaosNLI, a dataset comprising 100 annotations for each sample for a subset of three benchmarks - MNLI, SNLI, and $\alpha$NLI to better understand the distributional properties and entropy of labels for these benchmarks.
 Most important to our study, \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations.
