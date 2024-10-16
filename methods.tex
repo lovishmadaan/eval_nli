@@ -9,36 +9,33 @@ In our experiments, we consider five NLI benchmarks, we describe them briefly be
 
 \vspace{-1mm}
 \paragraph{SNLI}
-The first and most bencrhmark we consider is the Stanford Natural Language Inference (SNLI), one of the first large-scale NLI datasets for NLP evaluation, sourced via Amazon Mechanical Turk.
+The Stanford Natural Language Inference (SNLI) is one of the first large-scale NLI datasets for NLP evaluation, sourced via Amazon Mechanical Turk.
 We use the dev set of the corpus, which comprises 10K examples.
 
 \vspace{-1mm}
 \paragraph{MNLI}
-The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and more challenging examples. 
-Also for MNLI, we consider the around 10K examples dev set of the corpus.
+The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and challenging examples. For MNLI too we consider the 10K examples dev set of the corpus.
 
 \vspace{-1mm}
 \paragraph{HANS}
-The adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right}.
-The dataset is generated to contain examples that cannot be solved through heuristics like lexical overlap, and contains 30K examples.
+The adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is generated to contain examples that cannot be solved through heuristics like lexical overlap, and contains 30K examples.
 
 \vspace{-1mm}
 \paragraph{ANLI}
 The second adversarial dataset we consider is Adversarial NLI, or ANLI \citep{nie-etal-2020-adversarial}.
-The dataset, created with the primary aim to make SOTA models fail, is sourced iteratively in a human-in-the-loop setup.
+The dataset, created with the primary aim to make SoTA models fail, is sourced iteratively with a human-in-the-loop setup.
 In our experiments, we consider the dev set of iteration 3, the most challenging set of the benchmark.
 
 \vspace{-1mm}
 \paragraph{$\alpha$NLI}
-$\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} has a different setup than the previous benchmarks, focusing specifically on \emph{abductive reasoning}..
+$\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} has a different setup than the previous benchmarks, focusing specifically on \emph{abductive reasoning}.
 Each sample consist of a pair of observations at two consecutive times, a plausible hypothesis that explains tho two observations, and an implausible hypothesis that does not (or to a lesser extent).
 The task is to select the most plausible hypothesis.
 The dataset contains 1500 examples.
 
 \vspace{-1mm}
 \paragraph{ChaosNLI}
-Lastly, we consider the dataset ChaosNLI \citep{nie-etal-2020-learn}.
-ChaosNLI contains 100 additional (human) labels for 1500 examples of SNLI, MNLI and $\alpha$NLI, respectively.
+Lastly, we consider ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 additional (human) labels for 1500 examples of SNLI, MNLI, and $\alpha$NLI, respectively.
 
 \subsection{Models} For each of these benchmarks, we compute and analyse scores for two different model families: Llama \citep{dubey2024llama} and Mistral \citep{jiang2023mistral, jiang2024mixtral}. 
 Specifically, we use Meta-Llama 3.1 \{8, 70, 405\}B from the Llama series, and Mistral 7B / Mixtral 8x\{7, 22\}B from the Mistral series.
