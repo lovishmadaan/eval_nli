@@ -50,4 +50,11 @@ This simplifies the data annotation process while also making the evaluation eas
 However, previous studies \citep{pavlick-kwiatkowski-2019-inherent, nie-etal-2020-learn} showed that significant disagreement exists in a large amount of these datasets because the meaning of a sentence can differ based on the context and background knowledge, and the ground truth label according to a human annotator depends on their understanding of this context. 
 \citet{nie-etal-2020-learn} release ChaosNLI, a dataset comprising 100 annotations for each sample for a subset of three benchmarks - MNLI, SNLI, and $\alpha$NLI to better understand the distributional properties and entropy of labels for these benchmarks.
 
-Most important to our study, \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations. \citet{baan-etal-2024-interpreting} further analyse how the softmax probability distribution can be interpreted both as an approximation to human label distribution and confidence estimation in language models.
+Most important to our study, \citet{chen2024seeingbig} explore whether the softmax probability distributions of 2 LLMs across the labels in ChaosNLI \citep{nie-etal-2020-learn} and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels, thus providing a scalable way for annotations. 
+\citet{baan-etal-2024-interpreting} further analyse how the softmax probability distribution can be interpreted both as an approximation to human label distribution and confidence estimation in language models.
+
+% Include
+% - paper that can be used to back statements about production variability in humans: https://arxiv.org/pdf/2305.11707
+% - About uncertainty vs variation: https://arxiv.org/pdf/2402.16102
+% - About annotator disagreement and how it isn't noise: https://aclanthology.org/Q19-1043.pdf
+
