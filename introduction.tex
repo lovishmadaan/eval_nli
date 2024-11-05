@@ -26,7 +26,7 @@ Motivated by this result, we further explore this topic by considering the bench
 We find that accuracies (as computed on the majority label) are higher if the entropy of the human labels is low; when humans disagree, models are more likely to select one of the less preferred labels.
 Lastly, we consider the distributional differences between model outputs and human labels, as measured by the Jensen Shannon Divergence (JSD) between the human label distributions and the models' softmax distributions over the possible answers.
 We find that the JSDs are lower than the ones reported by \citet{nie-etal-2020-learn} for the previous generation of models, and they are also better than chance distributions. 
-However, they are still substantially higher than the JSD between two populations of humans, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury' \citep[e.g.][]{verga2024replacing}.
+However, they are still substantially higher than the JSD between two populations of humans\footnote{For further evidence to this claim, see \citet{baan-etal-2022-stop}.}, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury' \citep[e.g.][]{verga2024replacing}.
 Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we do observe an effect of scale and model quality: JSD shows a clear decrease during training, and larger models have lower JSD than smaller models.
 
 In sum, we find that NLI benchmarks are still relevant for model development and improvement.
