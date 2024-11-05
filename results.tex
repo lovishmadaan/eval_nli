@@ -57,7 +57,7 @@ Next, we investigate whether there is still room for improvement (\cref{subsec:s
 With the goal to get an overall estimate of the difficulty of the task and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
 
 \paragraph{Accuracy across shots}
-For each of the models, we compute results with variable number of shots.
+For each of the models, we compute results with variable number of shots.\footnote{For each number of shots, samples were chosen randomly sampled from the dev or train set once and kept fixed throughout the experiments.}
 We report the results in \cref{fig:shot_performance}, along with a chance baseline and the results of a fine-tuned BERT model.
 For all models, we observe rather poor zero-shot performance for all tasks, except $\alpha$NLI, confirming previously reported results by \citet{ohmer2024form} and \citet{weber-etal-2023-mind}, among others.
 When more shots are added, performance starkly improves.
@@ -156,7 +156,7 @@ We did not have the budget to do the full pre-training run, but longer training 
 \paragraph{Utility for ablations}
 A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
 The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
-Following \citet{variancepaper}, we quantify the benchmarks' monotonicity on both a discrete (accuracy) and continuous metric (NLL).%
+Following \citet{variancepaper}, we quantify the benchmarks' monotonicity -- defined as the rank correlation (kendall tau) between a monotonically increasing array and the array containing the benchmark scores during training -- on both a discrete (accuracy) and continuous metric (NLL). %
 % \footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
 In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. %for smaller models. 
 % Monotonicity for the 70B is substantially higher for some benchmarks, but the compute involved for doing ablations increases 10x for stable signals.
@@ -264,7 +264,7 @@ For the other benchmarks, performances are substantially higher, and it is uncle
 \end{table*}
 
 \paragraph{Error types} To address this question, we first conduct a manual error analysis on the examples that the largest models assign an incorrect label.
-Specifically, we focus on one MNLI, one of the datasets with the highest scores, and analyse the predictions of Llama 3.1 405B model.
+Specifically, we focus on one MNLI, one of the datasets with the highest scores and analyse 40 predictions of Llama 3.1 405B model.
 In \cref{tab:sample_analysis}, we show a few examples, along with 100 human annotations for that sample from the previously mentioned dataset ChaosNLI.
 For all the examples we looked at, we found that there was at least some degree of interpretation or ambiguity in assigning a label to the premise-hypothesis pair.
 For example, in the first row of \cref{tab:sample_analysis}, whether the correct label is contradiction or negation would depend on a not-specified sentiment towards Cuba.
