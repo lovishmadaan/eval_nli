@@ -5,15 +5,8 @@ We consider five different NLI benchmarks -- $\alpha$NLI, ANLI, HANS, and MNLI -
 Furthermore, we consider how the benchmark behave during the training of two Llama-style 8B and 70B models.
 We find that, with the exception of $\alpha$NLI, all benchmarks are able to discriminate between models of different qualities, and in particular ANLI is challenging even for the largest models.
 Furthermore, we find next to no effects of contamination for the benchmarks.
-% As performances on the datasets develop steadily during training, they benchmarks are likely suitable for monitoring.
 Considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, containing 100 human annotations for over 4500 samples of three of the benchmarks we consider, we also find that the differences between human label distributions and model label distributions -- as measured with Jensen Shannon Divergence (JSD) -- 
 have gotten smaller with the new generation of models.
-However, they are still substantially higher than the distributional difference between two populations of humans. %, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury'.
+However, they are still substantially higher than the distributional difference between two populations of humans. 
 Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we do observe a clear effect of scale.
 JSD shows a clear and steady decrease during training, and larger models have lower JSD than smaller models, making it a potentially interesting quality to consider for model development.
-% Finally, we also analyse the role of contamination in the performance of models on the NLI benchmarks, and find that current models being good at NLI benchmarks is not due to contamination in the pre-training data mixture.
-
-% In sum, we find that NLI benchmarks are still relevant for model development and improvement.
-% Specifically, they are able to discriminate between models of different scale and quality, develop steadily during training, and are not completely saturated.
-% Furthermore, as even the best models are still far away from humans in this respect, we see promise in monitoring the development of the distributional differences between models and humans, both during and at the end of training.
-% 

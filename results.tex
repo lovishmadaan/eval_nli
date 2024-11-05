@@ -2,10 +2,7 @@
 
 Now we present our results, focussing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}), how their performance develops during training (\cref{subsec:during_training}), and what is the impact of evaluation data contamination (\cref{subsec:contamination}. 
 Next, we investigate whether there is still room for improvement (\cref{subsec:saturation}), and how model judgements compare to human judgements in case of ambiguous or vague questions (\cref{subsec:chaosnli_dist}).
-% We also investigate the extent to which the benchmarks are susceptible to evaluation data contamination (\cref{subsec:contamination}).
 
-
-% \subsection{Performance on fully trained models}
 \subsection{Informativeness for fully trained models}\label{subsec:fully_trained}
 
 \begin{figure*}[t]
@@ -47,13 +44,6 @@ Next, we investigate whether there is still room for improvement (\cref{subsec:s
     \caption{\textbf{Performance across shots.} We show performance across shots for six trained-out models, for ANLI, HANS, MNLI, SNLI and $\alpha$NLI. Dashed lines indicate Random, and Finetuned-BERT baselines.}\label{fig:shot_performance}
 \end{figure*}
 
-% \paragraph{Q1: Does NLI provide signal for LLMs?}
-% We show \begin{enumerate}
-%     \item curves + scores on trained-out models.  Conclusion: ? Should say something about whether it is separating models in early stages of training, and whether it is monotonic, how much variance etc.
-%     \item Trained out model scores. Tentative conclusion (pending numbers): with the exception of abductive NLI, these datasets allow to distiguish models of different sizes. Doesn't work at all with zero-shot (which can explain some previous results?), but with one or two shots we get decent scores. ANLI seems to be the most challenging with around 70\% accuracy on the 405B model.
-%     \item Ablations: conclusion??
-% \end{enumerate}
-
 With the goal to get an overall estimate of the difficulty of the task and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
 
 \paragraph{Accuracy across shots}
@@ -72,9 +62,7 @@ For example, for the Llama series, 405B performs the best followed by 70B and th
 Though these three models are trained on the same amount of text tokens, performance clearly improves with scale.
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B scale, at an accuracy of around 85\%.
 We conclude, from these results, that the benchmarks under consideration provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, a question that we discuss in more detail later in this paper (\cref{subsec:saturation}).
-% Gemma-2 9B model has chance accuracy and has similar performance to the 2B model and does not show this scaling behaviour, but it's visible with the 27B model scale. This is not the case in its counterparts in the Mistral and Llama series, where the smaller models perform significantly better and the larger models in the respective model families are even better.
 
-% \subsection{Performance development over training}
 \subsection{Informativeness during training}\label{subsec:during_training}
 
 Next, we investigate whether NLI datasets may provide a good signal during training.
@@ -88,11 +76,6 @@ From the final model performance of 8B depicted in \cref{fig:shot_performance}, 
 We did not have the budget to do the full pre-training run, but longer training definitely seems to help on NLI tasks, further confirming the claim that NLI models can still provide a helpful signal.
 
 \begin{figure*}[t]
-    % \begin{subfigure}[b]{\textwidth}
-    %     %\centering
-    %     \includegraphics[width=0.3\textwidth]{figures/training_legend}
-    %     \vspace{-2mm}
-    % \end{subfigure}\\
     \begin{subfigure}[b]{0.20\textwidth}
     \centering
     \includegraphics[height=3.2cm]{figures/anli_intermediate}
@@ -130,11 +113,7 @@ We did not have the budget to do the full pre-training run, but longer training 
 \centering
 \resizebox{0.45\textwidth}{!}{
 \begin{tabular}{lcccc}
-    %\toprule
-    %Model $\rightarrow$ 
     & \multicolumn{2}{c}{8B} & \multicolumn{2}{c}{70B} \\
-    % \toprule
-    %Benchmark $\downarrow$
     & $mon_{Acc}$  & $mon_{NLL}$ & $mon_{Acc}$ & $mon_{NLL}$ \\
     \toprule
     $\alpha$NLI & 0.62 & 0.62 & 0.79 & 0.79 \\
@@ -156,16 +135,12 @@ We did not have the budget to do the full pre-training run, but longer training 
 \paragraph{Utility for ablations}
 A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
 The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
-Following \citet{variancepaper}, we quantify the benchmarks' monotonicity -- defined as the rank correlation (kendall tau) between a monotonically increasing array and the array containing the benchmark scores during training -- on both a discrete (accuracy) and continuous metric (NLL). %
-% \footnote{Tracking continuous metrics like negative log likelihood (NLL) over the course of the training generally provides more monotonic results than discrete metrics such as accuracy.}
-In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. %for smaller models. 
-% Monotonicity for the 70B is substantially higher for some benchmarks, but the compute involved for doing ablations increases 10x for stable signals.
-
+Following \citet{variancepaper}, we quantify the benchmarks' monotonicity -- defined as the rank correlation (kendall tau) between a monotonically increasing array and the array containing the benchmark scores during training -- on both a discrete (accuracy) and continuous metric (NLL). 
+In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. 
 
 \subsection{Contamination analysis}\label{subsec:contamination}
 
 Now that we've concluded that NLI benchmarks provide a signal both for final models and during pre-training, we analyse the extent to which scores may be driven by evaluation data contamination.
- % , to ensure that the performance we observe is solely due to better training paradigm, data, and model architectures, and not just because of contamination in the pre-training data mixture.
 Using the methodology used by \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training datamix.
 We select contamination thresholds considering the estimated performance gain (EPG) for each threshold.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
 Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination.
@@ -204,9 +179,6 @@ Since EPG is model-dependent, we use the 8B and 70B models we trained from scrat
     \caption{\textbf{Contamination Scores.} We plot the Estimated Performance Gain (EPG) vs the percent of eval dataset marked as contaminated according to different thresholds.}\label{fig:contamination}
 \end{figure*}
 
-% We plot the ``Estimated Performance Gain'' (EPG) for the two models we trained from scratch. EPG is defined as the difference in performance on the entire subset and the `uncontaminated' subset. 
-% We plot it versus the percent contamination determined according to a given contamination threshold. 
-
 In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the evaluation data that is marked contaminated according to a given contamination threshold.
 We can see that there is virtually no score inflation as a consequence of contamination for the 8 and 780B model that we considered.
 For HANS, this is because little to no contaminated samples are found through 8-gram overlap.
@@ -214,14 +186,8 @@ For MNLI, SNLI and $\alpha$NLI, instead, large parts of the dataset are marked c
 We suspect that this is because the premises of the samples are sourced from publicly available datasets, and their presence per se is thus not indicitive of contamination.
 Likely for similar reasons, almost all of the ANLI samples contain at least one overlapping 8-gram, resulting in very high percentages of detected contamination at low thresholds.
 At the lowest threshold, also the EPG shoots up.
-% However, as the `clean' partition of the dataset at these thresholds is low, it is not possible to do proper significance testing.
 However, the erratic behaviour as examples are gradually added to the clean set suggests that the EPG observed at those threshold is likely an artefact of the small size of the clean partition, and this result is likely not indicative of true performance gain.
-% As the `clean' partition of the dataset at these thresholds is low, it is not possible to determine whether these samples may constitute only false positives, as illustrated also by the erratic behaviour of the EPG in \cref{fig:contamination}. 
-% observe that HANS has negligible contamination as the maximum percentage contamination is around 10\%, whereas the other benchmarks have a significant amount of contamination. 
-% But, the contamination does not help in the case of MNLI, SNLI, and $\alpha$NLI benchmarks, as EPG hovers around 0. 
-% For ANLI, even though there's a lot of contamination (probably since ANLI is derived from news articles and pre-training mix has a lot of news articles), both the 8B and 70B are not able to exploit the contamination because EPG increases only when we keep the threshold for contamination close to 0.
-% 
-Thus, we believe that contamination does not play a participatory role in high performances for NLI benchmarks. %, and ANLI is the most challenging out of the five benchmarks we consider.
+Thus, we believe that contamination does not play a participatory role in high performances for NLI benchmarks. 
 
 \subsection{Dataset saturation}\label{subsec:saturation}
 Having confirmed that the NLI benchmarks under scrutiny provide discrimination between LLMs of different sizes and are not affected much by contamination, we now turn to the question of saturation: the results show that the benchmarks would have been useful so far, but how about the future?
@@ -236,9 +202,6 @@ For the other benchmarks, performances are substantially higher, and it is uncle
 \toprule
 \textbf{Example} & \textbf{Label distribution} & \textbf{Gold} & \textbf{Prediction} \\
 \midrule
-%\textbf{Premise}: Savonarola burned in Florence\\
-%\textbf{Hypothesis}: Florence became Savonarola's new home. & e: 3, n: 40, \textbf{c: 57} & c & n \\
-%\midrule
     \makecell[l]{
     \textbf{Premise}: of course you could annex Cuba but they wouldn't like that a bit\\
     \textbf{Hypothesis}: Annexing Cuba is a great idea.
@@ -248,9 +211,6 @@ For the other benchmarks, performances are substantially higher, and it is uncle
     \textbf{Premise}: I thought working on Liddy's campaign would be better than working\\ on Bob's. \\
     \textbf{Hypothesis}: I thought I would like working on Liddy's campaign the best.
     } & \textbf{e: 66}, n: 32, c: 2 & n & e \\
-% \textbf{Premise}: you want to punch the button and go\\
-% \textbf{Hypothesis}: You don't want to push the button lightly, but rather punch it hard. & \textbf{e: 48}, n: 45, c: 7 & n & n \\
-% \midrule
 \midrule
 \makecell[l]{
 \textbf{Premise}: Sorry but that's how it is.\\
@@ -315,71 +275,26 @@ In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `
 For the larger models, this effect is larger: on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop down as human judgements become more dispersed.
 For the entropy vs accuracy distributions for other models, we refer the reader to Appendix \ref{app:entropy_vs_accuracy}.
 
-% \begin{figure*}[t]
-%     \centering
-%     \includegraphics[width=0.95\linewidth]{figures/entropy_acc_8_405}
-%     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama 8B and Llama 405B changes as the entropy of the human label distributions increases. Accuracy-vs-entropy plots for all other models can be found in \cref{fig:acc_vs_entropy_all}.}
-%     \label{fig:entropy_accuracy}
-% \end{figure*}
-
-
-% Commented out because it was integrated in another figure
-% \begin{figure*}[t]
-%     \centering
-%     \begin{subfigure}[b]{0.18\textwidth}
-%         \includegraphics[height=3.0cm]{figures/entropy_acc_abductivenli_8B}
-%         % \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%         \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_abductivenli_405B}
-%         % \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%         \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_mnli_matched_8B}
-%         % \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%         \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_mnli_matched_405B}
-%         % \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%         \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_8B}
-%         % \caption{}
-%     \end{subfigure}
-%     \begin{subfigure}[b]{0.15\textwidth}
-%         \includegraphics[height=3.0cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_405B}
-%         % \caption{}
-%     \end{subfigure}
-%     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama 8B and Llama 405B changes as the entropy of the human label distributions increases. Accuracy-vs-entropy plots for all other models can be found in \cref{fig:entropy_accuracy_all}.}
-%     \label{fig:entropy_accuracy}
-% \end{figure*}
-
 \begin{figure*}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
         \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[height=2.2cm, trim=10 30 0 0, clip]{figures/entropy_acc_abductivenli_8B}
-        % \caption{}
         \end{subfigure}
         \begin{subfigure}[b]{0.35\textwidth}
             \includegraphics[height=2.2cm, trim=10 30 0 0, clip]{figures/entropy_acc_abductivenli_405B}
-            % \caption{}
         \end{subfigure}\\
         \begin{subfigure}[b]{0.48\textwidth}
             \includegraphics[height=2.2cm, trim=10 30 0 0, clip]{figures/entropy_acc_mnli_matched_8B}
-            % \caption{}
         \end{subfigure}
         \begin{subfigure}[b]{0.35\textwidth}
             \includegraphics[height=2.2cm, trim=10 30 0 0, clip]{figures/entropy_acc_mnli_matched_405B}
-            % \caption{}
         \end{subfigure}\\
         \begin{subfigure}[b]{0.48\textwidth}
             \includegraphics[height=2.4cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_8B}
-            % \caption{}
         \end{subfigure}
         \begin{subfigure}[b]{0.35\textwidth}
             \includegraphics[height=2.4cm, trim=10 0 0 0, clip]{figures/entropy_acc_snli_405B}
-            % \caption{}
         \end{subfigure}
         \caption{Accuracy vs Entropy}
          \label{fig:entropy_accuracy}
@@ -422,9 +337,6 @@ In the next section, we approach this question by considering the distribution o
 % Number of same labels: 1369
 % Percentage of flipped labels: 10.64
 
-% To further investigate the phenomenon observed in the previous subsection, we more intensively utilise the dataset ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 1500 samples of the datasets MNLI, SNLI and $\alpha$NLI, each.
-% Using this data, we can i) estimate the extent to which suboptimal performances are due to cases where the dataset label does not match the majority label, and ii) investigate how model judgements change as human uncertainty on the task increases.
-
 \subsection{Model versus human distributions}\label{subsec:chaosnli_dist}
 The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets but also reveals model behavior in scenarios without a single correct answer.
 In a time where LLMs are deployed for many users with potentially different preferences, this question has become very practically relevant.
@@ -441,11 +353,6 @@ Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it
 
 \begin{figure*}[t]
     \centering
-    % \begin{subfigure}[b]{\textwidth}
-    %     %\centering
-    %     \includegraphics[width=0.2\textwidth]{figures/chaos_jsd_training_legend}
-    %     % \vspace{-2mm}
-    % \end{subfigure}\\
     \begin{subfigure}[b]{0.32\textwidth}
         \includegraphics[height=4.5cm]{figures/abductivenli_intermediate_jsd}
         % \caption{}
@@ -466,12 +373,4 @@ This pattern is constant across datasets.
 Interestingly, larger models have lower divergence, contradicting the finding of \citet{nie-etal-2020-learn} that better or larger models do not have more similar distributions.
 Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}: though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions goes down steadily during training.
 This is an exciting finding, because it suggests that measuring similarity with human distributions could be an interesting venue to explore during training.
-
-% 
-% \begin{figure*}
-%     \centering
-%     \includegraphics[width=0.7\linewidth]{figures/entropy_jsd.png}
-%     \caption{JSD vs entropy plots for the Llama series of models for the three subsets in ChaosNLI.}
-%     \label{fig:entropy_jsd}
-% \end{figure*}
 

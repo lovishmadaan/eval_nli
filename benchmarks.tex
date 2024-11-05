@@ -29,7 +29,6 @@ Like the original paper, we exclude samples for which no gold label exists becau
 \subsection{MNLI}
 The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and more challenging examples, representing both written and spoken speech in a range of different styles, degrees, formalities and topics.
 The data collection procedure of the corpus is similar to the SNLI procedure both in terms of sourcing and validation.
-% : human annotators are asked to create hypotheses with given labels given a pre-sourced hypothesis.
 Different from SNLI, the MNLI premise sentences are derived from nine different sources, aiming to represent the full range of American English, rather than a single image captioning corpus.
 As for SNLI, we consider the validation corpus of the dataset and exclude samples that have no gold label.
 
@@ -55,7 +54,3 @@ To construct the data \citet{bhagavatula2020abductive} first draw observation pa
 For each observation pair, multiple plausible and implausible hypotheses are crowd-sourced, and adversarial filtering is applied to retain one challenging pair of hypotheses.
 We use the development set of the corpus for our experiments.
 
-% Additionally, we evaluate on the validation set of these two tasks because the human annotations in ChaosNLI \citep{nie-etal-2020-learn} are available for the subsets of the validation set. % Dieuwke: not entirely clear to me what this means
-
-% \paragraph{ChaosNLI}
-% \dieuwke{Include a brief description of ChaosNLI.}
