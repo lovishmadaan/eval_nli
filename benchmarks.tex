@@ -27,30 +27,30 @@ In this work, we consider the 10K development set of the corpus.
 Like the original paper, we exclude samples for which no gold label exists because there was no label that three or more annotators agreed on.
 
 \subsection{MNLI}
-The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and more challenging examples, representing both written and spoken speech in a range of different styles, degrees, formalities and topics.
-The data collection procedure of the corpus is similar to the SNLI procedure both in terms of sourcing and validation.
-Different from SNLI, the MNLI premise sentences are derived from nine different sources, aiming to represent the full range of American English, rather than a single image captioning corpus.
+The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and more challenging examples, representing both written and spoken speech in a range of different styles, degrees, formalities, and topics.
+The data collection procedure of the corpus is identical to the SNLI procedure both in terms of sourcing and validation.
+Unlike SNLI, the MNLI premise sentences are derived from nine different sources, aiming to represent the full range of American English rather than a single image captioning corpus.
 As for SNLI, we consider the validation corpus of the dataset and exclude samples that have no gold label.
 
 \subsection{HANS}
-Contrary to the previous datasets, the adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is not crowd-sourced, but synthetically generated with templates.
-Specifically, the templates are designed to generate examples that cannot be solved through heuristics such as lexical, subsequence or constituent overlap.
+Deviating from previous datasets, the adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is not crowd-sourced, but synthetically generated using templates.
+Specifically, the templates are designed to generate examples that can not be solved through heuristics such as lexical, subsequence or constituent overlap.
 At the time of proposal, none of the SOTA models were able to solve such examples.
 
 \subsection{ANLI}
-The second adversarial dataset we consider is Adversarial NLI, or ANLI \citep{nie-etal-2020-adversarial}.
+The second adversarial dataset we consider is Adversarial NLI \citep[or ANLI,][]{nie-etal-2020-adversarial}.
 The dataset, created with the primary aim to make SOTA models fail, is sourced iteratively in a human-in-the-loop setup.
 Given a premise and a target label, annotators are asked to propose hypotheses that may fool models.
-The produced samples are then tested on a model, and the examples that do indeed receive an incorrect label are re-validated by one or more human validators.
-The dataset consists of three sets of increasingly challenging examples, where in each round more powerful models are considered, that are trained on examples from the previous round.
+The produced samples are then tested on a model, and the examples that do indeed receive an incorrect label are re-validated by one or more human validator.
+The dataset consists of three sets of increasingly challenging examples, where in each round more powerful models are considered that are trained on examples from the previous round.
 The third round furthermore contains a set of more diverse premises.
 For our experiments, we are using the dev set of round 3, the most challenging set of the benchmark.
 
 \subsection{$\alpha$NLI}
-Differing in setup from the previously described benchmarks, $\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} focusses on \emph{abductive reasoning} -- which they describe as inference to the most plausible explanation for an incomplete observation.
+Differing in setup from the previously described benchmarks, $\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} focuses on \emph{abductive reasoning} -- which they describe as the inference of the most plausible explanation for an incomplete observation.
 The samples in $\alpha$NLI consist of a pair of observations at two consecutive times, and a plausible hypothesis that explains tho two observations, and an implausible hypothesis that does not (or to a lesser extent).
 The task is to select the most plausible hypothesis.
-To construct the data \citet{bhagavatula2020abductive} first draw observation pairs from a stories dataset, and then ask crowd-sources to generate plausible and implausible hypotheses. 
-For each observation pair, multiple plausible and implausible hypotheses are crowd-sourced, and adversarial filtering is applied to retain one challenging pair of hypotheses.
+To construct the data \citet{bhagavatula2020abductive} first draw observation pairs from a stories dataset and then ask crowd-sources to generate plausible and implausible hypotheses. 
+For each observation pair, multiple plausible and implausible hypotheses are crowd-sourced and adversarial filtering is applied to retain one challenging pair of hypotheses.
 We use the development set of the corpus for our experiments.
 
