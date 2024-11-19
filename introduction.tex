@@ -1,31 +1,31 @@
 \section{Introduction}
 
-Before the state-of-the-art (SOTA) in NLP was constituted almost exclusively by large language models (LLMs), a popular way of evaluating models' understanding of natural language was to consider their ability to perform \emph{natural language inference} (NLI) tasks \citep[most famously,][]{bowman-etal-2015-large,williams-etal-2018-broad}.
+Before the state-of-the-art (SoTA) in NLP was constituted almost exclusively by large language models (LLMs), a popular way of evaluating models' understanding of natural language was to consider their ability to perform \emph{natural language inference} (NLI) tasks \citep[e.g.,][]{bowman-etal-2015-large,williams-etal-2018-broad}.
 Motivated by the idea that concepts such as entailment and contradiction are central to many aspects of language meaning \citep{bowman-etal-2015-large}, in NLI tasks, a model is asked to judge the relationship between the meaning of two sentences, typically chosing between entailment, contradiction, and no relationship.
 Included in the then widely-used natural language understanding benchmark GLUE \citep{wang2019glue}, the NLI benchmark \emph{Multi-Genre Natural Language Inference}  \citep[MNLI,][]{williams-etal-2018-broad} was up until relatively recently one of the most popular benchmarks to evaluate language models, and is -- with over 600 citations to date in 2024 -- well-cited even in the recent past.
 
-However, with the arrival of LLMs, MNLI and other datasets have lost their spot on the SOTA leaderboards.
-With the exception of \citet{brown2020language},  who reported low scores for GPT-3 on the NLI benchmark \emph{Adversarial NLI} \citep[ANLI,][]{nie-etal-2020-adversarial}, not a single LLM release paper considers an NLI benchmark in their evaluation suite.\footnote{However, some recent papers have reported low scores for GPT3.5 for XNLI \citep{ohmer2024form,ohmer-etal-2023-separating} and for Llama 1 models on ANLI, HANS \citep{mccoy-etal-2019-right} and MNLI \citep{weber-etal-2023-mind}.}
+However, with the arrival of LLMs, MNLI and other datasets have lost their spot on the SoTA leaderboards.
+With the exception of \citet{brown2020language},  who reported low scores for GPT-3 on the NLI benchmark \emph{Adversarial NLI} \citep[ANLI,][]{nie-etal-2020-adversarial}, not a single LLM release paper considers an NLI benchmark in their evaluation suite.\footnote{Some recent papers do report low scores for LLMs, for e.g., GPT3.5 on XNLI \citep{ohmer2024form,ohmer-etal-2023-separating} and Llama 1 models on ANLI, HANS, and MNLI \citep{mccoy-etal-2019-right, weber-etal-2023-mind}.}
 In this paper, we investigate why.
 Are NLI benchmarks simply not suitable to evaluate modern-day LLMs? 
 Are their examples too difficult or too easy?
-Are their scores for some reason not informative?
-Or do they, in fact, still provide a useful signal, but has the community simply forgotten about them?
+Are their scores not informative?
+Or do they, in fact, still provide a useful signal?
 
-Focussing on five different NLI benchmarks across six different models, we first investigate if they are able to discriminate models of different size and quality (\cref{subsec:fully_trained}), finding that they can, but that one or more shots are needed to obtain a somewhat reasonable accuracy for models of any size.
-We furthermore show that performances on the datasets develop steadily during training, albeit with some fluctuations, making the benchmarks suitable for monitoring training progress (\cref{subsec:during_training}).
-For some of the benchmarks, accuracies of the best models are touching 80 or even 90, for ANLI \citep{nie-etal-2020-adversarial}, however, the accuracy of even the best model does not exceed 70.
+Focusing on five different NLI benchmarks across six different models, we first show that they provide signal and are able to discriminate models of different size and quality (\cref{subsec:fully_trained}), but that one or more shots are needed to obtain a somewhat reasonable accuracy for models of any size.
+We furthermore show that performance on the datasets develop steadily during training, albeit with some fluctuations, making the benchmarks suitable for monitoring training progress (\cref{subsec:during_training}).
+For some of the benchmarks, accuracies of the best models are reaching 80-90\%, for ANLI \citep{nie-etal-2020-adversarial}, however, the accuracy of even the best model does not exceed 70\%.
 Furthermore, we show that high scores are not caused by evaluation data contamination (\cref{subsec:contamination}).
 
 Next, we investigate the extent to which improvement on the higher-scored benchmarks is still possible (\cref{subsec:saturation}).
-In a manual analysis, we find that, for the best performing model, examples with `incorrect' predictions are rarely in fact incorrect; most concern questions on which humans may disagree too.
-Motivated by this result, we further explore this topic by considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 4500 samples for three of the benchmarks we consider (\cref{subsec:chaosnli_dist}).
+In a manual analysis, we find that, for the best performing model, examples with `incorrect' predictions are rarely in fact incorrect; most concern questions on which humans may disagree as well.
+Motivated by this result, we further explore this topic by considering the ChaosNLI benchmark \citep{nie-etal-2020-learn}, which contains 100 human annotations for over 4,500 samples for three of the benchmarks we consider (\cref{subsec:chaosnli_dist}).
 We find that accuracies (as computed on the majority label) are higher if the entropy of the human labels is low; when humans disagree, models are more likely to select one of the less preferred labels.
-Lastly, we consider the distributional differences between model outputs and human labels, as measured by the Jensen Shannon Divergence (JSD) between the human label distributions and the models' softmax distributions over the possible answers.
+Lastly, we consider the distributional differences between model outputs and human labels, as measured by the Jensen Shannon Divergence (JSD) between the human label distributions and the models' softmax distribution over the possible answers.
 We find that the JSDs are lower than the ones reported by \citet{nie-etal-2020-learn} for the previous generation of models, and they are also better than chance distributions. 
-However, they are still substantially higher than the JSD between two populations of humans\footnote{For further evidence to this claim, see \citet{baan-etal-2022-stop}.}, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury' \citep[e.g.][]{verga2024replacing}.
-Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we do observe an effect of scale and model quality: JSD shows a clear decrease during training, and larger models have lower JSD than smaller models.
+However, they are still substantially higher than the JSD between two populations of humans \citep{baan-etal-2022-stop}, bearing interesting implications on the viablity of using an ensemble of LLM judges as a `jury' \citep[e.g.][]{verga2024replacing}.
+Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we observe an effect of scale and model quality: JSD shows a clear decrease during training, and larger models have lower JSD than smaller models.
 
-In sum, we find that NLI benchmarks are still relevant for model development and improvement.
-Specifically, they are able to discriminate between models of different scale and quality, develop steadily during training, and are not completely saturated.
-Furthermore, as even the best models are still far away from humans in this respect, we see promise in monitoring the development of the distributional differences between models and humans, both during and at the end of training.
+In sum, we find that NLI benchmarks are still useful for model development and improvement.
+Specifically, they are able to discriminate between models of different scale and quality, develop steadily during training, and are not completely saturated like GSM8k \citep{cobbe2021trainingverifierssolvemath}.
+Furthermore, as even the best models are still far away from human performance in this respect, we see promise in monitoring the development of the distributional differences between models and humans, both during and after training.
