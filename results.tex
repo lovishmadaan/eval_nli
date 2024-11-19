@@ -1,6 +1,6 @@
 \section{Results}
 
-We now present our results, focusing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}) how their performance develops during training (\cref{subsec:during_training}) and what is the impact of evaluation data contamination (\cref{subsec:contamination}). 
+We now present our results, focusing in particular on whether NLI benchmarks provide a discriminative signal for fully trained out models (\cref{subsec:fully_trained}), how their performance develops during training (\cref{subsec:during_training}), and what is the impact of evaluation data contamination (\cref{subsec:contamination}). 
 Next, we investigate whether there is still room for improvement (\cref{subsec:saturation}) and how model judgements compare to human judgements for ambiguous or vague questions (\cref{subsec:chaosnli_dist}).
 
 \subsection{Informativeness for fully trained models}\label{subsec:fully_trained}
@@ -41,7 +41,7 @@ Next, we investigate whether there is still room for improvement (\cref{subsec:s
     \caption{$\alpha$NLI}
     \label{fig:alphanli}
     \end{subfigure}
-    \caption{\textbf{Performance across shots.} We show the accuracies for six fully pre-trained models on the five NLI benchmarks. Dashed lines indicate Random and Finetuned-BERT baselines.}\label{fig:shot_performance}
+    \caption{\textbf{Performance across shots.} We show the accuracies for six fully pre-trained models on the five NLI benchmarks. Dashed lines indicate random and finetuned-BERT baselines.}\label{fig:shot_performance}
 \end{figure*}
 
 To get an overall estimate of the difficulty of NLI and the extent to which it can discriminate models, we first consider the performance of fully pre-trained models from the respective model series.
@@ -52,13 +52,13 @@ We report the results in \cref{fig:shot_performance}, along with a chance baseli
 For all models, we observe rather poor zero-shot performance for all tasks, except $\alpha$NLI, confirming previously reported results by \citet{ohmer2024form}, \citet{weber-etal-2023-mind}, and \citet{dutt-etal-2024-investigating}.
 When more few-shot examples are added, performance starkly improves.
 Even with just one in-context example, the performance is significantly better than the zero shot accuracy.
-Adding more than three or four examples marginally improves performance and saturates around 10 examples in the few-shots. 
+Adding more than three or four examples marginally improves performance and saturates around ten few-shot examples. 
 Among the five benchmarks, the most challenging benchmark is ANLI.
 Although the larger models in the Llama and Mistral series far outperform the finetuned BERT baseline, they do not exceed 70\% accuracy -- to some extent confirming the difficulty of the benchmark reported by \citet{brown2020language}.
 
 \paragraph{Model discriminability}
 For discriminability, virtually all benchmarks provide a clear gap between the smaller and larger models for both families of models.
-For example, for the Llama series, 405B performs the best followed by 70B and then 8B.
+For example, for the Llama series, 405B performs the best followed by the 70B and then the 8B model.
 Though these three models are trained on the same amount of text tokens, performance clearly improves with scale.
 The exception to this pattern is $\alpha$NLI, which appears to be near-saturated already at 70B with an accuracy of around 85\%.
 We conclude from these results, that the benchmarks provide a useful signal to compare trained-out models, though it is unclear to what extent their performance has saturated, which we discuss in more detail in \cref{subsec:saturation}.
@@ -68,11 +68,12 @@ We conclude from these results, that the benchmarks provide a useful signal to c
 Next, we investigate if NLI datasets provide a good signal during training.
 To this end, we pre-train Llama-3 architecture-based 8B and 70B models from scratch for 2T tokens. The details of the pre-training setup are provided in \cref{appx:experiments}.
 
-\paragraph{Training curves} In \cref{fig:performance_training}, we show how four-shot performance develops during training.
+\paragraph{Training curves}
+In \cref{fig:performance_training}, we show how four-shot performance develops during training.
 We see that for most benchmarks, the 8B and 70B model quickly start to diverge.
 The 70B model starts improving after 250B tokens for ANLI and $\alpha$NLI; it crosses fine-tuned BERT performance after 500B tokens.
 On the other hand, the development of performance for the 8B model is slow, not exceeding chance accuracy for HANS, MNLI, and SNLI.
-From the final model performance of 8B depicted in \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late during pre-training.
+From the final model performance of 8B depicted in \cref{fig:shot_performance}, we can conclude that the 8B model improves fairly late in pre-training.
 We did not have the budget for a full pre-training run, but longer training seems to help for NLI tasks, further supporting the claim that NLI models can provide a useful signal.
 
 \begin{figure*}[t]
@@ -106,7 +107,8 @@ We did not have the budget for a full pre-training run, but longer training seem
     \caption{$\alpha$NLI}
     \label{fig:alphanli_int}
     \end{subfigure}
-    \caption{Performance for the five benchmarks during pre-training, for two Llama-3 style models.}\label{fig:performance_training}
+    \caption{\textbf{Performance during pre-training}. 
+    We show how accuracy for the five benchmarks develops during pre-training for two Llama-3 style models.}\label{fig:performance_training}
 \end{figure*}
 
 \begin{table}
@@ -128,7 +130,7 @@ We did not have the budget for a full pre-training run, but longer training seem
     \bottomrule
     \end{tabular}
 }
-\caption{Monotonicity values during the course of training. We report monotonicity both for accuracy ($mon_{Acc}$) and negative log likelihood of the correct answer ($mon_{NLL}$).}
+    \caption{\textbf{Monotonicity values during the course of training.} We report monotonicity both for accuracy ($mon_{Acc}$) and negative log likelihood of the correct answer ($mon_{NLL}$).}
 \label{tab:monotonicity}
 \end{table}
 
@@ -143,7 +145,7 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
 Now that we have concluded that NLI benchmarks provide a signal both for final models and during pre-training, we analyse the extent to which scores may be driven by evaluation data contamination.
 Using the methodology of \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training datamix.
 Following \citet{singh2024evaluationdatacontaminationllms}, we select contamination thresholds using \texttt{ConTAM}, considering the estimated performance gain (EPG) for each threshold.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
-Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination taking our pre-training datamix as reference.
+Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination. 
 
 \begin{figure*}[t]
     \begin{subfigure}[b]{0.20\textwidth}
@@ -176,13 +178,13 @@ Since EPG is model-dependent, we use the 8B and 70B models we trained from scrat
     \caption{$\alpha$NLI}
     \label{fig:cont_alphanli}
     \end{subfigure}
-    \caption{Estimated Performance Gain (EPG) vs the percent of the evaluation dataset marked as contaminated according to different thresholds.}\label{fig:contamination}
+    \caption{\tetbf{Contamination results.} We show the EPG vs the percent of the evaluation dataset marked as contaminated according to different thresholds.}\label{fig:contamination}
 \end{figure*}
 
 In \cref{fig:contamination}, we plot the EPG as a function of the percentage of the evaluation data that is marked contaminated according to a given contamination threshold.
 We can see that there is virtually no score inflation as a consequence of contamination for the 8 and 70B model that we considered.
 For HANS, this is because little to no contaminated samples are found through 8-gram overlap.
-For MNLI, SNLI, and $\alpha$NLI large parts of the dataset are marked contaminated at low thresholds, but there is no performance impact.
+For MNLI, SNLI, and $\alpha$NLI, instead, large parts of the dataset are marked contaminated at low thresholds, but there is no performance impact.
 We suspect that this is because the \textit{premises} of the samples are sourced from publicly available datasets, and their presence per se is thus not indicitive of contamination.
 Likely for similar reasons, almost all of the ANLI samples contain at least one overlapping 8-gram, resulting in very high percentages of detected contamination at low thresholds.
 At the lowest threshold, also the EPG shoots up.
@@ -231,7 +233,7 @@ Also in the second row of \cref{tab:sample_analysis}, we see an example where hu
 In this case, the model's prediction matches the majority label found by \citet{nie-etal-2020-learn}, but the sample is marked incorrect because the MNLI label is different.
 It is worth pointing out, that the same is sometimes true for examples that are marked \emph{correct}.
 Consider, for instance, the last row in \cref{tab:sample_analysis}, where the model prediction matches the gold label in the MNLI dataset, but not the majority label collected by ChaosNLI.
-In sum, it appears that for the best model, most of the `mistakes' in MNLI are cases for which humans may not agree on the correct label.
+In sum, it appears that for the best model, most of the `mistakes' in MNLI are cases in which humans may not agree on the correct label.
 
 \begin{table*}
     \centering
@@ -254,22 +256,21 @@ In sum, it appears that for the best model, most of the `mistakes' in MNLI are c
 \end{table*}
 
 \paragraph{Majority accuracy} 
-Next, we study this phenomenon more quantitatively, again utilising the ChaosNLI dataset which contains 100 human annotations for over 1,500 samples each for MNLI, SNLI, and $\alpha$NLI.
+Next, we study this phenomenon more quantitatively, again utilising the ChaosNLI dataset which contains 100 human annotations for over 1500 samples each for MNLI, SNLI, and $\alpha$NLI.
 First, we consider how model accuracies change when we replace the original labels with the majority label of the ChaosNLI dataset.
-This alters 32\%, 25\%, and 11\% of the labels of MNLI, SNLI, and $\alpha$NLI.
+This alters 32\%, 25\%, and 11\% of the labels of MNLI, SNLI, and $\alpha$NLI, respectively.
 In Table \ref{tab:chaos_acc}, we can see that the results differ per model and benchmark.
 The largest effect is observed for MNLI, where for some models, there's an increase of more than 10\% in performance and the average accuracy across models is more than five points higher on the `corrected' datasets.
 For the other two benchmarks, the results are more mixed, with little to no difference on average.
 Only for the largest Llama-3.1 model (405B), the majority accuracy is systematically higher than the original accuracy, suggesting it may have honed in more on the majority label.
-Interestingly, the MNLI and SNLI subsets of ChaosNLI appear substantially more difficult than the average dataset;
-even the Llama-3.1 405B model stays below 70\% for both these subsets, suggesting that there is room for improvement.
+Interestingly, the MNLI and SNLI subsets of ChaosNLI appear substantially more difficult than the average dataset; even the Llama-3.1 405B model stays below 70\% for both these subsets, suggesting that there is room for improvement.
 
 \paragraph{Accuracy versus entropy}
 Next, we consider the distribution of accuracy with entropy for the three benchmarks in Figure \ref{fig:entropy_accuracy}. 
 We only show the smallest (8B) and the largest (405B) model in the Llama series across the three benchmarks. 
 We observe that for the largest model, there is a clear decreasing trend in accuracy with increasing entropy for all three benchmarks, whereas for the 8B model, the trend is not as prominent, and some entropy bins have similar accuracies. 
 In \cref{fig:entropy_accuracy}, we can furthermore see that all models perform `better' on samples where the entropy of the labels is low.
-For the larger models, this effect is larger on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they decrease as human judgements become more dispersed.
+For the larger models, this effect is larger on samples where humans have high disagreement (and the majority label is thus in a way more representative of the average human judgements), their accuracies are often near maximal, and they drop as human judgements become more dispersed.
 For the entropy vs accuracy distributions for other models, we refer the reader to Appendix \ref{app:entropy_vs_accuracy}.
 
 \begin{figure*}
@@ -312,8 +313,8 @@ For the entropy vs accuracy distributions for other models, we refer the reader 
 
 \paragraph{Implications for saturation}
 What the implication of these results is for the question of saturation of these benchmarks is, like the samples of the benchmark themselves, open to interpretation.
-On one hand, it appears that for several cases, the model predictions do not align with the human majority label, suggesting that the performance may still improve as models continue training.
-However, the results put into question whether strong alignment with the majority label is in fact what we should strive for: if humans have low agreement on their judgements, should the desired behaviour of a model be to side with the majority?
+On the one hand, it appears that for several cases, the model predictions do not align with the human majority label, suggesting that the performance may still improve as models continue training.
+On the other, the results put into question whether strong alignment with the majority label is in fact what we should strive for: if humans have low agreement on their judgements, should the desired behaviour of a model be to side with the majority?
 In the next section, we approach this question by considering the distribution of model outputs, rather than only the highest probability label.
 
 % Benchmark: mnli_matched
@@ -335,9 +336,9 @@ In the next section, we approach this question by considering the distribution o
 % Percentage of flipped labels: 10.64
 
 \subsection{Model versus human distributions}\label{subsec:chaosnli_dist}
-The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, but also reveals model behavior in scenarios without a single correct answer.
+The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, but also reveals model behaviour in scenarios without a single correct answer.
 In a time where LLMs are deployed for many users with potentially different preferences, this question has become very practically relevant.
-To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compared with the label distributions observed in the human annotations.
+To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
 Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions. 
 %Mathematically,
 %
@@ -346,7 +347,7 @@ Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \ci
 %\]
 %
 %where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. 
-Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific usecase.
+Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
 
 \begin{figure*}[t]
     \centering
@@ -365,9 +366,9 @@ Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it
     \caption{\textbf{Development of JSD during training.} We show how the JSD of our trained-from-scratch 8B and 70B model develops during training.}\label{fig:jsd_training}
 \end{figure*}
 
-In \cref{fig:jsd_all_benchmarks}, we can see that for MNLI all models have probability distributions more similar to the human distributions than chance, but substantially different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human labels on the same data.}
+In \cref{fig:jsd_all_benchmarks}, we can see that, for MNLI, all models have probability distributions more similar to the human distributions than chance, but substantially different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human labels on the same data.}
 This pattern is constant across datasets.
 Interestingly, larger models have lower divergence, contradicting the finding of \citet{nie-etal-2020-learn} that better or larger models do not have more similar distributions.
-Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}. Though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions decreases steadily during training.
+Yet, the effect of scale is further confirmed in \cref{fig:jsd_training}: though even trained-out models are far away from a low JSD, the JSD of the model softmax distributions and the human label distributions decreases steadily during training.
 This is an exciting finding, since it suggests that measuring similarity with human distributions could be an interesting venue to explore during training.
 
