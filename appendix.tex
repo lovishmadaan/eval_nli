@@ -66,7 +66,6 @@ The prompt templates used for each task are presented in \cref{tab:prompt_templa
     \centering
     \small
     \begin{tabular}{lp{8cm}}
-        \toprule
         \textbf{Benchmark} & \textbf{Prompt Template} \\
         \midrule
         MNLI, SNLI, ANLI & \begin{verbatim}
@@ -118,7 +117,6 @@ A. Entailment
 B. Non-Entailment
 Answer: {{ choice_text }}
 \end{verbatim} \\
-\bottomrule
 \end{tabular}
 \caption{Prompt Templates for each task}
 \label{tab:prompt_template}
@@ -127,6 +125,6 @@ Answer: {{ choice_text }}
 \section{Experimental Details}
 \label{appx:experiments}
 
-For the 8B and 70B models we pre-train from scratch, we use our custom pre-training datamix, a mix of data available from publicly available sources including web data, code, and reasoning datasets. For pre-training hyperparameters, we use similar settings as reported in \citet{dubey2024llama}. We use a batch size of 4M tokens and pre-train the models for 500,000 steps, resulting in a total of 2T token training. We use 512 GPUs for a single pre-training run of both models.
+For the 8B and 70B models we pre-train from scratch we use our custom pre-training datamix, a mix of data available from publicly available sources including web data, code, and reasoning datasets. For pre-training hyperparameters, we use similar settings as reported in \citet{dubey2024llama}. We use a batch size of 4M tokens and pre-train the models for 500,000 steps, resulting in a total of 2T token training. We use 512 GPUs for a single pre-training run of both models.
 
-For running the evaluations, we use 16 GPUs for each model comprising all five NLI benchmarks and different shot settings in a single job. A single evaluation job takes on average takes around 55 mins for the 5 benchmarks.
+For running the evaluations, we use 16 GPUs for each model comprising all five NLI benchmarks and different shot settings in a single job. A single evaluation job takes on average takes around 55 mins for the five benchmarks.
