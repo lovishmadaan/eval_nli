@@ -1,22 +1,22 @@
 \section{Setup}
 
-Before reporting our results, we first describe the benchmarks and models we consider in our experiments and describe our evaluation procedure.
+In this section we first describe the benchmarks and models we consider in our experiments and describe our evaluation procedure.
 
 \subsection{Benchmarks}
-In our experiments, we consider five NLI benchmarks, we describe them briefly below, a more elaborate description can be found in \cref{app:benchmarks}. 
+In our experiments, we consider five NLI benchmarks as described below briefly. A more elaborate description can be found in \cref{app:benchmarks} for each of the benchmarks.
 
 \vspace{-1mm}
 \paragraph{SNLI}
 The Stanford Natural Language Inference (SNLI) is one of the first large-scale NLI datasets for NLP evaluation, sourced via Amazon Mechanical Turk.
-We use the dev set of the corpus, which comprises 10K examples.
+We use the dev set of the corpus, which comprises 10,000 examples.
 
 \vspace{-1mm}
 \paragraph{MNLI}
-The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and challenging examples. For MNLI too we consider the 10K examples dev set of the corpus.
+The Multi-Genre NLI (MNLI) corpus \citep{williams-etal-2018-broad} was introduced as an alternative to SNLI that captures more genres and challenging examples. For MNLI too we consider the 10,000 examples dev set of the corpus.
 
 \vspace{-1mm}
 \paragraph{HANS}
-The adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is generated to contain examples that cannot be solved through heuristics like lexical overlap, and contains 30K examples.
+The adversarial dataset Heuristic Analysis for NLI Systems \citep[HANS,][]{mccoy-etal-2019-right} is generated to contain examples that cannot be solved through heuristics like lexical overlap, and contains 30,000 examples.
 
 \vspace{-1mm}
 \paragraph{ANLI}
@@ -28,21 +28,20 @@ In our experiments, we consider the dev set of iteration 3, the most challenging
 \paragraph{$\alpha$NLI}
 $\alpha$NLI or abductive NLI \citep{bhagavatula2020abductive} has a different setup than the previous benchmarks, focusing specifically on \emph{abductive reasoning}.
 Each sample consist of a pair of observations at two consecutive times, a plausible hypothesis that explains tho two observations, and an implausible hypothesis that does not (or to a lesser extent).
-The task is to select the most plausible hypothesis.
-The dataset contains 1500 examples.
+The model has to select the most plausible hypothesis among the two choices.
+The dataset consists of 1,500 examples.
 
 \vspace{-1mm}
 \paragraph{ChaosNLI}
-Lastly, we consider ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 additional (human) labels for 1500 examples of SNLI, MNLI, and $\alpha$NLI, respectively.
+Lastly, we consider ChaosNLI \citep{nie-etal-2020-learn}, which contains 100 additional (human) labels for 1,500 examples for each of SNLI, MNLI, and $\alpha$NLI.
 
 \subsection{Models} For each of these benchmarks, we compute and analyse scores for two different model families: Llama \citep{dubey2024llama} and Mistral \citep{jiang2023mistral, jiang2024mixtral}. 
 Specifically, we use Meta-Llama 3.1 \{8, 70, 405\}B from the Llama series, and Mistral 7B / Mixtral 8x\{7, 22\}B from the Mistral series.
 We limit our analysis to pre-trained base models and leave the analysis on post-trained / instruct models to future work.
 
 \subsection{Evaluation details}
-As nowadays common for pre-trained models, we consider the choice-based evaluation setup for all the tasks rather than generative. 
+As nowadays common for pre-trained models, we consider the choice-based evaluation setup for all the tasks rather than generative \citep{dubey2024llama,mmluhfleaderboard}. 
 In this setup, the model is presented with the few shot examples (if present) along with the question and the available choices in a multiple choice set-up, and is then asked to predict the correct letter choice.
 Since there are only a limited number of choices depending on the task (two or three), we append the these choices to the prompt and compute the negative log likelihood (NLL) over the letter choice. 
 We then choose the option which has the lowest NLL as the model's prediction. 
-The prompt templates for all tasks are detailed in Table \ref{tab:prompt_template}.
-
+The prompt templates for all tasks are detailed in Table \ref{tab:prompt_template}. We use simplistic prompt templates for each of the tasks without much prompt tuning because \citet{dubey2024llama} show that models are usually robust to prompt texts especially for the choice task evaluation setup.
