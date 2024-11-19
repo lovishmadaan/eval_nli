@@ -1,12 +1,11 @@
 \section{Conclusion}
 
 In this work, we revisit natural language inference (NLI) benchmarks and investigate if they may still play a role in LLM evaluation.
-We consider five different NLI benchmarks -- $\alpha$NLI, ANLI, HANS, and MNLI -- and evaluate them across six different models of two model families: Llama 3.1 8B, 70B and 405B, and Mistral 7B, 8x7B and 8x22B.
+We consider five different NLI benchmarks -- $\alpha$NLI, ANLI, HANS, and MNLI -- and evaluate them across six different models of two model families: Llama 3.1 8B, 70B, and 405B, and Mistral 7B, 8x7B, and 8x22B.
 Furthermore, we consider how the benchmark behave during the training of two Llama-style 8B and 70B models.
 We find that, with the exception of $\alpha$NLI, all benchmarks are able to discriminate between models of different qualities, and in particular ANLI is challenging even for the largest models.
 Furthermore, we find next to no effect of contamination for the benchmarks.
-Considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, containing 100 human annotations for over 4,500 samples of three of the benchmarks we consider, we also find that the differences between human label distributions and model label distributions -- as measured with Jensen Shannon Divergence (JSD) -- 
-decreases for the new generation of models.
+Considering the benchmark ChaosNLI \citep{nie-etal-2020-learn}, containing 100 human annotations for over 4500 samples of three of the benchmarks we consider, we also find that the differences between human label distributions and model label distributions -- as measured with Jensen Shannon Divergence (JSD) -- has decreased for the new generation of models.
 However, they are still substantially higher than the distributional difference between two populations of humans. 
 Interestingly, contrary to the findings of \citet{nie-etal-2020-learn}, we observe a clear effect of scale.
 JSD shows a steady decrease during training, and larger models have lower JSD than smaller models, making it a potentially interesting quality to consider for model development.
