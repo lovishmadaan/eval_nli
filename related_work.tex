@@ -1,19 +1,19 @@
 \section{Related work}
 
-We first discuss NLI tasks (\cref{related:nli}) starting with Recognizing Textual Entailment (RTE) \citep{dagan2005pascal} and touch upon the related topic of subjectivity for NLP tasks (\cref{related:subjectivity}) before presenting our analysis.
+Before presenting our analysis, we first discuss NLI or \emph{recognising textual entailment (RTE) tasks (\cref{related:nli}) and touch upon the related topic of subjectivity for NLP tasks (\cref{related:subjectivity}) before presenting our analysis.
 
 \subsection{RTE tasks and their results}
 \label{related:nli}
 
-RTE introduced the notion of `Natural language inference' (NLI) tasks, where models are asked to judge whether the meaning of one sentence can be inferred from the meaning of another.
+In RTE tasks -- also referred to as `natural language inference' (NLI) tasks, models are asked to judge whether the meaning of one sentence can be inferred from the meaning of another.
 Because the concept of entailment (and contradiction) are considered central to many aspects of language meaning \citep[e.g.][]{bowman-etal-2015-large}, such tasks were for some period considered an important task to determine whether one model could understand language better than another \citep{poliak-2020-survey}.
 Over the years, many different, increasingly more difficult NLI tasks have been proposed in the literature.
 Included in the popular benchmarks GLUE \citep{wang2019glue} and SuperGLUE \citep{wang2019superglue}, the benchmarks MNLI \citep{williams-etal-2018-broad} and RTE \citep{dagan2005pascal} and RTE were used to claim SoTA by many influential models such as BERT \citep{devlin2019bert} and T5 \citep{raffel2023t5}.
-When performance on MNLI and RTE started to saturate, several adversarial NLI benchmarks were introduced, such as ANLI \citep{raffel2023t5} and HANS \citep{mccoy-etal-2019-right}, on which BERT-style models performed poorly compared to their ``non-adversarial'' counterparts.
+When performance on MNLI and RTE started to saturate, several adversarial NLI benchmarks were introduced, such as ANLI \citep{raffel2023t5} and HANS \citep{mccoy-etal-2019-right}, on which BERT-style models performed poorly compared previous datasets.
 For LLMs, NLI benchmarks are rarely used.
 Of all big LLM releases, only GPT-3 \citep{brown2020language} reported an NLI score, and only on one partition of ANLI.
 They concluded that NLI is a difficult task for general purpose LLMs.
-Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs for various NLI tasks, in part motivating the study presented here.
+Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023-mind} for decoder-only LLMs on various NLI tasks, in part motivating the study presented here.
 
 \subsection{Subjectivity in NLP tasks}
 \label{related:subjectivity}
@@ -21,7 +21,7 @@ Another line of work relevant to ours considers the behaviour of models in cases
 The ground truth labels for benchmarks like MNLI and SNLI are decided according to the majority label by human annotators. 
 This simplifies the data annotation process, while also making the evaluation easier by framing it as a classification task. 
 However, previous studies \citep{pavlick-kwiatkowski-2019-inherent, nie-etal-2020-learn} showed that significant disagreement exists for a large number of these datasets because the meaning of a sentence can differ based on context and background knowledge, and the ground truth label according to a human annotator depends on their understanding of this context. 
-These disagreements were captured in more detail in the dataset ChaosNLI \citep{nie-etal-2020-learn}, comprising of 100 annotations for each sample for a subset of three benchmarks: MNLI, SNLI, and $\alpha$NLI.
+These disagreements were captured in more detail in the dataset ChaosNLI \citep{nie-etal-2020-learn}, comprising of 100 annotations for each sample for a subset of three benchmarks -- MNLI, SNLI, and $\alpha$NLI.
 As human disagreements are ubiquitous yet often ignored in evaluation, in our study, we analyse not only the model accuracies, but also the relationship between these disagreements and models' probability distributions across the different labels.
 A study with a similar aim was presented by \citet{chen2024seeingbig}, who explored whether the softmax probability distributions of two LLMs across the labels in ChaosNLI and VariErr NLI \citep{weber-genzel-etal-2024-varierr} can approximate the Human Judgement Distribution (HJD) across the labels. 
 \citet{baan-etal-2024-interpreting} further analysed how the softmax probability distribution can be interpreted both as an approximation to human label distribution and confidence estimation in language models.
