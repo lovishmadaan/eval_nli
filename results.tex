@@ -144,7 +144,7 @@ In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate si
 
 Now that we have concluded that NLI benchmarks provide a signal both for final models and during pre-training, we analyse the extent to which scores may be driven by evaluation data contamination.
 Using the methodology of \citet{singh2024evaluationdatacontaminationllms} and \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training datamix.
-Following \citet{singh2024evaluationdatacontaminationllms}, we select contamination thresholds using \texttt{ConTAM}, considering the estimated performance gain (EPG) for each threshold, which is defined as the difference in performance score on the full evaluation set and the `uncontaminated' set.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
+Following \citet{singh2024evaluationdatacontaminationllms}, we select contamination thresholds using \texttt{ConTAM}, considering for each threshold the estimated performance gain (EPG), defined as the difference in performance on the full evaluation set and the `uncontaminated' subset.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
 Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination. 
 
 \begin{figure*}[t]
