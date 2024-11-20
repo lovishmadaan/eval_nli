@@ -17,11 +17,13 @@ Similar trends were observed by \citet{ohmer2024form} and \citet{weber-etal-2023
 
 \subsection{Subjectivity in NLP tasks}
 \label{related:subjectivity}
-Another line of work relevant to ours considers the behaviour of models in cases where humans disagree on the correct label for a particular sample \citep{de-marneffe-etal-2012-happen, plank-etal-2014-learning, Aroyo2015TruthIA, plank-2022-problem}. 
-The ground truth labels for benchmarks like MNLI and SNLI are often decided according to the majority label by human annotators. 
-This simplifies the data annotation process, while also making the evaluation easier by framing it as a classification task. 
-However, previous studies \citep{pavlick-kwiatkowski-2019-inherent, nie-etal-2020-learn} showed that significant disagreement exists for a large number of these datasets because the meaning of a sentence can differ based on context and background knowledge, and the ground truth label according to a human annotator depends on their understanding of this context. 
-These disagreements were captured in more detail in the dataset ChaosNLI \citep{nie-etal-2020-learn}, comprising of 100 annotations for each sample for a subset of three benchmarks -- MNLI, SNLI, and $\alpha$NLI.
-As human disagreements are ubiquitous yet often ignored in evaluation, in our study, we analyse not only the model accuracies, but also the relationship between these disagreements and models' probability distributions across the different labels.
+Another line of work relevant to ours considers the behaviour of models in cases where humans disagree on the correct label for a particular sample \citep[for an overview, see][]{plank-2022-problem}.
+The ground truth labels for NLP benchmarks are often decided according to the majority label by human annotators. 
+This simplifies the data annotation process, while also making the evaluation easier. 
+However, several previous studies have noted that human disagreements in annotations for NLP datasets reflect the lack of a single ground truth label, rather than than noise in the annotation process \citep[e.g.][]{de-marneffe-etal-2012-happen, plank-etal-2014-learning,pavlick-kwiatkowski-2019-inherent,nie-etal-2020-learn}and that we could benefit from embracing rather than resolving it \citep{plank-2022-problem,aroyo2015truthIA}.
+
+For NLI, label disagreements were captured in more detail in the dataset ChaosNLI \citep{nie-etal-2020-learn}, comprising of 100 annotations for each sample for a subset of three benchmarks -- MNLI, SNLI, and $\alpha$NLI.
+As human disagreements are ubiquitous yet mostly ignored in LLM evaluation, in our study, we analyse not only the model accuracies, but also the relationship between these disagreements and models' probability distributions across the different labels.
 A study with a similar aim is presented by \citet{chen2024seeingbig}. They explore whether the softmax probability distributions solicited by a few explanations from two LLMs (Mixtral and Llama 3) can approximate human judgement distributions (HJD) on the ChaosNLI and VariErr NLI \citep{weber-genzel-etal-2024-varierr} benchmarks.
-Similarly, \citet{baan-etal-2024-interpreting} and \citet{lee-etal-2023-large} compare human and model judgement distributions on ChaosNLI, finding that models fail to capture human distributions in LLMs and model confidences. \citet{baan-etal-2024-interpreting} argue how the softmax probability distribution can be interpreted as both an approximation to human label distribution and confidence estimation in language models.
+Similarly, \citet{baan-etal-2024-interpreting} and \citet{lee-etal-2023-large} compare human and model judgement distributions on ChaosNLI, finding that models fail to capture human distributions in LLMs and model confidences. 
+Furthermore, \citet{baan-etal-2024-interpreting} argue how the softmax probability distribution can be interpreted as both an approximation to human label distribution and confidence estimation in language models.
