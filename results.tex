@@ -138,13 +138,13 @@ We did not have the budget for a full pre-training run, but longer training seem
 A requirement for a benchmark to provide a useful signal during training is that it develops relatively monotonically during training.
 The plots in \cref{fig:performance_training} suggest that this is not the case for most of the benchmarks for the 8B model.
 Following \citet{variancepaper}, we quantify the benchmarks' monotonicity -- defined as the rank correlation (Kendall Tau) between a monotonically increasing array and the array containing the benchmark scores during training -- on both a discrete (accuracy) and continuous metric (NLL). 
-In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on small number of closely-spaced checkpoints at this scale. 
+In \cref{tab:monotonicity}, we can see that, despite the benchmarks' moderate sizes, monotonicity is low for accuracy as well as NLL, suggesting that the benchmark may not be suitable for monitoring performance on closely-spaced checkpoints at this scale. 
 
 \subsection{Contamination analysis}\label{subsec:contamination}
 
 Now that we have concluded that NLI benchmarks provide a signal both for final models and during pre-training, we analyse the extent to which scores may be driven by evaluation data contamination.
-Using the methodology of \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training datamix.
-Following \citet{singh2024evaluationdatacontaminationllms}, we select contamination thresholds using \texttt{ConTAM}, considering the estimated performance gain (EPG) for each threshold.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
+Using the methodology of \citet{singh2024evaluationdatacontaminationllms} and \citet{dubey2024llama}, we analyse contamination by assigning a score to each evaluation sample which represents the percentage of tokens in the sample that is part of an 8-gram occurring in the pre-training datamix.
+Following \citet{singh2024evaluationdatacontaminationllms}, we select contamination thresholds using \texttt{ConTAM}, considering the estimated performance gain (EPG) for each threshold, which is defined as the difference in performance score on the full evaluation set and the `uncontaminated' set.\footnote{A threshold of 0 implies that all examples with non-zero contamination scores to be marked as contaminated, as we increase the threshold, examples are moved to the `uncontaminated' subset.}
 Since EPG is model-dependent, we use the 8B and 70B models we trained from scratch to observe the effect of contamination. 
 
 \begin{figure*}[t]
@@ -335,20 +335,6 @@ In the next section, we approach this question by considering the distribution o
 % Number of same labels: 1369
 % Percentage of flipped labels: 10.64
 
-\subsection{Model versus human distributions}\label{subsec:chaosnli_dist}
-The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, but also reveals model behaviour in scenarios without a single correct answer.
-In a time where LLMs are deployed for many users with potentially different preferences, this question has become very practically relevant.
-To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
-Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions. 
-%Mathematically,
-%
-%\[
-%    JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)},
-%\]
-%
-%where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. 
-Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
-
 \begin{figure*}[t]
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
@@ -365,6 +351,20 @@ Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it
     \end{subfigure}
     \caption{\textbf{Development of JSD during training.} We show how the JSD of our trained-from-scratch 8B and 70B model develops during training.}\label{fig:jsd_training}
 \end{figure*}
+
+\subsection{Model versus human distributions}\label{subsec:chaosnli_dist}
+The ChaosNLI dataset does not only help us estimate the adequacy of the original label sets of the respective datasets, but also reveals model behaviour in scenarios without a single correct answer.
+In a time where LLMs are deployed for many users with potentially different preferences, this question has become very practically relevant.
+To do so, we consider how the probability distribution of the models over the three possible labels \textit{Entailment}, \textit{Neutral}, and \textit{Contradiction}) compares with the label distributions observed in the human annotations.
+Following \citet{nie-etal-2020-learn}, we consider Jensen-Shannon Divergence \citep[JSD][]{menendez1997jensen} to measure the distance between the two distributions. 
+%Mathematically,
+%
+%\[
+%    JSD(p || q) = \sqrt{\frac{1}{2}KL(p || m) + \frac{1}{2}KL(q || m)},
+%\]
+%
+%where $p$ is the human annotator distribution, $q$ is the softmax probability distribution, and $m = \frac{1}{2}(p + q)$. 
+Contrary to KL divergence, JSD is symmetric and bound between 0 and 1, making it more interpretable for our specific case.
 
 In \cref{fig:jsd_all_benchmarks}, we can see that, for MNLI, all models have probability distributions more similar to the human distributions than chance, but substantially different than humans have among each other.\footnote{The human estimate was computed by \citet{nie-etal-2020-learn}, on an independent sample of human labels on the same data.}
 This pattern is constant across datasets.

@@ -1,62 +1,62 @@
 \input{benchmarks}
 
-\section{Entropy vs accuracy plots}\label{app:entropy_vs_accuracy}
-
-In addition to \cref{fig:entropy_accuracy} highlighting the results on the Llama-3.1 8B and 405B models, we also show the accuracy vs entropy plots of all other models we use for our analysis: Llama-3.1 70B, Mistral 7B, Mixtral 8x7B, and Mixtral 8x22B in \cref{fig:entropy_accuracy_all}. The Mistral family of models also show a similar trend where larger models have lower accuracies for higher entropy buckets.
-
 \begin{figure*}[t]
     \centering
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_70B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_abductivenli_70B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_abductivenli_7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_8x7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_abductivenli_8x7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_abductivenli_8x22B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_abductivenli_8x22B}
         % \caption{}
     \end{subfigure}\\
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_70B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_mnli_matched_70B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_mnli_matched_7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_8x7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_mnli_matched_8x7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_mnli_matched_8x22B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_mnli_matched_8x22B}
         % \caption{}
     \end{subfigure}\\
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_70B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_snli_70B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_snli_7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_8x7B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_snli_8x7B}
         % \caption{}
     \end{subfigure}
-    \begin{subfigure}[b]{0.23\textwidth}
-        \includegraphics[height=3.6cm]{figures/appendix/entropy_acc_snli_8x22B}
+    \begin{subfigure}[b]{0.22\textwidth}
+        \includegraphics[height=3.4cm]{figures/appendix/entropy_acc_snli_8x22B}
         % \caption{}
     \end{subfigure}
     \caption{\textbf{Accuracy versus entropy.} We show how the accuracy of Llama-3.1 70B and the Mistral series of models changes as the entropy of the human label distributions increases.}
     \label{fig:entropy_accuracy_all}
 \end{figure*}
+
+\section{Entropy vs accuracy plots}\label{app:entropy_vs_accuracy}
+
+In addition to \cref{fig:entropy_accuracy} highlighting the results on the Llama-3.1 8B and 405B models, we also show the accuracy vs entropy plots of all other models we use for our analysis: Llama-3.1 70B, Mistral 7B, Mixtral 8x7B, and Mixtral 8x22B in \cref{fig:entropy_accuracy_all}. The Mistral family of models also show a similar trend where larger models have lower accuracies for higher entropy buckets.
 
 \section{Prompt templates}
 

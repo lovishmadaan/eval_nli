@@ -15,7 +15,7 @@ Or do they, in fact, still provide a useful signal?
 Focusing on five different NLI benchmarks across six different models, we first show that they provide signal and are able to discriminate models of different size and quality (\cref{subsec:fully_trained}), but that one or more few-shot examples are needed to obtain a somewhat reasonable accuracy for models of any size.
 We furthermore show that performance on the datasets develop steadily during training, albeit with some fluctuations, making the benchmarks suitable for monitoring training progress (\cref{subsec:during_training}).
 For some of the benchmarks, accuracies of the best models are reaching 80-90\%, for ANLI \citep{nie-etal-2020-adversarial}, however, the accuracy of even the best model does not exceed 70\%.
-Furthermore, we show that high scores are not caused by evaluation data contamination (\cref{subsec:contamination}).
+Furthermore, we show that high scores are not caused by data contamination (\cref{subsec:contamination}).
 
 Next, we investigate the extent to which improvement on the higher-scored benchmarks is still possible (\cref{subsec:saturation}).
 In a manual analysis, we find that, for the best performing model, examples with `incorrect' predictions are rarely in fact incorrect; most concern questions on which humans may disagree as well.
